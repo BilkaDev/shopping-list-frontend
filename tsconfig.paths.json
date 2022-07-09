@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "interfaces": [
+        "../shopping-list-BE/src/interfaces"
+      ]
+    }
+  }
+}
