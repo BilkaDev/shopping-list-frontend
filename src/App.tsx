@@ -4,6 +4,7 @@ import {MainHeader} from "./common/header/MainHeader";
 import {Footer} from "./common/footer/Footer";
 import {NavLinks} from "./common/navigation/NavLinks";
 import {Route, Routes} from "react-router-dom";
+import {Products} from "./products/pages/Products";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <main>
                 <Routes>
                     <Route path="/" element={<NavLinks/>}/>
+                    <Route path="/product" element={<Products/>}/>
                 </Routes>
           </main>
           <Footer/>
