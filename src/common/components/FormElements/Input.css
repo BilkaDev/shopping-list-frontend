@@ -1,0 +1,13 @@
+.Input__label {
+    margin-top: 0.2rem;
+    display: flex;
+    flex-direction: column;
+}
+.Input__label p{
+    margin-bottom: 0.2rem;
+}
+
+.Input__error-text{
+    font-size: 1rem;
+    color: red;
+}
