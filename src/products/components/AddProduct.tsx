@@ -1,5 +1,6 @@
 import React from 'react';
 import {Input} from "../../common/components/FormElements/Input";
+import {SelectProductCategory} from "../../common/components/FormElements/SelectProductCategory";
 
 export const AddProduct = () => {
     return (
@@ -9,10 +10,7 @@ export const AddProduct = () => {
                     placeholder="Nazwa produktu"
                     errorText="Nazwa produktu jest zajęta"
                 />
-                <Input
-                    label="Dział"
-                    element="select"
-                />
+                <SelectProductCategory />
 
                 <button>Dodaj produkt</button>
             </form>

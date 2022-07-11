@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import './ProductsList.css';
 import {ProductsItem} from "./ProductsItem";
 import {ProductListResponse} from 'interfaces';
+import './ProductsList.css';
 
 interface Props {
     products: ProductListResponse;
