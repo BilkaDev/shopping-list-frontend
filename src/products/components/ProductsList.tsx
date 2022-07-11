@@ -9,16 +9,16 @@ interface Props {
 }
 
 export const ProductsList = (props: Props) => {
-    const [deleteProductId,setDeleteProductId] = useState<string>('')
+    const [deleteProductId, setDeleteProductId] = useState<string>('');
 
-    useEffect(()=>{
+    useEffect(() => {
         if (deleteProductId.length === 0) return;
-        const products = props.products.filter(p => p.id !== deleteProductId)
-        setDeleteProductId('')
-        props.setProducts(products)
-    },[deleteProductId, props,])
+        const products = props.products.filter(p => p.id !== deleteProductId);
+        setDeleteProductId('');
+        props.setProducts(products);
+    }, [deleteProductId, props,]);
 
-   
+
     return (
         <table className="Products__list">
             <thead>
@@ -37,7 +37,7 @@ export const ProductsList = (props: Props) => {
                     category={product.category}
                     id={product.id}
                     setDeleteProductId={setDeleteProductId}
-                        />
+                />
             ))}
             </tbody>
         </table>
