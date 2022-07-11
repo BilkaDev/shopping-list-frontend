@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-import {MainHeader} from "./common/header/MainHeader";
-import {Footer} from "./common/footer/Footer";
-import {NavLinks} from "./common/navigation/NavLinks";
+import {MainHeader} from "./common/components/header/MainHeader";
+import {Footer} from "./common/components/footer/Footer";
+import {NavLinks} from "./common/components/navigation/NavLinks";
 import {Route, Routes} from "react-router-dom";
 import {Products} from "./products/pages/Products";
 
