@@ -17,7 +17,7 @@ export const Products = () => {
                 setLoadedProducts(loadedProducts);
             }
         )();
-    }, []);
+    }, [sendRequest]);
     //@TODO added error modal
     //@TODO added loading spinner
     return (
@@ -25,7 +25,7 @@ export const Products = () => {
             {error && <p>{error}</p>}
             <div className="Products">
                 <h2>Dodaj produkt</h2>
-                <AddProduct/>
+                <AddProduct loadedProducts={loadedProducts} setLoadedProducts={setLoadedProducts}/>
                 <h2>Lista produktów</h2>
                 {isLoading && (
                     <div className="center">

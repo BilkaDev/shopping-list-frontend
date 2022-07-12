@@ -1,7 +1,9 @@
-import React from 'react';
-import './ProductsItem.css';
+import React, {useState} from 'react';
 import {useHttpClient} from "../../common/hooks/http-hook";
-import {ProductCategory} from 'interfaces'
+import {ProductCategory} from 'interfaces';
+import {Modal} from "../../common/components/UiElements/Modal";
+import './ProductsItem.css';
+import {EditProduct} from "./EditProduct";
 
 interface Props {
     name: string;
@@ -11,7 +13,8 @@ interface Props {
 }
 
 export const ProductsItem = (props: Props) => {
-    const {name, id, category,setDeleteProductId} = props;
+    const [showEditModal, setShowEditModal] = useState(false);
+    const {name, id, category, setDeleteProductId} = props;
     const {isLoading, error, sendRequest, clearError} = useHttpClient();
 
     async function deleteProduct(id: string) {
@@ -22,21 +25,32 @@ export const ProductsItem = (props: Props) => {
     }
 
     function editProduct(id: string) {
+        setShowEditModal(true);
         console.log(id);
     }
 
     return (
-        <tr>
-            <td>{name}</td>
-            <td>{ProductCategory[category]}</td>
-            <td>
-                <button onClick={() => deleteProduct(id)}>Delete</button>
-            </td>
-            <td>
-                <button onClick={() => deleteProduct(id)}>Edit</button>
-            </td>
+        <>
+            {showEditModal &&
+                <Modal header={`Edycja produktu "${name}"`}
+                       onCancel={() => setShowEditModal(false)}
+                       show={showEditModal}
+                       footer={<button onClick={() => setShowEditModal(false)}>Exit</button>}
+                >
+                    <EditProduct/>
+                </Modal>}
+            <tr>
+                <td>{name}</td>
+                <td>{ProductCategory[category]}</td>
+                <td>
+                    <button onClick={() => deleteProduct(id)}>Delete</button>
+                </td>
+                <td>
+                    <button onClick={() => editProduct(id)}>Edit</button>
+                </td>
 
-        </tr>
+            </tr>
+        </>
     );
 };
 

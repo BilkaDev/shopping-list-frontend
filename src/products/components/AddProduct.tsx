@@ -1,47 +1,18 @@
-import React, {useCallback, useReducer} from 'react';
-import {Input} from "../../common/components/FormElements/Input";
-import {SelectProductCategory} from "../../common/components/FormElements/SelectProductCategory";
-import {VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH} from "../../common/utils/validators";
+import React, {useState} from 'react';
+import {ManageProduct} from "./ManageProduct";
+import {useForm} from "../../common/hooks/form-hook";
+import {CreateProductRequest, ProductListResponse} from 'interfaces';
+import {useHttpClient} from "../../common/hooks/http-hook";
 
-export const AddProduct = () => {
 
-    function formReducer(state: any, action: any) {
-        switch (action.type) {
-            case "SELECT_CHANGE":
-                return {
-                    ...state,
-                    inputs: {
-                        ...state.inputs,
-                        [action.inputId]: {value: action.value, isValid: action.isValid}
-                    }
-                };
-            case "INPUT_CHANGE":
-                let formIsValid = true;
-                for (const inputId in state.inputs) {
-                    if (!state.inputs[inputId]) {
-                        continue;
-                    }
-                    if (inputId === action.inputId) {
-                        formIsValid = formIsValid && action.isValid;
-                    } else {
-                        formIsValid = formIsValid && state.inputs[inputId].isValid;
-                    }
-                }
-                return {
-                    ...state,
-                    inputs: {
-                        ...state.inputs,
-                        [action.inputId]: {value: action.value, isValid: action.isValid}
-                    },
-                    isValid: formIsValid
-                };
-            default:
-                return state;
-        }
-    }
+interface Props {
+    loadedProducts:ProductListResponse;
+    setLoadedProducts: (product:ProductListResponse)=> void;
+}
 
-    const [formState, dispatch] = useReducer(formReducer, {
-        inputs: {
+export const AddProduct = (props: Props) => {
+    const [isSuccess,setIsSuccess] = useState(false)
+    const {formState, selectHandler, inputHandler} = useForm({
             name: {
                 value: "",
                 isValid: false,
@@ -50,43 +21,56 @@ export const AddProduct = () => {
                 value: 0,
                 isValid: true,
             }
-        },
-        isValid: false
-    });
+        }, false
+    );
+    const {isLoading, error, sendRequest, clearError,setError} = useHttpClient();
+    const userId = 'user1';
 
-    const selectHandler = useCallback((id: string, value: number, isValid: boolean) => {
-        dispatch({
-            type: 'SELECT_CHANGE',
-            inputId: id,
-            value,
-            isValid
-
+    const createProduct = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const newProduct: CreateProductRequest = {
+            name: formState.inputs.name.value,
+            category: formState.inputs.category.value,
+            userId,
+        };
+        const res = await sendRequest('/product', 'POST', newProduct, {
+            'Content-Type': 'application/json',
         });
-    }, []);
+        if (!res.isSuccess) {
+            setError("Dodawanie produktu nie powiodło się, sprawdź nazwe produktu (nazwa nie może się powtarzać)")
+        }
 
-    const inputHandler = useCallback((id: string, value: string, isValid: boolean) => {
-        dispatch({
-            type: 'INPUT_CHANGE',
-            inputId: id,
-            value,
-            isValid
+        setIsSuccess(true)
 
-        });
-    }, []);
+        const newListProduct = [...props.loadedProducts, {...newProduct,id:res.id}] as ProductListResponse;
+        props.setLoadedProducts(newListProduct)
 
+    };
+
+    //@TODO improve text appearance
+    if (isSuccess){
+        return (
+            <>
+                <p>Dodanie produktu powiodło się.</p>
+                <button onClick={()=>setIsSuccess(false)}>Dodaj kolejny</button>
+            </>
+        )
+    }
+
+    //@TODO fix the appearance of an error or add a modal
     return (
-        <form>
-            <Input
-                label="Nazwa"
-                id="name"
-                placeholder="Nazwa produktu"
-                errorText="Nazwa produktu jest wymagana (min. 2 znaki max. 100)."
-                validators={[VALIDATOR_MINLENGTH(2), VALIDATOR_MAXLENGTH(100)]}
-                onInput={inputHandler}
-            />
-            <SelectProductCategory onInput={selectHandler}/>
+        <>
+            {error && (<>
+                    <p>{error}</p>
+                    <button onClick={clearError}>Zamknij</button>
+                </>
+            )}
+            {isLoading && <p>Loading</p>}
+            {!isLoading && !error && <form onSubmit={createProduct}>
+                <ManageProduct selectHandler={selectHandler} inputHandler={inputHandler}/>
+                <button disabled={!formState.isValid}>Dodaj produkt</button>
+            </form>}
 
-            <button>Dodaj produkt</button>
-        </form>
+        </>
     );
 };
