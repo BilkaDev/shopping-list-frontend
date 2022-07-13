@@ -1,10 +1,11 @@
 import {useCallback, useState} from "react";
-import { CreateProductRequest } from "interfaces";
+import { CreateProductRequest, UpdateProductRequest } from "interfaces";
 import {apiUrl} from "../../config/api";
 
 export type ReqBody = (
     | FormData
     | CreateProductRequest
+    | UpdateProductRequest
     | null
     )
 

@@ -17,6 +17,7 @@ export const ProductsItem = (props: Props) => {
     const {name, id, category, setDeleteProductId} = props;
     const {isLoading, error, sendRequest, clearError} = useHttpClient();
 
+    //@TODO Added error text when delted no complited, and add loading spinner
     async function deleteProduct(id: string) {
         const response = await sendRequest(`/product/${id}`, 'DELETE');
         if (response.isSuccess) {
@@ -26,7 +27,6 @@ export const ProductsItem = (props: Props) => {
 
     function editProduct(id: string) {
         setShowEditModal(true);
-        console.log(id);
     }
 
     return (
@@ -35,9 +35,9 @@ export const ProductsItem = (props: Props) => {
                 <Modal header={`Edycja produktu "${name}"`}
                        onCancel={() => setShowEditModal(false)}
                        show={showEditModal}
-                       footer={<button onClick={() => setShowEditModal(false)}>Exit</button>}
+                       footer={<button onClick={() => setShowEditModal(false)}>Zamknij</button>}
                 >
-                    <EditProduct/>
+                    <EditProduct productId={id}/>
                 </Modal>}
             <tr>
                 <td>{name}</td>
@@ -46,7 +46,7 @@ export const ProductsItem = (props: Props) => {
                     <button onClick={() => deleteProduct(id)}>Delete</button>
                 </td>
                 <td>
-                    <button onClick={() => editProduct(id)}>Edit</button>
+                    <button onClick={() => editProduct(id)}>Edytuj</button>
                 </td>
 
             </tr>

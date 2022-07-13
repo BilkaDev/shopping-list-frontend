@@ -37,7 +37,7 @@ export const AddProduct = (props: Props) => {
             'Content-Type': 'application/json',
         });
         if (!res.isSuccess) {
-            setError("Dodawanie produktu nie powiodło się, sprawdź nazwe produktu (nazwa nie może się powtarzać)")
+            return setError("Dodawanie produktu nie powiodło się, sprawdź nazwe produktu (nazwa nie może się powtarzać)")
         }
 
         setIsSuccess(true)

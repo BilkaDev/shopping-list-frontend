@@ -10,7 +10,6 @@ interface Props {
     header:string;
     footer?:JSX.Element;
     contentClass?:string;
-    onSubmit?: (e:React.FormEvent)=> void;
     onCancel: ()=> void;
     style?: React.CSSProperties;
     children: React.ReactNode;
@@ -24,15 +23,12 @@ const ModalOverlay = (props:Props) => {
             <header className={`Modal__header ${props.headerClass}`}>
                 <h2>{props.header}</h2>
             </header>
-            <form onSubmit={props.onSubmit ? props.onSubmit : (e)=> e.preventDefault()}>
             <div className={`Modal__content ${props.contentClass}`}>
                 {props.children}
             </div>
                 <footer className={`Modal__footer ${props.footerClass}`}>
                     {props.footer}
                 </footer>
-            </form>
-
         </div>
     )
     return ReactDOM.createPortal(content,document.getElementById('modal-hook') as HTMLElement)

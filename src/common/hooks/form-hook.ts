@@ -1,8 +1,29 @@
 import {useCallback, useReducer} from "react";
 
-const formReducer = (state: any, action: any) => {
+
+type Products = {
+    inputs: Product;
+    isValid: boolean
+}
+type Product = {
+    [key: string]: { value: string | number, isValid: boolean };
+    name: { value: string, isValid: boolean };
+    category: { value: number, isValid: boolean };
+};
+type ProductAction =
+    | { type: 'SELECT_CHANGE'; inputId: string; value: number; isValid: boolean; }
+    | { type: 'INPUT_CHANGE'; inputId: string; value: string; isValid: boolean; }
+type Action = ProductAction;
+type State = Products;
+
+enum ActionTypes {
+    SELECT_CHANGE = 'SELECT_CHANGE',
+    INPUT_CHANGE = 'INPUT_CHANGE',
+}
+
+const formReducer = (state: State, action: Action): Products => {
     switch (action.type) {
-        case "SELECT_CHANGE":
+        case ActionTypes.SELECT_CHANGE:
             return {
                 ...state,
                 inputs: {
@@ -10,7 +31,7 @@ const formReducer = (state: any, action: any) => {
                     [action.inputId]: {value: action.value, isValid: action.isValid}
                 }
             };
-        case "INPUT_CHANGE":
+        case ActionTypes.INPUT_CHANGE:
             let formIsValid = true;
             for (const inputId in state.inputs) {
                 if (!state.inputs[inputId]) {
@@ -34,7 +55,9 @@ const formReducer = (state: any, action: any) => {
             return state;
     }
 };
-export const useForm = (initialInputs: { name: { value: string, isValid: boolean }, category: { value: number, isValid: boolean } }, InitialFormValidate: boolean) => {
+
+
+export const useForm = (initialInputs: Product, InitialFormValidate: boolean) => {
     const [formState, dispatch] = useReducer(formReducer, {
         inputs: initialInputs,
         isValid: InitialFormValidate,
@@ -42,17 +65,16 @@ export const useForm = (initialInputs: { name: { value: string, isValid: boolean
 
     const selectHandler = useCallback((id: string, value: number, isValid: boolean) => {
         dispatch({
-            type: 'SELECT_CHANGE',
+            type: ActionTypes.SELECT_CHANGE,
             inputId: id,
             value,
             isValid
-
         });
     }, []);
 
-    const inputHandler = useCallback((id: string, value: string, isValid: boolean) => {
+    const inputHandler = useCallback((id:string, value:string, isValid:boolean) => {
         dispatch({
-            type: 'INPUT_CHANGE',
+            type: ActionTypes.INPUT_CHANGE,
             inputId: id,
             value,
             isValid
