@@ -10,15 +10,17 @@ type Product = {
     name: { value: string, isValid: boolean };
     category: { value: number, isValid: boolean };
 };
-type ProductAction =
-    | { type: 'SELECT_CHANGE'; inputId: string; value: number; isValid: boolean; }
+
+
+type Action = | { type: 'SELECT_CHANGE'; inputId: string; value: number; isValid: boolean; }
     | { type: 'INPUT_CHANGE'; inputId: string; value: string; isValid: boolean; }
-type Action = ProductAction;
+    | { type: 'SET_DATA'; inputs: Product; formIsValid: boolean; }
 type State = Products;
 
 enum ActionTypes {
     SELECT_CHANGE = 'SELECT_CHANGE',
     INPUT_CHANGE = 'INPUT_CHANGE',
+    SET_DATA = 'SET_DATA',
 }
 
 const formReducer = (state: State, action: Action): Products => {
@@ -30,6 +32,11 @@ const formReducer = (state: State, action: Action): Products => {
                     ...state.inputs,
                     [action.inputId]: {value: action.value, isValid: action.isValid}
                 }
+            };
+        case ActionTypes.SET_DATA:
+            return {
+                inputs: action.inputs,
+                isValid: action.formIsValid,
             };
         case ActionTypes.INPUT_CHANGE:
             let formIsValid = true;
@@ -72,7 +79,7 @@ export const useForm = (initialInputs: Product, InitialFormValidate: boolean) =>
         });
     }, []);
 
-    const inputHandler = useCallback((id:string, value:string, isValid:boolean) => {
+    const inputHandler = useCallback((id: string, value: string, isValid: boolean) => {
         dispatch({
             type: ActionTypes.INPUT_CHANGE,
             inputId: id,
@@ -81,11 +88,19 @@ export const useForm = (initialInputs: Product, InitialFormValidate: boolean) =>
 
         });
     }, []);
+    const setFormData = useCallback((inputData: Product, formValidity: boolean) => {
+        dispatch({
+            type: 'SET_DATA',
+            inputs: inputData,
+            formIsValid: formValidity
+        });
+    }, []);
 
     return {
         formState,
         selectHandler,
         inputHandler,
+        setFormData,
     };
 
 };

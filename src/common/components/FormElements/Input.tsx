@@ -10,6 +10,8 @@ interface Props {
     placeholder?: string;
     onInput: (id: string, value: string, isValid: boolean) => void;
     validators: Validator[];
+    initialValue?: string;
+    initialValid?: boolean;
 }
 
 function inputReducer(state: any, action: any) {
@@ -31,13 +33,14 @@ function inputReducer(state: any, action: any) {
 }
 
 export const Input = (props: Props) => {
+    const {label, placeholder, elementName, onInput, id, validators,initialValid,initialValue} = props;
     const [inputState, dispatch] = useReducer(inputReducer, {
-        value: '',
-        isValid: false,
+        value: initialValue || '',
+        isValid: initialValid || false,
         isTouch: false,
     });
-    const {label, placeholder, elementName, onInput, id, validators} = props;
     const {value, isValid, isTouch} = inputState;
+
 
     useEffect(() => {
         onInput(id, value, isValid);
@@ -58,7 +61,13 @@ export const Input = (props: Props) => {
         });
     }
 
-    const element = <input onBlur={touchHandler} onChange={inputChangeHandler} type="text" placeholder={placeholder}/>;
+    const element = <input
+        onBlur={touchHandler}
+        onChange={inputChangeHandler}
+        type="text"
+        placeholder={placeholder}
+        value={inputState.value}
+    />;
     return (
         <label className="Input__label"><p>{label}:</p>
             {element}

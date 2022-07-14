@@ -1,24 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {ProductsItem} from "./ProductsItem";
-import {ProductListResponse} from 'interfaces';
 import './ProductsList.css';
-
-interface Props {
-    products: ProductListResponse;
-    setProducts: (products: ProductListResponse) => void;
-}
-
-export const ProductsList = (props: Props) => {
-    const [deleteProductId, setDeleteProductId] = useState<string>('');
-
-    useEffect(() => {
-        if (deleteProductId.length === 0) return;
-        const products = props.products.filter(p => p.id !== deleteProductId);
-        setDeleteProductId('');
-        props.setProducts(products);
-    }, [deleteProductId, props,]);
+import {useSelector} from "react-redux";
+import {RootState} from "../../common/Redux/store";
 
 
+
+export const ProductsList = () => {
+    const {listProducts} = useSelector((store: RootState) => store.products)
     return (
         <table className="Products__list">
             <thead>
@@ -30,13 +19,12 @@ export const ProductsList = (props: Props) => {
             </tr>
             </thead>
             <tbody>
-            {props.products.map((product) => (
+            {listProducts.map((product) => (
                 <ProductsItem
                     key={product.id}
                     name={product.name}
                     category={product.category}
                     id={product.id}
-                    setDeleteProductId={setDeleteProductId}
                 />
             ))}
             </tbody>

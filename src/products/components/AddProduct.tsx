@@ -1,16 +1,14 @@
 import React, {useState} from 'react';
 import {ManageProduct} from "./ManageProduct";
 import {useForm} from "../../common/hooks/form-hook";
-import {CreateProductRequest, ProductListResponse} from 'interfaces';
+import {CreateProductRequest, GetProductResponse} from 'interfaces';
 import {useHttpClient} from "../../common/hooks/http-hook";
+import {useDispatch} from "react-redux";
+import {addProductAction} from "../../common/Redux/actions/product";
 
 
-interface Props {
-    loadedProducts:ProductListResponse;
-    setLoadedProducts: (product:ProductListResponse)=> void;
-}
 
-export const AddProduct = (props: Props) => {
+export const AddProduct = () => {
     const [isSuccess,setIsSuccess] = useState(false)
     const {formState, selectHandler, inputHandler} = useForm({
             name: {
@@ -24,6 +22,7 @@ export const AddProduct = (props: Props) => {
         }, false
     );
     const {isLoading, error, sendRequest, clearError,setError} = useHttpClient();
+    const dispatch = useDispatch();
     const userId = 'user1';
 
     const createProduct = async (e: React.FormEvent) => {
@@ -39,12 +38,13 @@ export const AddProduct = (props: Props) => {
         if (!res.isSuccess) {
             return setError("Dodawanie produktu nie powiodło się, sprawdź nazwe produktu (nazwa nie może się powtarzać)")
         }
-
+        const newProductWithId: GetProductResponse = {
+            ...newProduct,
+            id: res.id,
+            items: []
+        }
         setIsSuccess(true)
-
-        const newListProduct = [...props.loadedProducts, {...newProduct,id:res.id}] as ProductListResponse;
-        props.setLoadedProducts(newListProduct)
-
+        dispatch(addProductAction(newProductWithId))
     };
 
     //@TODO improve text appearance

@@ -3,10 +3,11 @@ import {ProductCategory} from 'interfaces'
 
 interface Props {
     onInput: (id: string, value: number, isValid: boolean) => void;
+    initialValue?: number;
 }
 
 export const SelectProductCategory = (props:Props) => {
-    const [selectCategory,setSelectCategory] = useState<ProductCategory>(0)
+    const [selectCategory,setSelectCategory] = useState<ProductCategory>(props.initialValue || 0)
     const {onInput} = props
 
     const entries = Object.entries(ProductCategory)
