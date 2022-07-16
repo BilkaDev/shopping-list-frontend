@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
-import {RootState} from "../../../common/Redux/store";
-import {EditItemForm} from "./EditItemForm";
+import {RootState} from "../../Redux/store";
+import {EditItemForm} from "../../../lists/components/List/EditItemForm";
 import {useSelector} from "react-redux";
 
 
