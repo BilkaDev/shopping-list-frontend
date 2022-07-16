@@ -36,7 +36,7 @@ export const ListItem = ({id, name}: Props) => {
                     <EditListName itemId={id}></EditListName>
                 </Modal>}
             <li>
-                <Link to={`/list/${id}`}>{name}</Link>
+                <Link to={`/list/${id}/${name}`}>{name}</Link>
                 <button onClick={()=>setShowEditModal(true)}>zmień nazwe</button>
                 <button onClick={() => deleteHandler(id)}>Usuń</button>
             </li>

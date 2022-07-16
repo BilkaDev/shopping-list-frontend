@@ -6,6 +6,7 @@ import {NavLinks} from "./common/components/Navigation/NavLinks";
 import {Route, Routes} from "react-router-dom";
 import {Products} from "./products/pages/Products";
 import {Lists} from "./lists/pages/Lists";
+import {ItemsInList} from "./lists/pages/ItemsInList";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
                     <Route path="/" element={<NavLinks/>}/>
                     <Route path="/product" element={<Products/>}/>
                     <Route path="/list" element={<Lists/>}/>
+                    <Route path="/list/:id/:name" element={<ItemsInList/>}/>
                 </Routes>
           </main>
           <Footer/>

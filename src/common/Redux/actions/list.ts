@@ -5,6 +5,10 @@ export const setLists = (lists:GetListsResponse) => ({
     type: ListAction.SET_LISTS,
     payload: lists
 })
+export const setItemsInList = (list:GetListResponse) => ({
+    type: ListAction.SET_ITEMS_IN_LIST,
+    payload: list
+})
 
 export const addList= (list:GetListResponse) => ({
     type: ListAction.ADD_TO_LISTS,
