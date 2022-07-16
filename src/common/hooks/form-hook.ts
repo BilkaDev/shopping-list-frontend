@@ -1,21 +1,25 @@
 import {useCallback, useReducer} from "react";
 
 
-type Products = {
-    inputs: Product;
+type State = {
+    inputs: List | Product;
     isValid: boolean
 }
-type Product = {
+
+interface Product  {
     [key: string]: { value: string | number, isValid: boolean };
     name: { value: string, isValid: boolean };
     category: { value: number, isValid: boolean };
-};
-
+}
+interface List  {
+    [key: string]: { value: string | number, isValid: boolean };
+    name: { value: string, isValid: boolean };
+}
 
 type Action = | { type: 'SELECT_CHANGE'; inputId: string; value: number; isValid: boolean; }
     | { type: 'INPUT_CHANGE'; inputId: string; value: string; isValid: boolean; }
-    | { type: 'SET_DATA'; inputs: Product; formIsValid: boolean; }
-type State = Products;
+    | { type: 'SET_DATA'; inputs: Product | List; formIsValid: boolean; }
+
 
 enum ActionTypes {
     SELECT_CHANGE = 'SELECT_CHANGE',
@@ -23,7 +27,7 @@ enum ActionTypes {
     SET_DATA = 'SET_DATA',
 }
 
-const formReducer = (state: State, action: Action): Products => {
+const formReducer = (state: State, action: Action): State => {
     switch (action.type) {
         case ActionTypes.SELECT_CHANGE:
             return {
@@ -64,7 +68,7 @@ const formReducer = (state: State, action: Action): Products => {
 };
 
 
-export const useForm = (initialInputs: Product, InitialFormValidate: boolean) => {
+export const useForm = (initialInputs: Product | List, InitialFormValidate: boolean) => {
     const [formState, dispatch] = useReducer(formReducer, {
         inputs: initialInputs,
         isValid: InitialFormValidate,
@@ -88,7 +92,7 @@ export const useForm = (initialInputs: Product, InitialFormValidate: boolean) =>
 
         });
     }, []);
-    const setFormData = useCallback((inputData: Product, formValidity: boolean) => {
+    const setFormData = useCallback((inputData: Product | List, formValidity: boolean) => {
         dispatch({
             type: 'SET_DATA',
             inputs: inputData,

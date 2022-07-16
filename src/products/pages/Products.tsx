@@ -25,7 +25,7 @@ export const Products = () => {
     return (
         <>
             {error && <p>{error}</p>}
-            <div className="Products">
+            <div className="Products section">
                 <h2>Dodaj produkt</h2>
                 <AddProduct/>
                 <h2>Lista produktów</h2>

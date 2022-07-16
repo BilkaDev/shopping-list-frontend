@@ -29,7 +29,7 @@ export const AddProduct = () => {
         e.preventDefault();
         const newProduct: CreateProductRequest = {
             name: formState.inputs.name.value,
-            category: formState.inputs.category.value,
+            category: Number(formState.inputs.category.value),
             userId,
         };
         const res = await sendRequest('/product', 'POST', newProduct, {

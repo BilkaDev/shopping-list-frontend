@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import ReactDOM from "react-dom";
 import './Modal.css'
 import {Backdrop} from "./Backdrop";
@@ -21,7 +21,7 @@ const ModalOverlay = (props:Props) => {
     const content = (
         <div className={`Modal ${props.className}`} style={props.style}>
             <header className={`Modal__header ${props.headerClass}`}>
-                <h2>{props.header}</h2>
+                <h2>{useMemo(() => props.header, [])}</h2>
             </header>
             <div className={`Modal__content ${props.contentClass}`}>
                 {props.children}
