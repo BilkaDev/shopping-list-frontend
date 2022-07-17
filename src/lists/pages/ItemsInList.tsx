@@ -2,23 +2,24 @@ import {GetListResponse, ProductCategory} from 'interfaces';
 import React, {useEffect, useState} from 'react';
 import {ItemsList} from "../components/ItemInList/ItemsList";
 import {useParams} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setItemsInList} from "../../common/Redux/actions/list";
 import {useHttpClient} from "../../common/hooks/http-hook";
+import {AddItem} from "../components/ItemInList/AddItem";
+import {RootState} from "../../common/Redux/store";
 
 export const ItemsInList = () => {
     const {isLoading, error, sendRequest, clearError} = useHttpClient();
-    const [list,setList] = useState<GetListResponse>()
     const {id,name} = useParams()
     const dispatch = useDispatch()
     const entries = Object.entries(ProductCategory);
     const category = [];
+    const {list} = useSelector((store: RootState) => store.lists)
 
     useEffect(() => {
         (async () => {
            const list = await sendRequest(`/list/user/${id}`)
             dispatch(setItemsInList(list))
-            setList(list)
         })()
     },[id])
 
@@ -36,6 +37,7 @@ export const ItemsInList = () => {
     return (
         <div className="section">
             <h2>Dodaj produkt do listy</h2>
+            <AddItem/>
             <h2>Lista {name}</h2>
             <div>
                 <ul>

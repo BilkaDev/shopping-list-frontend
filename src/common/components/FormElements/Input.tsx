@@ -5,6 +5,7 @@ import {validate, Validator} from "../../utils/validators";
 interface Props {
     label: string;
     id: string;
+    type?: string;
     elementName?: string;
     errorText?: string;
     placeholder?: string;
@@ -12,6 +13,8 @@ interface Props {
     validators: Validator[];
     initialValue?: string;
     initialValid?: boolean;
+    min?:string;
+    max?:string;
 }
 
 function inputReducer(state: any, action: any) {
@@ -33,7 +36,7 @@ function inputReducer(state: any, action: any) {
 }
 
 export const Input = (props: Props) => {
-    const {label, placeholder, elementName, onInput, id, validators,initialValid,initialValue} = props;
+    const {label, placeholder,min,max, elementName, onInput, id, validators,initialValid,initialValue,type} = props;
     const [inputState, dispatch] = useReducer(inputReducer, {
         value: initialValue || '',
         isValid: initialValid || false,
@@ -62,9 +65,11 @@ export const Input = (props: Props) => {
     }
 
     const element = <input
+        min={min}
+        max={max}
         onBlur={touchHandler}
         onChange={inputChangeHandler}
-        type="text"
+        type={type ? "number" : "text"}
         placeholder={placeholder}
         value={inputState.value}
     />;

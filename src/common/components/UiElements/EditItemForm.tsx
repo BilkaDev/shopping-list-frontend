@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 
 import {useDispatch} from "react-redux";
-import {useHttpClient} from "../../../common/hooks/http-hook";
-import {useForm} from "../../../common/hooks/form-hook";
+import {useHttpClient} from "../../hooks/http-hook";
+import {useForm} from "../../hooks/form-hook";
 import {CreateListRequest, GetListResponse, GetProductResponse, UpdateProductRequest } from 'interfaces';
-import {editListName} from "../../../common/Redux/actions/list";
-import {ManageList} from "./ManageList";
-import {editProductAction} from "../../../common/Redux/actions/product";
+import {editListName} from "../../Redux/actions/list";
+import {ManageList} from "../../../lists/components/List/ManageList";
+import {editProductAction} from "../../Redux/actions/product";
 import {ManageProduct} from "../../../products/components/ManageProduct";
 
 

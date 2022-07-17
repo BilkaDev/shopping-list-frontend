@@ -4,7 +4,7 @@ import {useHttpClient} from "../../../common/hooks/http-hook";
 import {deleteList} from "../../../common/Redux/actions/list";
 import {Link} from "react-router-dom";
 import {Modal} from "../../../common/components/UiElements/Modal";
-import {EditListName} from "../../../common/components/UiElements/EditListName";
+import {EditListName} from "./EditListName";
 
 interface Props {
     id: string;

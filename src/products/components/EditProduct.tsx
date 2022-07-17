@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import { useSelector} from "react-redux";
 import {RootState} from "../../common/Redux/store";
-import {EditItemForm} from "../../lists/components/List/EditItemForm";
+import {EditItemForm} from "../../common/components/UiElements/EditItemForm";
 
 
 interface Props {

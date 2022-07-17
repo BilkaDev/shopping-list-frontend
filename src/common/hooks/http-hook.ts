@@ -1,5 +1,5 @@
 import {useCallback, useState} from "react";
-import {CreateListRequest, CreateProductRequest, UpdateProductRequest } from "interfaces";
+import {CreateItemInListRequest, CreateListRequest, CreateProductRequest, UpdateProductRequest } from "interfaces";
 import {apiUrl} from "../../config/api";
 
 export type ReqBody = (
@@ -7,6 +7,7 @@ export type ReqBody = (
     | CreateProductRequest
     | UpdateProductRequest
     | CreateListRequest
+    | CreateItemInListRequest
     | null
     )
 

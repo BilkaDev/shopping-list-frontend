@@ -1,4 +1,4 @@
-import {CreateListRequest, GetListResponse, GetListsResponse } from "interfaces"
+import {CreateListRequest, GetItemInList, GetListResponse, GetListsResponse } from "interfaces"
 import { ListAction } from "../action-types/list"
 
 export const setLists = (lists:GetListsResponse) => ({
@@ -13,6 +13,10 @@ export const setItemsInList = (list:GetListResponse) => ({
 export const addList= (list:GetListResponse) => ({
     type: ListAction.ADD_TO_LISTS,
     payload: list
+})
+export const addItemToList= (item:GetItemInList) => ({
+    type: ListAction.ADD_ITEM_TO_LIST,
+    payload: item
 })
 export const editListName = (id:string,list:CreateListRequest) => ({
     type: ListAction.EDIT_NAME_LIST,

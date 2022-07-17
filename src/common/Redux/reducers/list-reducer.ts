@@ -1,4 +1,4 @@
-import { GetListResponse, GetListsResponse} from "interfaces";
+import {GetItemInList, GetListResponse, GetListsResponse} from "interfaces";
 import {ListAction} from "../action-types/list";
 
 export interface ListOfLists {
@@ -27,6 +27,10 @@ interface AddList {
     type: ListAction.ADD_TO_LISTS;
     payload: GetListResponse;
 }
+interface AddItemToList {
+    type: ListAction.ADD_ITEM_TO_LIST;
+    payload: GetItemInList;
+}
 interface EditList {
     type: ListAction.EDIT_NAME_LIST;
     payload: GetListResponse;
@@ -35,13 +39,13 @@ interface DeleteList {
     type: ListAction.DELETE_LIST;
     payload: string;
 }
-type Action = SetLists | AddList | EditList | DeleteList | SetItemsInList;
+type Action = SetLists | AddList | EditList | DeleteList | SetItemsInList | AddItemToList ;
 export default (state: ListOfLists = initialState, action: Action) => {
     switch (action.type) {
         case ListAction.SET_LISTS:
             return {
                 ...state,
-                listOfLists: action.payload
+                listOfLists: action.payload,
             }
         case ListAction.SET_ITEMS_IN_LIST:
             return {
@@ -53,6 +57,14 @@ export default (state: ListOfLists = initialState, action: Action) => {
             ...state,
                 listOfLists: [...state.listOfLists,action.payload]
         }
+        case ListAction.ADD_ITEM_TO_LIST:
+            return {
+                ...state,
+                list:{
+                    ...state.list,
+                    items: [...state.list.items,action.payload]
+                }
+            }
         case ListAction.EDIT_NAME_LIST:
             const newList = state.listOfLists.map(l => {
                 if (l.id === action.payload.id){

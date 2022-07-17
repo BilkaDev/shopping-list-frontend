@@ -41,7 +41,6 @@ export const AddProduct = () => {
         const newProductWithId: GetProductResponse = {
             ...newProduct,
             id: res.id,
-            items: []
         }
         setIsSuccess(true)
         dispatch(addProductAction(newProductWithId))

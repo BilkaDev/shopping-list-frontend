@@ -15,10 +15,17 @@ interface List  {
     [key: string]: { value: string | number, isValid: boolean };
     name: { value: string, isValid: boolean };
 }
+interface ItemInList  {
+    [key: string]: { value: string | number, isValid: boolean };
+    name: { value: string, isValid: boolean };
+    productId: { value: string, isValid: boolean };
+    count: {isValid: boolean, value: number},
+    weight: {isValid: boolean, value: number}
+}
 
 type Action = | { type: 'SELECT_CHANGE'; inputId: string; value: number; isValid: boolean; }
     | { type: 'INPUT_CHANGE'; inputId: string; value: string; isValid: boolean; }
-    | { type: 'SET_DATA'; inputs: Product | List; formIsValid: boolean; }
+    | { type: 'SET_DATA'; inputs: Product | List | ItemInList; formIsValid: boolean; }
 
 
 enum ActionTypes {
@@ -68,7 +75,7 @@ const formReducer = (state: State, action: Action): State => {
 };
 
 
-export const useForm = (initialInputs: Product | List, InitialFormValidate: boolean) => {
+export const useForm = (initialInputs: Product | List | ItemInList, InitialFormValidate: boolean) => {
     const [formState, dispatch] = useReducer(formReducer, {
         inputs: initialInputs,
         isValid: InitialFormValidate,
@@ -92,7 +99,7 @@ export const useForm = (initialInputs: Product | List, InitialFormValidate: bool
 
         });
     }, []);
-    const setFormData = useCallback((inputData: Product | List, formValidity: boolean) => {
+    const setFormData = useCallback((inputData: Product | List | ItemInList, formValidity: boolean) => {
         dispatch({
             type: 'SET_DATA',
             inputs: inputData,
