@@ -15,6 +15,7 @@ interface Props {
     element: string;
     itemId: string;
     item: GetListResponse | GetProductResponse;
+    initialValid: boolean,
     iniitialInputs:{
         name: {
             value: string,
@@ -28,7 +29,7 @@ interface Props {
 }
 
 
-export const EditItemForm = ({itemId, item, iniitialInputs, element}: Props) => {
+export const EditItemForm = ({itemId, item, iniitialInputs, element,initialValid}: Props) => {
     const [isSuccess, setIsSuccess] = useState(false);
     const {isLoading, error, sendRequest, clearError, setError} = useHttpClient();
     const {formState, selectHandler, inputHandler, setFormData} = useForm(iniitialInputs, false);
@@ -38,7 +39,7 @@ export const EditItemForm = ({itemId, item, iniitialInputs, element}: Props) => 
     const userId = 'user1';
 
     useEffect(() => {
-        setFormData(iniitialInputs, false);
+        setFormData(iniitialInputs, initialValid);
         return () => clearError();
     }, [itemId]);
 
