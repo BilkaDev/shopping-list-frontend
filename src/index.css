@@ -18,7 +18,11 @@ body{
   font-size: 1.6rem;
 }
 :root{
-  --light-gray: #DADADA;
+  --dark: #1E1E1F;
+  --light-dark: #222224;
+  --light-grey: #DADADA;
+  --grey: #292A2B;
+  --white: #F7F7F7;
 }
 
 div#root{

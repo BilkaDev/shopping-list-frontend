@@ -29,7 +29,7 @@ function App() {
     }, []);
 
     let routes;
-    if (true) {
+    if (false) {
         routes = <Route path="/" element={<Auth/>}/>;
     } else {
         routes = (<>

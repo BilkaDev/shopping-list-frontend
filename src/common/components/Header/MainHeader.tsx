@@ -1,12 +1,45 @@
-import {NavLink} from "react-router-dom";
-import './MainHeader.css';
+import logo from "../../../assets/logo.png";
+import {Box, Center, Flex, Image} from "@chakra-ui/react";
+import {Link} from "react-router-dom";
+
+import React from "react";
+import {MenuHeader} from "./MenuHeader";
 
 export const MainHeader = () => {
 
     return (
-        <header className="MainHeader">
-            <NavLink to={'/'}><h1>Lista zakupów</h1>
-            </NavLink>
+        <header>
+            <Box
+                w="100vw"
+                bg="var(--dark)"
+                color="var(--white)"
+                position="fixed"
+            >
+                <Center>
+                    <Flex
+                        as="nav"
+                        align="center"
+                        justify="space-between"
+                        wrap="wrap"
+                        w="1430px"
+                        h="110px"
+                        ml="20px"
+                        mr="20px"
+                    >
+                        <Box>
+                            <Link to="/">
+                                <Image
+                                    htmlWidth="200px"
+                                    height="102"
+                                    src={logo}
+                                    alt="Shopping-list logo"
+                                />
+                            </Link>
+                        </Box>
+                        <MenuHeader/>
+                    </Flex>
+                </Center>
+            </Box>
         </header>
     );
 };
