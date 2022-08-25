@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
     Button, Modal,
     ModalBody,
@@ -11,12 +11,12 @@ import {
 import {EditPasswordForm} from "./EditPasswordForm";
 
 interface Props {
-    onClose: ()=> void,
+    onClose: () => void,
     isOpen: boolean
 }
 
-export function ModalEditPassword(props:Props) {
-    const {isOpen,onClose} = props
+export function ModalEditPassword(props: Props) {
+    const {isOpen, onClose} = props;
 
     return (
         <Modal onClose={onClose} isOpen={isOpen} isCentered>
@@ -28,7 +28,7 @@ export function ModalEditPassword(props:Props) {
                     <EditPasswordForm/>
                 </ModalBody>
                 <ModalFooter>
-                    <Button colorScheme="blue" onClick={onClose} >Exit</Button>
+                    <Button colorScheme="blue" onClick={onClose}>Exit</Button>
                 </ModalFooter>
             </ModalContent>
         </Modal>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState} from "react";
 import {
     Box,
     Flex,
@@ -22,11 +22,11 @@ export function MenuHeader() {
     const {sendRequest, error, clearError, isLoading} = useHttpClient();
 
     //@Todo Added avatar user and auth user full name.
-    const avatarUrl = null
-    const userFullName = "Test Test"
+    const avatarUrl = null;
+    const userFullName = "Test Test";
 
     const logoutClick = async () => {
-        const data = await sendRequest('/auth/logout', 'GET');
+        const data = await sendRequest("/auth/logout", "GET");
         if (data.isSuccess) {
         }
     };
@@ -34,7 +34,7 @@ export function MenuHeader() {
     return (
         <>
             {isLoading && <LoadingSpinner/>}
-            {error && <InfoModal isError message={error} onClose={clearError} title={'Failed!'}/>}
+            {error && <InfoModal isError message={error} onClose={clearError} title={"Failed!"}/>}
             <ModalEditPassword isOpen={isEditPassword} onClose={() => setIsEditPassword(false)}/>
             <Menu autoSelect={false}>
                 <MenuButton>
@@ -63,7 +63,8 @@ export function MenuHeader() {
                 </MenuButton>
                 <MenuList borderRadius={0} bgColor="var(--dark)" borderColor="var(--dark)">
                     <MenuGroup title="Profile">
-                        <MenuItem onClick={() => setIsEditPassword(true)} _hover={{backgroundColor: "#292A2B"}}>Change password</MenuItem>
+                        <MenuItem onClick={() => setIsEditPassword(true)} _hover={{backgroundColor: "#292A2B"}}>Change
+                            password</MenuItem>
                         <MenuItem onClick={logoutClick} _hover={{backgroundColor: "#292A2B"}}>Logout </MenuItem>
                     </MenuGroup>
                 </MenuList>

@@ -1,59 +1,61 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap');
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 
 }
 
 
 html {
-  font-size: 62.5%;
-  color: #423E3A;
-}
-body{
-  background: #f2f2f2;
-  font-family: 'Work Sans','Open Sans', sans-serif;
-  font-size: 1.6rem;
-}
-:root{
-  --dark: #1E1E1F;
-  --light-dark: #222224;
-  --light-grey: #DADADA;
-  --grey: #292A2B;
-  --white: #F7F7F7;
+    font-size: 62.5%;
+    color: #423E3A;
 }
 
-div#root{
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+body {
+    background: #f2f2f2;
+    font-family: 'Work Sans', 'Open Sans', sans-serif;
+    font-size: 1.6rem;
+}
+
+:root {
+    --dark: #1E1E1F;
+    --light-dark: #222224;
+    --light-grey: #DADADA;
+    --grey: #292A2B;
+    --white: #F7F7F7;
+}
+
+div#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header,
 footer {
-  flex: 0;
+    flex: 0;
 }
 
 main {
-  flex:1;
-  display: flex;
+    flex: 1;
+    display: flex;
 }
 
 .center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.margin{
-  margin: 1rem;
+.margin {
+    margin: 1rem;
 }
 
 .section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
 }
