@@ -1,8 +1,15 @@
 import {useCallback, useState} from "react";
-import {CreateItemInListRequest, CreateListRequest, CreateProductRequest, UpdateProductRequest } from "interfaces";
+import {
+    CreateItemInListRequest,
+    CreateListRequest,
+    CreateProductRequest,
+    UpdateProductRequest,
+    LoginRequest
+} from "interfaces";
 import {apiUrl} from "../../config/api";
 
 export type ReqBody = (
+    | LoginRequest
     | FormData
     | CreateProductRequest
     | UpdateProductRequest
@@ -20,7 +27,7 @@ export const useHttpClient = () => {
     const sendRequest = useCallback(
         async (
             url: string,
-            method = 'GET',
+            method = "GET",
             body: ReqBody = null,
             headers = {}
         ) => {
@@ -41,7 +48,7 @@ export const useHttpClient = () => {
 
                 return responseData;
             } catch (e: any) {
-                setError(statusError === 500 ? 'Sorry, please try again later' : e.message);
+                setError(statusError === 500 ? "Sorry, please try again later" : e.message);
                 setIsLoading(false);
 
                 throw e;
