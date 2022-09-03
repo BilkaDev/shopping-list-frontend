@@ -11,7 +11,6 @@ import {setProductsAction} from "./common/Redux/actions/product";
 import {useHttpClient} from "./common/hooks/http-hook";
 import {ChakraProvider} from "@chakra-ui/react";
 import {Auth} from "./auth/pages/Auth";
-import "./App.css";
 
 function App() {
 
