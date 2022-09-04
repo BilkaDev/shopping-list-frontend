@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import {
     Button, Modal,
     ModalBody,
@@ -6,29 +6,30 @@ import {
     ModalContent,
     ModalFooter,
     ModalHeader,
-    ModalOverlay,
+    ModalOverlay
 } from "@chakra-ui/react";
-import {EditPasswordForm} from "./EditPasswordForm";
 
 interface Props {
     onClose: () => void,
-    isOpen: boolean
+    isOpen: boolean,
+    children: ReactNode,
+    title: string,
 }
 
-export function ModalEditPassword(props: Props) {
-    const {isOpen, onClose} = props;
+export function ModalChakra(props: Props) {
+    const { isOpen, onClose, title, children } = props;
 
     return (
         <Modal onClose={onClose} isOpen={isOpen} isCentered>
-            <ModalOverlay/>
+            <ModalOverlay />
             <ModalContent bgColor="var(--light-dark)" color="var(--white)">
-                <ModalHeader>Change password</ModalHeader>
-                <ModalCloseButton/>
+                <ModalHeader>{title}</ModalHeader>
+                <ModalCloseButton />
                 <ModalBody>
-                    <EditPasswordForm/>
+                    {children}
                 </ModalBody>
                 <ModalFooter>
-                    <Button colorScheme="blue" onClick={onClose}>Exit</Button>
+                    <Button colorScheme="red" onClick={onClose}>Exit</Button>
                 </ModalFooter>
             </ModalContent>
         </Modal>

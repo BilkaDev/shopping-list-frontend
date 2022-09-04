@@ -1,47 +1,47 @@
-import React, {useEffect, useState} from 'react';
-import {useFormik} from 'formik';
+import React, { useEffect, useState } from "react";
+import { useFormik } from "formik";
 import {
     Button,
     FormControl, FormErrorMessage,
     Input, Stack, useToast,
-    VStack,
-} from '@chakra-ui/react';
-import * as Yup from 'yup';
-import {useHttpClient} from "../../hooks/http-hook";
-import {LoadingSpinner} from "../UiElements/LoadingSpinner";
-import {InfoModal} from "../UiElements/InfoModal";
+    VStack
+} from "@chakra-ui/react";
+import * as Yup from "yup";
+import { useHttpClient } from "../../hooks/http-hook";
+import { LoadingSpinner } from "../UiElements/LoadingSpinner";
+import { InfoModal } from "../UiElements/InfoModal";
 
 const EditSchema = Yup.object().shape({
     password: Yup.string()
-        .min(6, 'Password is too short!')
-        .max(255, 'Password is too long!')
-        .required('Required!'),
+        .min(6, "Password is too short!")
+        .max(255, "Password is too long!")
+        .required("Required!"),
     "new-password": Yup.string()
-        .min(6, 'Password is too short!')
-        .max(255, 'Password is too long!')
-        .required('Required!'),
+        .min(6, "Password is too short!")
+        .max(255, "Password is too long!")
+        .required("Required!"),
     "new-password-repeat": Yup.string()
-        .min(6, 'Password is too short!')
-        .max(255, 'Password is too long!')
-        .required('Required!')
-        .oneOf([Yup.ref('new-password'), null], 'Passwords must match.')
+        .min(6, "Password is too short!")
+        .max(255, "Password is too long!")
+        .required("Required!")
+        .oneOf([Yup.ref("new-password"), null], "Passwords must match.")
 
 });
 
 
 export const EditPasswordForm = () => {
-        const {sendRequest, error, clearError, isLoading} = useHttpClient();
-        const [toastMessage, setToastMessage] = useState<{title: string,body: string,status:"error" | "success" | "info" | "warning" | "loading" | undefined}>({
-            title: '',
-            body: '',
-            status: undefined,
+        const { sendRequest, error, clearError, isLoading } = useHttpClient();
+        const [toastMessage, setToastMessage] = useState<{ title: string, body: string, status: "error" | "success" | "info" | "warning" | "loading" | undefined }>({
+            title: "",
+            body: "",
+            status: undefined
         });
         const toast = useToast();
         const formik = useFormik({
             initialValues: {
-                password: '',
-                "new-password": '',
-                "new-password-repeat": '',
+                password: "",
+                "new-password": "",
+                "new-password-repeat": ""
             },
             validationSchema: EditSchema,
             onSubmit: async (values) => {
@@ -69,8 +69,8 @@ export const EditPasswordForm = () => {
         });
 
         useEffect(() => {
-            if (toastMessage.title !== '' && toastMessage.body !== '') {
-                const {title, body,status} = toastMessage;
+            if (toastMessage.title !== "" && toastMessage.body !== "") {
+                const { title, body, status } = toastMessage;
 
                 toast({
                     title,
@@ -84,8 +84,8 @@ export const EditPasswordForm = () => {
 
         return (
             <>
-                {isLoading && <LoadingSpinner/>}
-                {error && <InfoModal isError message={error} onClose={clearError} title={'Failed!'}/>}
+                {isLoading && <LoadingSpinner />}
+                {error && <InfoModal isError message={error} onClose={clearError} title={"Failed!"} />}
                 <form onSubmit={formik.handleSubmit}>
                     <VStack spacing={4} align="flex-start">
                         <FormControl isInvalid={!!formik.errors.password}>
@@ -138,8 +138,8 @@ export const EditPasswordForm = () => {
                         </FormControl>
                         <Stack spacing={10} width="100%" pt="10px">
                             <Stack
-                                direction={{base: 'column', sm: 'row'}}
-                                align={'center'}>
+                                direction={{ base: "column", sm: "row" }}
+                                align={"center"}>
                                 <Button type="submit" colorScheme="blue">
                                     Change password
                                 </Button>
