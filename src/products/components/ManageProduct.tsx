@@ -16,10 +16,10 @@ export const ManageProduct = (props: Props) => {
     return (
         <>
             <Input
-                label="Nazwa"
+                label="Name"
                 id="name"
-                placeholder="Nazwa produktu"
-                errorText="Nazwa produktu jest wymagana (min. 2 znaki max. 100)."
+                placeholder="Product name"
+                errorText="Product name is required (min. 2 characters max. 100)."
                 validators={[VALIDATOR_MINLENGTH(2), VALIDATOR_MAXLENGTH(100)]}
                 onInput={inputHandler}
                 initialValid={initialValid}

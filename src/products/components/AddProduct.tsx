@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { addProductAction } from "../../common/Redux/actions/product";
 import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinner";
 import { InfoModal } from "../../common/components/UiElements/InfoModal";
+import { Box, Button, Text, VStack } from "@chakra-ui/react";
 
 
 export const AddProduct = () => {
@@ -47,13 +48,14 @@ export const AddProduct = () => {
         dispatch(addProductAction(newProductWithId));
     };
 
-    //@TODO improve text appearance
     if (isSuccess) {
         return (
-            <>
-                <p>Adding the product was successful.</p>
-                <button onClick={() => setIsSuccess(false)}>Add another one</button>
-            </>
+            <Box p={"1rem"} bgColor={"green.500"} borderRadius={"8px"} border={"2px"} borderColor={"green.600"}>
+                <Text>Adding the product was successful.</Text>
+                <Button onClick={() => setIsSuccess(false)} variant="outline" colorScheme="gray">
+                    Add another one
+                </Button>
+            </Box>
         );
     }
 
@@ -63,10 +65,11 @@ export const AddProduct = () => {
             <InfoModal message={error} isError onClose={clearError} title={"Failed!"} />}
             {isLoading && <LoadingSpinner />}
             {!isLoading && !error && <form onSubmit={createProduct}>
-              <ManageProduct selectHandler={selectHandler} inputHandler={inputHandler} />
-              <button disabled={!formState.isValid}>Add product</button>
+              <VStack spacing={4} align="flex-start">
+                <ManageProduct selectHandler={selectHandler} inputHandler={inputHandler} />
+                <Button type="submit" disabled={!formState.isValid} colorScheme="gray" color="var(--dark)">Add product</Button>
+              </VStack>
             </form>}
-
         </>
     );
 };
