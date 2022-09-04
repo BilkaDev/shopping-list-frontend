@@ -1,59 +1,58 @@
-import React, {useState} from 'react';
-import {ManageProduct} from "./ManageProduct";
-import {useForm} from "../../common/hooks/form-hook";
-import {CreateProductRequest, GetProductResponse} from 'interfaces';
-import {useHttpClient} from "../../common/hooks/http-hook";
-import {useDispatch} from "react-redux";
-import {addProductAction} from "../../common/Redux/actions/product";
-
+import React, { useState } from "react";
+import { ManageProduct } from "./ManageProduct";
+import { useForm } from "../../common/hooks/form-hook";
+import { CreateProductRequest, GetProductResponse } from "interfaces";
+import { useHttpClient } from "../../common/hooks/http-hook";
+import { useDispatch } from "react-redux";
+import { addProductAction } from "../../common/Redux/actions/product";
 
 
 export const AddProduct = () => {
-    const [isSuccess,setIsSuccess] = useState(false)
-    const {formState, selectHandler, inputHandler} = useForm({
+    const [isSuccess, setIsSuccess] = useState(false);
+    const { formState, selectHandler, inputHandler } = useForm({
             name: {
                 value: "",
-                isValid: false,
+                isValid: false
             },
             category: {
                 value: 0,
-                isValid: true,
+                isValid: true
             }
         }, false
     );
-    const {isLoading, error, sendRequest, clearError,setError} = useHttpClient();
+    const { isLoading, error, sendRequest, clearError, setError } = useHttpClient();
     const dispatch = useDispatch();
-    const userId = 'user1';
+    const userId = "user1";
 
     const createProduct = async (e: React.FormEvent) => {
         e.preventDefault();
         const newProduct: CreateProductRequest = {
             name: formState.inputs.name.value,
             category: Number(formState.inputs.category.value),
-            userId,
+            userId
         };
-        const res = await sendRequest('/product', 'POST', newProduct, {
-            'Content-Type': 'application/json',
+        const res = await sendRequest("/product", "POST", newProduct, {
+            "Content-Type": "application/json"
         });
         if (!res.isSuccess) {
-            return setError("Dodawanie produktu nie powiodło się, sprawdź nazwe produktu (nazwa nie może się powtarzać)")
+            return setError("Adding a product failed, check the product name (name must not repeat)");
         }
         const newProductWithId: GetProductResponse = {
             ...newProduct,
-            id: res.id,
-        }
-        setIsSuccess(true)
-        dispatch(addProductAction(newProductWithId))
+            id: res.id
+        };
+        setIsSuccess(true);
+        dispatch(addProductAction(newProductWithId));
     };
 
     //@TODO improve text appearance
-    if (isSuccess){
+    if (isSuccess) {
         return (
             <>
-                <p>Dodanie produktu powiodło się.</p>
-                <button onClick={()=>setIsSuccess(false)}>Dodaj kolejny</button>
+                <p>Adding the product was successful.</p>
+                <button onClick={() => setIsSuccess(false)}>Add another one</button>
             </>
-        )
+        );
     }
 
     //@TODO fix the appearance of an error or add a modal
@@ -61,13 +60,13 @@ export const AddProduct = () => {
         <>
             {error && (<>
                     <p>{error}</p>
-                    <button onClick={clearError}>Zamknij</button>
+                    <button onClick={clearError}>Exit</button>
                 </>
             )}
             {isLoading && <p>Loading</p>}
             {!isLoading && !error && <form onSubmit={createProduct}>
-                <ManageProduct selectHandler={selectHandler} inputHandler={inputHandler}/>
-                <button disabled={!formState.isValid}>Dodaj produkt</button>
+              <ManageProduct selectHandler={selectHandler} inputHandler={inputHandler} />
+              <button disabled={!formState.isValid}>Add product</button>
             </form>}
 
         </>
