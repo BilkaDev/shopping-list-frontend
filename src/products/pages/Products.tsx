@@ -1,7 +1,7 @@
-import React from 'react';
-import {ProductsList} from "../components/ProductsList";
-import {AddProduct} from "../components/AddProduct";
-import './Products.css';
+import React from "react";
+import { ProductsList } from "../components/ProductsList";
+import { AddProduct } from "../components/AddProduct";
+import "./Products.css";
 
 export const Products = () => {
 
@@ -11,9 +11,9 @@ export const Products = () => {
     return (
         <div className="Products section">
             <h2>Dodaj produkt</h2>
-            <AddProduct/>
+            <AddProduct />
             <h2>Lista produktów</h2>
-            <ProductsList/>
+            <ProductsList />
         </div>
     );
 };
