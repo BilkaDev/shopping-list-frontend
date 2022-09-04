@@ -5,6 +5,8 @@ import { CreateProductRequest, GetProductResponse } from "interfaces";
 import { useHttpClient } from "../../common/hooks/http-hook";
 import { useDispatch } from "react-redux";
 import { addProductAction } from "../../common/Redux/actions/product";
+import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinner";
+import { InfoModal } from "../../common/components/UiElements/InfoModal";
 
 
 export const AddProduct = () => {
@@ -55,15 +57,11 @@ export const AddProduct = () => {
         );
     }
 
-    //@TODO fix the appearance of an error or add a modal
     return (
         <>
-            {error && (<>
-                    <p>{error}</p>
-                    <button onClick={clearError}>Exit</button>
-                </>
-            )}
-            {isLoading && <p>Loading</p>}
+            {error &&
+            <InfoModal message={error} isError onClose={clearError} title={"Failed!"} />}
+            {isLoading && <LoadingSpinner />}
             {!isLoading && !error && <form onSubmit={createProduct}>
               <ManageProduct selectHandler={selectHandler} inputHandler={inputHandler} />
               <button disabled={!formState.isValid}>Add product</button>
