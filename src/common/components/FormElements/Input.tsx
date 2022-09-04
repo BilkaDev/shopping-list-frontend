@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useReducer } from "react";
-import "./Input.css";
 import { validate, Validator } from "../../utils/validators";
-import { Input as ChakraInput } from "@chakra-ui/react";
+import { FormControl, FormErrorMessage, Input as ChakraInput } from "@chakra-ui/react";
+import "./Input.css";
 
 interface Props {
     label: string;
@@ -42,7 +42,6 @@ export const Input = (props: Props) => {
         placeholder,
         min,
         max,
-        elementName,
         onInput,
         id,
         validators,
@@ -77,16 +76,6 @@ export const Input = (props: Props) => {
         });
     }
 
-    const element1 = <input
-        min={min}
-        max={max}
-        onBlur={touchHandler}
-        onChange={inputChangeHandler}
-        type={type ? "number" : "text"}
-        placeholder={placeholder}
-        value={inputState.value}
-    />;
-
     const element = <ChakraInput
         width="25rem"
         min={min}
@@ -101,9 +90,11 @@ export const Input = (props: Props) => {
         color="#DADADA"
     />;
     return (
-        <label className="Input__label"><p>{label}:</p>
-            {element}
-            {!isValid && isTouch && <p className="Input__error-text">{props.errorText}</p>}
-        </label>
+        <FormControl isInvalid={!isValid && isTouch}>
+            <label className="Input__label"><p>{label}:</p>
+                {element}
+                <FormErrorMessage>{props.errorText}</FormErrorMessage>
+            </label>
+        </FormControl>
     );
 };

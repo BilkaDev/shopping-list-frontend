@@ -1,7 +1,7 @@
-import React from 'react';
-import {Input} from "../../common/components/FormElements/Input";
-import {SelectProductCategory} from "../../common/components/FormElements/SelectProductCategory";
-import {VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH} from "../../common/utils/validators";
+import React from "react";
+import { Input } from "../../common/components/FormElements/Input";
+import { SelectProductCategory } from "../../common/components/FormElements/SelectProductCategory";
+import { VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH } from "../../common/utils/validators";
 
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const ManageProduct = (props: Props) => {
-    const {inputHandler, selectHandler,initialValid,initialValue} = props;
+    const { inputHandler, selectHandler, initialValid, initialValue } = props;
     return (
         <>
             <Input
@@ -25,7 +25,7 @@ export const ManageProduct = (props: Props) => {
                 initialValid={initialValid}
                 initialValue={initialValue?.product}
             />
-            <SelectProductCategory onInput={selectHandler} initialValue={initialValue?.category}/>
+            <SelectProductCategory onInput={selectHandler} initialValue={initialValue?.category} />
         </>
     );
 };
