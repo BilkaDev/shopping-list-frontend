@@ -27,11 +27,11 @@ body {
 }
 
 div#root {
-    background: var(--light-dark);
-
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    background: var(--light-dark);
+    color: var(--white);
 }
 
 header,

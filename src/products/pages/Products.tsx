@@ -2,19 +2,18 @@ import React from "react";
 import { ProductsList } from "../components/ProductsList";
 import { AddProduct } from "../components/AddProduct";
 import "./Products.css";
+import { Box, VStack } from "@chakra-ui/react";
+import { Section } from "../../common/components/UiElements/Section";
 
 export const Products = () => {
 
-
-    //@TODO added error modal
-    //@TODO added loading spinner
     return (
-        <div className="Products section">
-            <h2>Dodaj produkt</h2>
-            <AddProduct />
-            <h2>Lista produktów</h2>
-            <ProductsList />
-        </div>
+            <Section>
+                <h2>Add product</h2>
+                <AddProduct />
+                <h2>Product list</h2>
+                <ProductsList />
+            </Section>
     );
 };
 
