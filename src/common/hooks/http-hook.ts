@@ -42,7 +42,6 @@ export const useHttpClient = () => {
                 const responseData = await response.json();
                 setIsLoading(false);
                 if (!responseData.isSuccess) {
-                    console.log(responseData);
                     setError(responseData.message);
                     return responseData;
                 }
