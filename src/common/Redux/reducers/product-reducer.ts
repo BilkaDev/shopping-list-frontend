@@ -1,13 +1,13 @@
-import {GetProductResponse, ProductListResponse } from "interfaces";
+import {GetProductResponse, ProductInterface } from "interfaces";
 import {ProductAction} from "../action-types/product";
 
 interface ProductState {
-    listProducts: ProductListResponse;
+    listProducts: ProductInterface[];
 }
 
 interface SetProducts {
     type: ProductAction.SET_PRODUCTS;
-    payload: ProductListResponse;
+    payload: ProductInterface[];
 }
 interface AddProduct {
     type: ProductAction.ADD_TO_PRODUCTS;

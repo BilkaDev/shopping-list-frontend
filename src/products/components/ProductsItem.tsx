@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux";
 import { deleteProductAction } from "../../common/Redux/actions/product";
 import { Td, Tr } from "@chakra-ui/react";
 import { ModalChakra } from "../../common/components/UiElements/ModalChakra";
+import { InfoModal } from "../../common/components/UiElements/InfoModal";
+import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinner";
 
 interface Props {
     name: string;
@@ -19,8 +21,6 @@ export const ProductsItem = (props: Props) => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const dispatch = useDispatch();
 
-
-    //@TODO Added error text when delted no complited, and add loading spinner
     async function deleteProduct(id: string) {
         const response = await sendRequest(`/product/${id}`, "DELETE");
         if (response.isSuccess) {
@@ -34,9 +34,12 @@ export const ProductsItem = (props: Props) => {
 
     return (
         <>
+            {error &&
+                <InfoModal message={error} isError onClose={clearError} title={"Failed!"}/>}
+            {isLoading && <LoadingSpinner/>}
             <ModalChakra isOpen={showEditModal} title={`Edit product "${name}"`}
                          onClose={() => setShowEditModal(false)}>
-                <EditProduct productId={id} />
+                <EditProduct productId={id}/>
             </ModalChakra>
             <Tr>
                 <Td>{name}</Td>

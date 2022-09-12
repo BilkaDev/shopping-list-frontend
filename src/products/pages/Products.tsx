@@ -8,9 +8,9 @@ export const Products = () => {
     return (
         <Section>
             <h2>Add product</h2>
-            <AddProduct />
+            <AddProduct/>
             <h2>Product list</h2>
-            <ProductsList />
+            <ProductsList/>
         </Section>
     );
 };

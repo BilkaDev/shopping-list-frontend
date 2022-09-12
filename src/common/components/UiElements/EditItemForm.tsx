@@ -60,7 +60,7 @@ export const EditItemForm = ({ itemId, item, iniitialInputs, element, initialVal
             "Content-Type": "application/json"
         });
         if (!res.isSuccess) {
-            return setError(`Ops. something went wrong.... check the name ${iniitialInputs.name.value} (can't be repeated)`);
+            return setError(res?.message ? `Sorry, please try again later.` : `Ops. something went wrong.... check the name ${iniitialInputs.name.value} (can't be repeated)`);
         }
         setIsSuccess(true);
         if (element === "list") {
@@ -81,29 +81,29 @@ export const EditItemForm = ({ itemId, item, iniitialInputs, element, initialVal
 
     return (
         <>
-            {error && <InfoModal isError message={error} onClose={clearError} title={"Failed!"} />}
+            {error && <InfoModal isError message={error} onClose={clearError} title={"Failed!"}/>}
             {!isLoading && !error &&
-            (<form onSubmit={submitHandler}>
-                {element === "list" && <ManageList
-                  inputHandler={inputHandler}
-                  initialValue={{
-                      name: iniitialInputs.name.value
-                  }}
-                  initialValid={true}
-                />}
-                {!iniitialInputs.category || <ManageProduct
-                  selectHandler={selectHandler}
-                  inputHandler={inputHandler}
-                  initialValue={{
-                      product: iniitialInputs.name.value,
-                      category: iniitialInputs.category.value
-                  }}
-                  initialValid={true}
-                />}
-                <Button disabled={!formState.isValid} type="submit" colorScheme="blue">
-                    Update!
-                </Button>
-            </form>)
+                (<form onSubmit={submitHandler}>
+                    {element === "list" && <ManageList
+                        inputHandler={inputHandler}
+                        initialValue={{
+                            name: iniitialInputs.name.value
+                        }}
+                        initialValid={true}
+                    />}
+                    {!iniitialInputs.category || <ManageProduct
+                        selectHandler={selectHandler}
+                        inputHandler={inputHandler}
+                        initialValue={{
+                            product: iniitialInputs.name.value,
+                            category: iniitialInputs.category.value
+                        }}
+                        initialValid={true}
+                    />}
+                    <Button disabled={!formState.isValid} type="submit" colorScheme="blue">
+                        Update!
+                    </Button>
+                </form>)
             }
         </>
     );

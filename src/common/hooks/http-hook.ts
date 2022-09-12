@@ -40,17 +40,16 @@ export const useHttpClient = () => {
                 });
 
                 const responseData = await response.json();
-                if (!response.ok) {
-                    statusError = responseData;
-                    throw new Error(responseData.message);
-                }
                 setIsLoading(false);
-
+                if (!responseData.isSuccess) {
+                    console.log(responseData);
+                    setError(responseData.message);
+                    return responseData;
+                }
                 return responseData;
             } catch (e: any) {
                 setError(statusError === 500 ? "Sorry, please try again later" : e.message);
                 setIsLoading(false);
-
                 throw e;
             }
         }, []);

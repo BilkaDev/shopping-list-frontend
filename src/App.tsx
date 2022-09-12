@@ -22,7 +22,9 @@ function App() {
     useEffect(() => {
         (async () => {
                 const loadedProducts = await sendRequest(`/product/${userId}`);
-                dispatch(setProductsAction(loadedProducts));
+                if (loadedProducts.isSuccess) {
+                    dispatch(setProductsAction(loadedProducts.products));
+                }
             }
         )();
     }, []);

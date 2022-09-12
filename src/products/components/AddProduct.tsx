@@ -62,13 +62,14 @@ export const AddProduct = () => {
     return (
         <>
             {error &&
-            <InfoModal message={error} isError onClose={clearError} title={"Failed!"} />}
-            {isLoading && <LoadingSpinner />}
+                <InfoModal message={error} isError onClose={clearError} title={"Failed!"}/>}
+            {isLoading && <LoadingSpinner/>}
             {!isLoading && !error && <form onSubmit={createProduct}>
-              <VStack spacing={4} align="flex-start">
-                <ManageProduct selectHandler={selectHandler} inputHandler={inputHandler} />
-                <Button type="submit" disabled={!formState.isValid} colorScheme="gray" color="var(--dark)">Add product</Button>
-              </VStack>
+                <VStack spacing={4} align="flex-start">
+                    <ManageProduct selectHandler={selectHandler} inputHandler={inputHandler}/>
+                    <Button type="submit" disabled={!formState.isValid} colorScheme="gray" color="var(--dark)">Add
+                        product</Button>
+                </VStack>
             </form>}
         </>
     );
