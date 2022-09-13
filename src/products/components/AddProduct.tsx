@@ -7,7 +7,8 @@ import { useDispatch } from "react-redux";
 import { addProductAction } from "../../common/Redux/actions/product";
 import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinner";
 import { InfoModal } from "../../common/components/UiElements/InfoModal";
-import { Box, Button, Text, VStack } from "@chakra-ui/react";
+import { Button, VStack } from "@chakra-ui/react";
+import { SuccessfullyBox } from "../../common/components/UiElements/SuccessfullyBox";
 
 
 export const AddProduct = () => {
@@ -50,12 +51,7 @@ export const AddProduct = () => {
 
     if (isSuccess) {
         return (
-            <Box p={"1rem"} bgColor={"green.500"} borderRadius={"8px"} border={"2px"} borderColor={"green.600"}>
-                <Text>Adding the product was successful.</Text>
-                <Button onClick={() => setIsSuccess(false)} variant="outline" colorScheme="gray">
-                    Add another one
-                </Button>
-            </Box>
+            <SuccessfullyBox text="Adding the product was successful." setIsSuccess={setIsSuccess}/>
         );
     }
 
