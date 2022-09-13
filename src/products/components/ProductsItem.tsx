@@ -8,6 +8,7 @@ import { Td, Tr } from "@chakra-ui/react";
 import { ModalChakra } from "../../common/components/UiElements/ModalChakra";
 import { InfoModal } from "../../common/components/UiElements/InfoModal";
 import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinner";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 
 interface Props {
     name: string;
@@ -45,10 +46,10 @@ export const ProductsItem = (props: Props) => {
                 <Td>{name}</Td>
                 <Td>{ProductCategory[category]}</Td>
                 <Td>
-                    <button onClick={() => deleteProduct(id)}>Delete</button>
+                    <button onClick={() => editProduct()}><EditIcon/></button>
                 </Td>
                 <Td>
-                    <button onClick={() => editProduct()}>Edit</button>
+                    <button onClick={() => deleteProduct(id)}><DeleteIcon/></button>
                 </Td>
             </Tr>
         </>
