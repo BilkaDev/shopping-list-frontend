@@ -3,11 +3,11 @@ import { useDispatch } from "react-redux";
 import { useHttpClient } from "../../../common/hooks/http-hook";
 import { deleteList } from "../../../common/Redux/actions/list";
 import { Link } from "react-router-dom";
-import { Modal } from "../../../common/components/UiElements/Modal";
 import { EditListName } from "./EditListName";
 import { Button, ListItem as ListItemChakra, HStack } from "@chakra-ui/react";
 import { InfoModal } from "../../../common/components/UiElements/InfoModal";
 import { LoadingSpinner } from "../../../common/components/UiElements/LoadingSpinner";
+import { ModalChakra } from "../../../common/components/UiElements/ModalChakra";
 
 
 interface Props {
@@ -29,14 +29,10 @@ export const ListItem = ({ id, name }: Props) => {
 
     return (
         <>
-            {showEditModal &&
-                <Modal header={`Zmień nazwe listy "${name}"`}
-                       onCancel={() => setShowEditModal(false)}
-                       show={showEditModal}
-                       footer={<button onClick={() => setShowEditModal(false)}>Zamknij</button>}
-                >
-                    <EditListName itemId={id}></EditListName>
-                </Modal>}
+            <ModalChakra isOpen={showEditModal} title={`Change list name: "${name}"`}
+                         onClose={() => setShowEditModal(false)}>
+                <EditListName itemId={id}></EditListName>
+            </ModalChakra>
             {error &&
                 <InfoModal message={error} isError onClose={clearError} title={"Failed!"}/>}
             {isLoading && <LoadingSpinner/>}
