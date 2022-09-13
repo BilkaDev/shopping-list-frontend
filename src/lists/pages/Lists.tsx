@@ -1,16 +1,18 @@
-import React, {useEffect} from 'react';
-import './Lists.css'
-import {ListsList} from "../components/List/ListsList";
-import {useHttpClient} from "../../common/hooks/http-hook";
-import {useDispatch} from "react-redux";
-import {setLists} from "../../common/Redux/actions/list";
-import {AddList} from "../components/List/AddList";
+import React, { useEffect } from "react";
+import { ListsList } from "../components/List/ListsList";
+import { useHttpClient } from "../../common/hooks/http-hook";
+import { useDispatch } from "react-redux";
+import { setLists } from "../../common/Redux/actions/list";
+import { AddList } from "../components/List/AddList";
+import { Section } from "../../common/components/UiElements/Section";
+import { InfoModal } from "../../common/components/UiElements/InfoModal";
+import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinner";
 
 export const Lists = () => {
-    const {isLoading, error, sendRequest, clearError} = useHttpClient();
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-    const dispatch = useDispatch()
-    const userId = 'user1';
+    const dispatch = useDispatch();
+    const userId = "user1";
 
     useEffect(() => {
         (async () => {
@@ -20,15 +22,15 @@ export const Lists = () => {
         )();
     }, []);
 
-    //@TODO added error modal
-    //@TODO added loading spinner
-
     return (
-        <div className="Lists section">
-            <h2>Dodaj Liste zakupów</h2>
+        <Section>
+            {error &&
+                <InfoModal message={error} isError onClose={clearError} title={"Failed!"}/>}
+            {isLoading && <LoadingSpinner/>}
+            <h2>Add Shopping List</h2>
             <AddList/>
-            <h2>Twoje Listy zakupów!</h2>
+            <h2>Your Shopping Lists!</h2>
             <ListsList/>
-        </div>
+        </Section>
     );
 };
