@@ -1,6 +1,7 @@
-import React from 'react';
-import {ItemInList} from "./ItemInList";
-import {  GetListResponse } from 'interfaces';
+import React from "react";
+import { ItemInList } from "./ItemInList";
+import { GetListResponse } from "interfaces";
+import { Center, ListItem, Table, TableContainer, Tbody, Text, Th, Thead, Tr } from "@chakra-ui/react";
 
 interface Props {
     categoryName: string;
@@ -8,24 +9,28 @@ interface Props {
     list: GetListResponse;
 }
 
-export const ItemsList = ({categoryName,categoryId,list}: Props) => {
+export const ItemsList = ({ categoryName, categoryId, list }: Props) => {
     return (
-        <li>
-            <h2>{categoryName}</h2>
-            <table>
-                <thead>
-                <tr>
-                    <th>Nazwa</th>
-                    <th>Ilość</th>
-                    <th>Waga</th>
-                    <th>Edycja</th>
-                    <th>Usuń</th>
-                </tr>
-                </thead>
-                <tbody>
-                {list.items.map((item => <ItemInList key={item.id} category={categoryId} item={item}/>))}
-                </tbody>
-            </table>
-        </li>
+        <ListItem>
+            <Center>
+                <Text fontSize="3xl">{categoryName}</Text>
+            </Center>
+            <TableContainer>
+                <Table>
+                    <Thead>
+                        <Tr>
+                            <Th>Name</Th>
+                            <Th>Count</Th>
+                            <Th>Weight</Th>
+                            <Th>Edit</Th>
+                            <Th>Delete</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {list.items.map((item => <ItemInList key={item.id} category={categoryId} item={item}/>))}
+                    </Tbody>
+                </Table>
+            </TableContainer>
+        </ListItem>
     );
 };

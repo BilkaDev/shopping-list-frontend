@@ -10,6 +10,7 @@ import { RootState } from "../../common/Redux/store";
 import { InfoModal } from "../../common/components/UiElements/InfoModal";
 import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinner";
 import { Section } from "../../common/components/UiElements/Section";
+import { UnorderedList } from "@chakra-ui/react";
 
 export const ItemsInList = () => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -42,14 +43,14 @@ export const ItemsInList = () => {
                 <AddItem/>
                 <h2>List {name}</h2>
                 <div>
-                    <ul>
+                    <UnorderedList styleType="none" spacing={6}>
                         {category.map((category, id) => (<ItemsList
                             key={id}
                             categoryId={id}
                             list={list}
                             categoryName={category}
                         />))}
-                    </ul>
+                    </UnorderedList>
                 </div>
             </Section>
         </>
