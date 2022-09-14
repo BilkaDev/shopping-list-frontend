@@ -1,54 +1,107 @@
-import {GetProductResponse} from 'interfaces';
-import React, { useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
-import {RootState} from "../../../common/Redux/store";
-import {SelectProductCategory} from "../../../common/components/FormElements/SelectProductCategory";
+import { GetProductResponse } from "interfaces";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../common/Redux/store";
+import { SelectProductCategory } from "../../../common/components/FormElements/SelectProductCategory";
+import { Box, List, ListIcon, ListItem, Stack, Text } from "@chakra-ui/layout";
 
 
 interface Props {
     name: string;
     product: GetProductResponse | undefined;
     setProduct: (product: GetProductResponse | undefined) => void;
-    onInputHandler: (id: string, value: string, isValid: boolean) => void;
     onSelectHandler: (id: string, value: number, isValid: boolean) => void;
 
 }
 
-export const SearchProduct = ({name, onInputHandler,onSelectHandler,product,setProduct}: Props) => {
-    const [sugestions, setSugestions] = useState<GetProductResponse[]>([]);
-    const {listProducts} = useSelector((store: RootState) => store.products);
+export const SearchProduct = ({ name, onSelectHandler, product, setProduct }: Props) => {
+    const [suggestions, setSuggestions] = useState<GetProductResponse[]>([]);
+    const { listProducts } = useSelector((store: RootState) => store.products);
+
+    function handleClick(event: KeyboardEvent) {
+        let index = suggestions.findIndex(item => item.id === product?.id);
+        if (event.key === "ArrowUp") {
+            event.preventDefault();
+            if (suggestions[index]?.name.toLowerCase() === name.toLowerCase()) {
+                return;
+            } else {
+                setProduct(suggestions[index - 1]);
+
+            }
+        }
+        if (event.key === "ArrowDown") {
+            event.preventDefault();
+            if (index === suggestions.length - 1) {
+                setProduct(suggestions[index]);
+            } else {
+                setProduct(suggestions[index + 1]);
+            }
+        }
+    }
 
     useEffect(() => {
         if (name.length > 1) {
             const regex = new RegExp(`${name}`, "gi");
-            const sugestions = listProducts.filter(product => {
+            const suggestions = listProducts.filter(product => {
                 setProduct(undefined);
-
                 return product.name.match(regex);
-            });
-            if (sugestions[0]?.name.toLowerCase() === name.toLowerCase()) {
-                setProduct(sugestions[0])
+            }).sort((a, b) => (a.name.length - b.name.length));
+            if (suggestions[0]?.name.toLowerCase() === name.toLowerCase()) {
+                setProduct(suggestions[0]);
             }
-            setSugestions(sugestions);
+            setSuggestions(suggestions);
         }
     }, [name]);
 
+    useEffect(() => {
+        document.body.addEventListener("keydown", handleClick);
+        return () => {
+            document.body.removeEventListener("keydown", handleClick);
+        };
+    }, [name, product]);
+
+
     const setProductHandler = (product: GetProductResponse) => {
-        setProduct(product)
+        setProduct(product);
+        document.body.removeEventListener("keydown", handleClick);
     };
 
-
     return (
-        <>
-            <div className="SearchProduct">
-                {sugestions.length > 0 && sugestions.map((sugest, id) => (
-                    <div style={sugest.id=== product?.id ? {backgroundColor:'cadetblue'} : {}} key={id} onClick={()=>setProductHandler(sugest)}>
-                        {sugest.name}
-                    </div>))}
-            </div>
-            {name.length >1
-                && !product
-                && <SelectProductCategory onInput={onSelectHandler} initialValue={0}/>}
-        </>
-    )
-}
+        <Stack>
+            {suggestions.length > 0 && name.length > 1 &&
+                <Box pb={4} mb={4}>
+                    <List
+                        width="250px"
+                        bg="white"
+                        borderRadius="4px"
+                        border={"1px solid rgba(0,0,0,0.1)"}
+                        boxShadow="6px 5px 8px rgba(0,50,30,0.02)"
+                        color="var(--dark)"
+                    >
+                        {suggestions.map((suggest, id) => (
+                            <ListItem
+                                onClick={() => setProductHandler(suggest)}
+                                px={2}
+                                py={1}
+                                borderBottom="1px solid rgba(0,0,0,0.01)"
+                                bg={suggest.id === product?.id ? "#b9b9b9" : "inherit"}
+                                key={id}
+                            >
+                                <Box display="inline-flex" alignItems="center">
+                                    <ListIcon
+                                        color="green.500"
+                                        role="img"
+                                        display="inline"
+                                        aria-label="Selected"
+                                    />
+                                    <Text>{suggest.name}</Text>
+                                </Box>
+                            </ListItem>
+                        ))}
+                    </List>
+                </Box>}
+            {name.length > 1 && !product &&
+                <SelectProductCategory onInput={onSelectHandler} initialValue={0}/>}
+        </Stack>
+    );
+};

@@ -33,7 +33,6 @@ export const AddItem = () => {
     const addItemToListRequest = async (e: React.FormEvent) => {
         e.preventDefault();
 
-
         // Create product if product not found
         let newProduct: GetProductResponse | undefined = undefined;
         let newItem: CreateItemInListRequest | undefined = undefined;
@@ -120,14 +119,14 @@ export const AddItem = () => {
                             errorText="Product name is required (min. 2 characters max. 100)."
                             validators={[VALIDATOR_MINLENGTH(2), VALIDATOR_MAXLENGTH(100)]}
                             onInput={inputHandler}
+                            autoCompleteOff
                         />
-                        <SearchProduct
+                        {formState.inputs.name.value.length > 1 && <SearchProduct
                             product={product}
                             setProduct={setProduct}
-                            onInputHandler={inputHandler}
                             onSelectHandler={selectHandler}
                             name={formState.inputs.name.value}
-                        />
+                        />}
                         <Input
                             label="Count:"
                             id="count"

@@ -16,6 +16,7 @@ interface Props {
     initialValid?: boolean;
     min?: string;
     max?: string;
+    autoCompleteOff?: boolean;
 }
 
 function inputReducer(state: any, action: any) {
@@ -47,7 +48,8 @@ export const Input = (props: Props) => {
         validators,
         initialValid,
         initialValue,
-        type
+        type,
+        autoCompleteOff,
     } = props;
     const [inputState, dispatch] = useReducer(inputReducer, {
         value: initialValue || "",
@@ -80,6 +82,7 @@ export const Input = (props: Props) => {
         width="25rem"
         min={min}
         max={max}
+        autoComplete={autoCompleteOff ? "off" : "on"}
         onBlur={touchHandler}
         onChange={inputChangeHandler}
         type={type ? "number" : "text"}
