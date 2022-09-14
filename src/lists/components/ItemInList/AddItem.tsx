@@ -113,7 +113,7 @@ export const AddItem = () => {
                 <form onSubmit={addItemToListRequest}>
                     <VStack spacing={4} align="flex-start">
                         <Input
-                            label="Name:"
+                            label="Name"
                             id="name"
                             placeholder="Product name"
                             errorText="Product name is required (min. 2 characters max. 100)."
@@ -128,7 +128,7 @@ export const AddItem = () => {
                             name={formState.inputs.name.value}
                         />}
                         <Input
-                            label="Count:"
+                            label="Count"
                             id="count"
                             placeholder="Count:"
                             errorText="Maximum quantity 1000"

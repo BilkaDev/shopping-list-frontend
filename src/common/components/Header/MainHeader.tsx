@@ -14,6 +14,7 @@ export const MainHeader = () => {
                 bg="var(--dark)"
                 color="var(--white)"
                 position="fixed"
+                zIndex="100"
             >
                 <Center>
                     <Flex
