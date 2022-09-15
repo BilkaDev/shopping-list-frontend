@@ -77,13 +77,14 @@ export const AddItem = () => {
             return setError("Adding a product to the list failed.");
         }
 
-        const newItemTEST: GetItemInList = {
+        const newItemToStore: GetItemInList = {
             id: res.id,
             ...newItem,
+            itemInBasket: false,
             product: (product || newProduct) as GetProductResponse,
         };
 
-        dispatch(addItemToList(newItemTEST));
+        dispatch(addItemToList(newItemToStore));
         setIsSuccess(true);
         inputHandler("name", "", false);
     };
