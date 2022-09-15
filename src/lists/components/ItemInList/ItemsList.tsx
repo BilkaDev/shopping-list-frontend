@@ -20,6 +20,7 @@ export const ItemsList = ({ categoryName, categoryId, list }: Props) => {
                     <Thead>
                         <Tr>
                             <Th>Name</Th>
+                            <Th>In Basket</Th>
                             <Th>Count</Th>
                             <Th>Weight</Th>
                             <Th>Edit</Th>

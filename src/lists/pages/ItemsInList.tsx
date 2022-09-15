@@ -3,14 +3,15 @@ import React, { useEffect } from "react";
 import { ItemsList } from "../components/ItemInList/ItemsList";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setItemsInList } from "../../common/Redux/actions/list";
+import { clearBasket, setItemsInList } from "../../common/Redux/actions/list";
 import { useHttpClient } from "../../common/hooks/http-hook";
 import { AddItem } from "../components/ItemInList/AddItem";
 import { RootState } from "../../common/Redux/store";
 import { InfoModal } from "../../common/components/UiElements/InfoModal";
 import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinner";
 import { Section } from "../../common/components/UiElements/Section";
-import { UnorderedList } from "@chakra-ui/react";
+import { Center, Stack, Text, UnorderedList } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
 
 export const ItemsInList = () => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -33,15 +34,30 @@ export const ItemsInList = () => {
         }
     }
 
+    async function clearBasketHandler() {
+        if (id === undefined) {
+            return;
+        }
+        await sendRequest(`/list/clear-basket/${id}`, "PATCH");
+        dispatch(clearBasket(id));
+    }
+
     return (
         <>
             {error &&
                 <InfoModal message={error} isError onClose={clearError} title={"Failed!"}/>}
             {isLoading && <LoadingSpinner/>}
             <Section>
-                <h2>Add product to list</h2>
+                <Center>
+                    <Text fontSize="4xl">Add product to list</Text>
+                </Center>
                 <AddItem/>
-                <h2>List {name}</h2>
+                <Stack paddingTop="1.5rem" direction="row" spacing={20}>
+                    <Text fontSize="4xl">List {name}</Text>
+                    <Text cursor="pointer" alignSelf="center" onClick={clearBasketHandler}>Clear basket <button>
+                        <CloseIcon/></button>
+                    </Text>
+                </Stack>
                 <div>
                     <UnorderedList styleType="none" spacing={6}>
                         {category.map((category, id) => (<ItemsList
