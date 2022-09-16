@@ -22,7 +22,7 @@ export const EditProduct = (props: Props) => {
                 category: { value: product.category, isValid: true },
             }
             }
-            initialValid={true}
+            initialValid={false}
         />
     );
 };

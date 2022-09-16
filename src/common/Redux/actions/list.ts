@@ -1,4 +1,10 @@
-import { CreateListRequest, GetItemInList, GetListResponse, GetListsResponse } from "interfaces";
+import {
+    CreateListRequest,
+    GetItemInList,
+    GetListResponse,
+    GetListsResponse,
+    UpdateItemInListRequest
+} from "interfaces";
 import { ListAction } from "../action-types/list";
 
 export const setLists = (lists: GetListsResponse) => ({
@@ -31,9 +37,9 @@ export const removeItemFromList = (itemId: string) => ({
     type: ListAction.REMOVE_ITEM_FROM_LIST,
     payload: itemId
 });
-export const editItemInList = (id: string, list: CreateListRequest) => ({
+export const editItemInList = (id: string, item: UpdateItemInListRequest) => ({
     type: ListAction.EDIT_ITEM_IN_LIST,
-    payload: { ...list, id }
+    payload: { ...item, id }
 });
 
 export const addItemToBasket = (itemId: string) => ({

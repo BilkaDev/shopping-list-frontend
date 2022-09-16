@@ -6,8 +6,7 @@ import React from "react";
 interface Props {
     inputHandler: (id: string, value: string, isValid: boolean) => void;
     selectHandler: (id: string, value: number, isValid: boolean) => void;
-    initialValue?: { product: string; category: number; };
-    initialValid?: boolean;
+    initialValue: { product: string; category: number; count: number, weight: number};
 }
 
 export const ManageItemInList = (props: Props) => {
@@ -20,7 +19,7 @@ export const ManageItemInList = (props: Props) => {
                 placeholder="Count:"
                 errorText="Maximum quantity 1000"
                 validators={[VALIDATOR_MAX(1000), VALIDATOR_MIN(0)]}
-                initialValue={"0"}
+                initialValue={initialValue.count + ''}
                 initialValid={true}
                 onInput={inputHandler}
                 type="number"
@@ -35,7 +34,7 @@ export const ManageItemInList = (props: Props) => {
                 validators={[VALIDATOR_MAX(1000000), VALIDATOR_MIN(0)]}
                 onInput={inputHandler}
                 initialValid={true}
-                initialValue={"0"}
+                initialValue={initialValue.weight + ''}
                 type="number"
                 min="0"
                 max="1000000"

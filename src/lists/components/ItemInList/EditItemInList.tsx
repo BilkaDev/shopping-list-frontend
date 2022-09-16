@@ -24,7 +24,7 @@ export const EditItemInList = (props: Props) => {
                     weight: { isValid: true, value: item.weight },
                     count: { isValid: true, value: item.count },
                 }}
-                initialValid={true}
+                initialValid={false}
             />
         </>
     );

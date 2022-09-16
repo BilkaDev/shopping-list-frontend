@@ -8,6 +8,7 @@ import {
     ModalHeader,
     ModalOverlay
 } from "@chakra-ui/react";
+import ReactDOM from "react-dom";
 
 interface Props {
     onClose: () => void,
@@ -19,7 +20,8 @@ interface Props {
 export function ModalChakra(props: Props) {
     const { isOpen, onClose, title, children } = props;
 
-    return (
+
+    const content =  (
         <Modal onClose={onClose} isOpen={isOpen} isCentered>
             <ModalOverlay />
             <ModalContent bgColor="var(--light-dark)" color="var(--white)">
@@ -34,4 +36,6 @@ export function ModalChakra(props: Props) {
             </ModalContent>
         </Modal>
     );
+
+    return ReactDOM.createPortal(content,document.getElementById('modal-hook') as HTMLElement)
 }

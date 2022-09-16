@@ -1,4 +1,4 @@
-import {useCallback, useReducer} from "react";
+import { useCallback, useReducer } from "react";
 
 
 type State = {
@@ -6,32 +6,37 @@ type State = {
     isValid: boolean
 }
 
-interface Product  {
+interface Product {
     [key: string]: { value: string | number, isValid: boolean };
+
     name: { value: string, isValid: boolean };
     category: { value: number, isValid: boolean };
 }
-interface List  {
+
+interface List {
     [key: string]: { value: string | number, isValid: boolean };
+
     name: { value: string, isValid: boolean };
-}
-interface ItemInList  {
-    [key: string]: { value: string | number, isValid: boolean };
-    name: { value: string, isValid: boolean };
-    productId: { value: string, isValid: boolean };
-    count: {isValid: boolean, value: number},
-    weight: {isValid: boolean, value: number}
 }
 
-type Action = | { type: 'SELECT_CHANGE'; inputId: string; value: number; isValid: boolean; }
-    | { type: 'INPUT_CHANGE'; inputId: string; value: string; isValid: boolean; }
-    | { type: 'SET_DATA'; inputs: Product | List | ItemInList; formIsValid: boolean; }
+interface ItemInList {
+    [key: string]: { value: string | number, isValid: boolean };
+
+    name: { value: string, isValid: boolean };
+    productId: { value: string, isValid: boolean };
+    count: { isValid: boolean, value: number },
+    weight: { isValid: boolean, value: number }
+}
+
+type Action = | { type: "SELECT_CHANGE"; inputId: string; value: number; isValid: boolean; }
+    | { type: "INPUT_CHANGE"; inputId: string; value: string; isValid: boolean; }
+    | { type: "SET_DATA"; inputs: Product | List | ItemInList; formIsValid: boolean; }
 
 
 enum ActionTypes {
-    SELECT_CHANGE = 'SELECT_CHANGE',
-    INPUT_CHANGE = 'INPUT_CHANGE',
-    SET_DATA = 'SET_DATA',
+    SELECT_CHANGE = "SELECT_CHANGE",
+    INPUT_CHANGE = "INPUT_CHANGE",
+    SET_DATA = "SET_DATA",
 }
 
 const formReducer = (state: State, action: Action): State => {
@@ -41,8 +46,9 @@ const formReducer = (state: State, action: Action): State => {
                 ...state,
                 inputs: {
                     ...state.inputs,
-                    [action.inputId]: {value: action.value, isValid: action.isValid}
-                }
+                    [action.inputId]: { value: action.value, isValid: action.isValid }
+                },
+                isValid: true,
             };
         case ActionTypes.SET_DATA:
             return {
@@ -65,7 +71,7 @@ const formReducer = (state: State, action: Action): State => {
                 ...state,
                 inputs: {
                     ...state.inputs,
-                    [action.inputId]: {value: action.value, isValid: action.isValid}
+                    [action.inputId]: { value: action.value, isValid: action.isValid }
                 },
                 isValid: formIsValid
             };
@@ -101,7 +107,7 @@ export const useForm = (initialInputs: Product | List | ItemInList, InitialFormV
     }, []);
     const setFormData = useCallback((inputData: Product | List | ItemInList, formValidity: boolean) => {
         dispatch({
-            type: 'SET_DATA',
+            type: "SET_DATA",
             inputs: inputData,
             formIsValid: formValidity
         });
