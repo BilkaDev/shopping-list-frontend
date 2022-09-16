@@ -17,7 +17,7 @@ export const Lists = () => {
     useEffect(() => {
         (async () => {
                 const loadedProducts = await sendRequest(`/list/${userId}`);
-                dispatch(setLists(loadedProducts));
+                dispatch(setLists(loadedProducts?.isSuccess === false ? [] : loadedProducts));
             }
         )();
     }, []);
