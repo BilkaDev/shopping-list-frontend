@@ -14,10 +14,6 @@ export const addList = (list: GetListResponse) => ({
     type: ListAction.ADD_TO_LISTS,
     payload: list
 });
-export const addItemToList = (item: GetItemInList) => ({
-    type: ListAction.ADD_ITEM_TO_LIST,
-    payload: item
-});
 export const editListName = (id: string, list: CreateListRequest) => ({
     type: ListAction.EDIT_NAME_LIST,
     payload: { ...list, id }
@@ -26,11 +22,25 @@ export const deleteList = (listId: string) => ({
     type: ListAction.DELETE_LIST,
     payload: listId
 });
+
+export const addItemToList = (item: GetItemInList) => ({
+    type: ListAction.ADD_ITEM_TO_LIST,
+    payload: item
+});
+export const removeItemFromList = (itemId: string) => ({
+    type: ListAction.REMOVE_ITEM_FROM_LIST,
+    payload: itemId
+});
+export const editItemInList = (id: string, list: CreateListRequest) => ({
+    type: ListAction.EDIT_ITEM_IN_LIST,
+    payload: { ...list, id }
+});
+
 export const addItemToBasket = (itemId: string) => ({
     type: ListAction.ADD_ITEM_TO_BASKET,
     payload: itemId
 });
-export const removeFromBasket = (itemId: string) => ({
+export const removeItemFromBasket = (itemId: string) => ({
     type: ListAction.REMOVE_FROM_BASKET,
     payload: itemId
 });

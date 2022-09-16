@@ -21,7 +21,7 @@ export const EditListName = (props: Props) => {
                 element="list"
                 itemId={itemId}
                 item={list}
-                iniitialInputs={{
+                initialInputs={{
                      name: {value: list.listName, isValid: true},
                 }}
                 initialValid={false}

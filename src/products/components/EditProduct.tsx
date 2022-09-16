@@ -17,7 +17,7 @@ export const EditProduct = (props: Props) => {
             element="product"
             itemId={productId}
             item={product}
-            iniitialInputs={{
+            initialInputs={{
                 name: { value: product.name, isValid: true },
                 category: { value: product.category, isValid: true },
             }

@@ -21,19 +21,9 @@ interface SetLists {
     payload: GetListsResponse;
 }
 
-interface SetItemsInList {
-    type: ListAction.SET_ITEMS_IN_LIST;
-    payload: GetListResponse;
-}
-
 interface AddList {
     type: ListAction.ADD_TO_LISTS;
     payload: GetListResponse;
-}
-
-interface AddItemToList {
-    type: ListAction.ADD_ITEM_TO_LIST;
-    payload: GetItemInList;
 }
 
 interface EditList {
@@ -46,10 +36,31 @@ interface DeleteList {
     payload: string;
 }
 
+/*ITEMS IN LIST*/
+interface SetItemsInList {
+    type: ListAction.SET_ITEMS_IN_LIST;
+    payload: GetListResponse;
+}
+
+interface AddItemToList {
+    type: ListAction.ADD_ITEM_TO_LIST;
+    payload: GetItemInList;
+}
+
 /*ITEMS IN BASKET*/
 interface AddItemToBasket {
     type: ListAction.ADD_ITEM_TO_BASKET;
     payload: string;
+}
+
+interface RemoveItemFromList {
+    type: ListAction.REMOVE_ITEM_FROM_LIST;
+    payload: string;
+}
+
+interface EditItemInList {
+    type: ListAction.EDIT_NAME_LIST;
+    payload: GetListResponse;
 }
 
 interface RemoveFromBasket {
@@ -71,7 +82,10 @@ type Action =
     | AddItemToList
     | AddItemToBasket
     | RemoveFromBasket
-    | ClearBasket;
+    | ClearBasket
+    | RemoveItemFromList
+    | EditItemInList
+    ;
 export default (state: ListOfLists = initialState, action: Action) => {
     switch (action.type) {
         case ListAction.SET_LISTS:
@@ -89,14 +103,6 @@ export default (state: ListOfLists = initialState, action: Action) => {
                 ...state,
                 listOfLists: [...state.listOfLists, action.payload]
             };
-        case ListAction.ADD_ITEM_TO_LIST:
-            return {
-                ...state,
-                list: {
-                    ...state.list,
-                    items: [...state.list.items, action.payload]
-                }
-            };
         case ListAction.EDIT_NAME_LIST:
             const newList = state.listOfLists.map(l => {
                 if (l.id === action.payload.id) {
@@ -113,6 +119,23 @@ export default (state: ListOfLists = initialState, action: Action) => {
             return {
                 ...state,
                 listOfLists: list,
+            };
+        case ListAction.ADD_ITEM_TO_LIST:
+            return {
+                ...state,
+                list: {
+                    ...state.list,
+                    items: [...state.list.items, action.payload]
+                }
+            };
+        case ListAction.REMOVE_ITEM_FROM_LIST:
+            const removeItemInList = state.list.items.filter(item => item.id !== action.payload);
+            return {
+                ...state,
+                list: {
+                    ...state.list,
+                    items: removeItemInList,
+                }
             };
         case ListAction.ADD_ITEM_TO_BASKET:
             const items = state.list.items.map(item => {
@@ -149,11 +172,11 @@ export default (state: ListOfLists = initialState, action: Action) => {
                 }
             };
         case ListAction.CLEAR_BASKET:
-            const clearBasket = [...state.list.items].map( item => {
+            const clearBasket = [...state.list.items].map(item => {
                 const newItem = { ...item };
                 newItem.itemInBasket = false;
                 return newItem;
-            })
+            });
             return {
                 ...state,
                 list: {
