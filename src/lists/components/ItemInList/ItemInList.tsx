@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ItemInListInterface } from "interfaces";
 import { DeleteIcon, EditIcon, CheckIcon, CloseIcon } from "@chakra-ui/icons";
-import { Td, Tr, Divider, Stack, Center } from "@chakra-ui/react";
+import { Td, Tr, Center, } from "@chakra-ui/react";
 import { useHttpClient } from "../../../common/hooks/http-hook";
 import { useDispatch } from "react-redux";
 import { addItemToBasket, removeItemFromBasket, removeItemFromList } from "../../../common/Redux/actions/list";
@@ -51,16 +51,21 @@ export const ItemInList = ({ category, item }: Props) => {
         <>
             {error &&
                 <InfoModal message={error} isError onClose={clearError} title={"Failed!"}/>}
-            {inBasket && <Stack position="relative">
-                <Divider position="absolute" top="1.15em" left="10%" right="30%" border="1px"/>
-            </Stack>}
             <ModalChakra isOpen={showEditModal} title={`Edit item "${item.product.name}"`}
                          onClose={() => setShowEditModal(false)}>
                 <EditItemInList itemId={item.id}/>
             </ModalChakra>
             <Tr>
-                <Td cursor="pointer" onClick={!inBasket ? addToBasket : removeFromBasket}>{item.product.name}</Td>
-                <Td>
+                <Td textDecorationLine={!inBasket ? "none" : "line-through"} cursor="pointer"
+                    onClick={!inBasket ? addToBasket : removeFromBasket}>
+                    &nbsp;{item.product.name}&nbsp;
+                </Td>
+                <Td style={{
+                    textDecoration: "line-through",
+                    textDecorationThickness: "2px",
+                    textDecorationColor: "blue",
+                    textDecorationWidth: "200px",
+                }}>
                     <Center>
                         <button>{inBasket ? <CheckIcon onClick={removeFromBasket}/> :
                             <CloseIcon onClick={addToBasket}/>}</button>

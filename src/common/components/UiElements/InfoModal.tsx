@@ -9,6 +9,7 @@ import {
     ModalContent,
     ModalOverlay
 } from "@chakra-ui/react";
+import ReactDOM from "react-dom";
 
 interface Props {
     isError?: boolean;
@@ -19,9 +20,9 @@ interface Props {
 
 export const InfoModal = (props: Props) => {
     const { title, message, onClose, isError } = props;
-    return (
+    const content = (
         <Modal onClose={onClose} isOpen={true} isCentered>
-            <ModalOverlay />
+            <ModalOverlay/>
             <ModalContent borderRadius="8px" borderColor={isError ? "red.200" : "green.200"} p="0.5rem"
                           bgColor={isError ? "red.200" : "green.200"}>
                 <Alert
@@ -33,7 +34,7 @@ export const InfoModal = (props: Props) => {
                     textAlign="center"
                     height="200px"
                 >
-                    <AlertIcon boxSize="40px" mr={0} />
+                    <AlertIcon boxSize="40px" mr={0}/>
                     <AlertTitle mt={4} mb={1} fontSize="lg">
                         {title}
                     </AlertTitle>
@@ -48,4 +49,7 @@ export const InfoModal = (props: Props) => {
             </ModalContent>
         </Modal>
     );
+
+    return ReactDOM.createPortal(content, document.getElementById("modal-hook") as HTMLElement);
+
 };
