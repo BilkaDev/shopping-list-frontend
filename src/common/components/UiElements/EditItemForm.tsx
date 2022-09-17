@@ -5,9 +5,6 @@ import { useHttpClient } from "../../hooks/http-hook";
 import { useForm } from "../../hooks/form-hook";
 import {
     CreateListRequest,
-    GetListResponse,
-    GetProductResponse,
-    ItemInListInterface,
     UpdateProductRequest,
     UpdateItemInListRequest,
 } from "interfaces";
@@ -23,39 +20,45 @@ import { ManageItemInList } from "../../../lists/components/ItemInList/ManageIte
 interface Props {
     element: string;
     itemId: string;
-    item: GetListResponse | GetProductResponse | ItemInListInterface;
     initialValid: boolean,
     initialInputs: {
-        name: {
-            value: string,
-            isValid: boolean,
-        }
-        category?: {
-            value: number,
-            isValid: boolean,
-        }
-        weight?: {
-            value: number,
-            isValid: boolean,
-        }
-        count?: {
-            value: number,
-            isValid: boolean,
-        }
+        name: string,
+        category?: number,
+        weight?: number,
+        count?: number,
     }
 }
 
 
-export const EditItemForm = ({ itemId, item, initialInputs, element, initialValid }: Props) => {
+export const EditItemForm = ({ itemId, initialInputs, element, initialValid }: Props) => {
     const [isSuccess, setIsSuccess] = useState(false);
     const { isLoading, error, sendRequest, clearError, setError } = useHttpClient();
-    const { formState, selectHandler, inputHandler, setFormData } = useForm(initialInputs, false);
+
+    const initialInputsForm = {
+        name: {
+            value: initialInputs.name,
+            isValid: true,
+        },
+        category: {
+            value: initialInputs?.category || 0,
+            isValid: true,
+        },
+        weight: {
+            value: initialInputs?.weight || 0,
+            isValid: true,
+        },
+        count: {
+            value: initialInputs?.count || 0,
+            isValid: true,
+        }
+    };
+    const { formState, selectHandler, inputHandler, setFormData } = useForm(initialInputsForm, false);
     const dispatch = useDispatch();
     //@TODO USERID CHANGEIT
     const userId = "user1";
 
     useEffect(() => {
-        setFormData(initialInputs, initialValid);
+        setFormData(initialInputsForm, initialValid);
         return () => clearError();
     }, [itemId]);
 
@@ -75,7 +78,7 @@ export const EditItemForm = ({ itemId, item, initialInputs, element, initialVali
                     userId
                 };
                 path = `/list/${itemId}`;
-                dispatch(editListName(item.id, editItem as CreateListRequest));
+                dispatch(editListName(itemId, editItem as CreateListRequest));
                 break;
             case "product":
                 path = `/product/${itemId}/${userId}`;
@@ -83,16 +86,16 @@ export const EditItemForm = ({ itemId, item, initialInputs, element, initialVali
                     name: formState.inputs.name.value,
                     category: Number(formState.inputs.category.value)
                 };
-                dispatch(editProductAction(item.id, editItem as UpdateProductRequest));
+                dispatch(editProductAction(itemId, editItem as UpdateProductRequest));
                 break;
             case "itemInList":
                 path = `/list/item/${itemId}`;
                 editItem = {
-                    count:  Number(formState.inputs.count.value),
-                    weight:  Number(formState.inputs.weight.value),
-                    category:  Number(formState.inputs.category.value),
+                    count: Number(formState.inputs.count.value),
+                    weight: Number(formState.inputs.weight.value),
+                    category: Number(formState.inputs.category.value),
                 };
-                dispatch(editItemInList(item.id, editItem as UpdateItemInListRequest));
+                dispatch(editItemInList(itemId, editItem as UpdateItemInListRequest));
                 break;
             default:
                 return;
@@ -101,14 +104,14 @@ export const EditItemForm = ({ itemId, item, initialInputs, element, initialVali
             "Content-Type": "application/json"
         });
         if (!res.isSuccess) {
-            return setError(res?.message ? `Sorry, please try again later.` : `Ops. something went wrong.... check the name ${initialInputs.name.value} (can't be repeated)`);
+            return setError(res?.message ? `Sorry, please try again later.` : `Ops. something went wrong.... check the name ${initialInputs.name} (can't be repeated)`);
         }
         setIsSuccess(true);
     };
     if (isSuccess) {
         return (
             <>
-                <p>Update "{initialInputs.name.value}" is success.</p>
+                <p>Update "{initialInputs.name}" is success.</p>
             </>
         );
     }
@@ -118,10 +121,10 @@ export const EditItemForm = ({ itemId, item, initialInputs, element, initialVali
             {error && <InfoModal isError message={error} onClose={clearError} title={"Failed!"}/>}
             {!isLoading && !error &&
                 (<form onSubmit={submitHandler}>
-                    {element === "list" && <ManageList
+                    {(element === "list" || element === "recipe") && <ManageList
                         inputHandler={inputHandler}
                         initialValue={{
-                            name: initialInputs.name.value
+                            name: initialInputs.name
                         }}
                         initialValid={true}
                     />}
@@ -129,8 +132,8 @@ export const EditItemForm = ({ itemId, item, initialInputs, element, initialVali
                         selectHandler={selectHandler}
                         inputHandler={inputHandler}
                         initialValue={{
-                            product: initialInputs.name.value,
-                            category: initialInputs.category.value
+                            product: initialInputs.name,
+                            category: initialInputs.category
                         }}
                         initialValid={true}
                     />}
@@ -138,10 +141,10 @@ export const EditItemForm = ({ itemId, item, initialInputs, element, initialVali
                         selectHandler={selectHandler}
                         inputHandler={inputHandler}
                         initialValue={{
-                            product: initialInputs.name.value,
-                            category: initialInputs.category.value,
-                            count: initialInputs?.count?.value || 0,
-                            weight: initialInputs?.weight?.value || 0,
+                            product: initialInputs.name,
+                            category: initialInputs.category,
+                            count: initialInputs?.count || 0,
+                            weight: initialInputs?.weight || 0,
                         }}
                     />}
                     <Button disabled={!formState.isValid} type="submit" colorScheme="blue">

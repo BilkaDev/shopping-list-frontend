@@ -3,12 +3,12 @@ import { useDispatch } from "react-redux";
 import { useHttpClient } from "../../../common/hooks/http-hook";
 import { deleteList } from "../../../common/Redux/actions/list";
 import { Link } from "react-router-dom";
-import { EditListName } from "./EditListName";
 import { Tr, Td } from "@chakra-ui/react";
 import { InfoModal } from "../../../common/components/UiElements/InfoModal";
 import { LoadingSpinner } from "../../../common/components/UiElements/LoadingSpinner";
 import { ModalChakra } from "../../../common/components/UiElements/ModalChakra";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { EditItemForm } from "../../../common/components/UiElements/EditItemForm";
 
 
 interface Props {
@@ -32,7 +32,12 @@ export const ListItem = ({ id, name }: Props) => {
         <>
             <ModalChakra isOpen={showEditModal} title={`Change list name: "${name}"`}
                          onClose={() => setShowEditModal(false)}>
-                <EditListName itemId={id}></EditListName>
+                <EditItemForm
+                    element="list"
+                    itemId={id}
+                    initialInputs={{ name }}
+                    initialValid={false}
+                />
             </ModalChakra>
             {error &&
                 <InfoModal message={error} isError onClose={clearError} title={"Failed!"}/>}

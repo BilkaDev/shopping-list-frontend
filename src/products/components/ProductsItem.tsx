@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useHttpClient } from "../../common/hooks/http-hook";
 import { ProductCategory } from "interfaces";
-import { EditProduct } from "./EditProduct";
 import { useDispatch } from "react-redux";
 import { deleteProductAction } from "../../common/Redux/actions/product";
 import { Td, Tr } from "@chakra-ui/react";
@@ -9,6 +8,7 @@ import { ModalChakra } from "../../common/components/UiElements/ModalChakra";
 import { InfoModal } from "../../common/components/UiElements/InfoModal";
 import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinner";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { EditItemForm } from "../../common/components/UiElements/EditItemForm";
 
 interface Props {
     name: string;
@@ -40,7 +40,16 @@ export const ProductsItem = (props: Props) => {
             {isLoading && <LoadingSpinner/>}
             <ModalChakra isOpen={showEditModal} title={`Edit product "${name}"`}
                          onClose={() => setShowEditModal(false)}>
-                <EditProduct productId={id}/>
+                <EditItemForm
+                    element="product"
+                    itemId={id}
+                    initialInputs={{
+                        name,
+                        category,
+
+                    }}
+                    initialValid={false}
+                />
             </ModalChakra>
             <Tr>
                 <Td>{name}</Td>

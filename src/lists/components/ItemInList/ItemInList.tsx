@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { addItemToBasket, removeItemFromBasket, removeItemFromList } from "../../../common/Redux/actions/list";
 import { InfoModal } from "../../../common/components/UiElements/InfoModal";
 import { ModalChakra } from "../../../common/components/UiElements/ModalChakra";
-import { EditItemInList } from "./EditItemInList";
+import { EditItemForm } from "../../../common/components/UiElements/EditItemForm";
 
 
 interface Props {
@@ -53,7 +53,17 @@ export const ItemInList = ({ category, item }: Props) => {
                 <InfoModal message={error} isError onClose={clearError} title={"Failed!"}/>}
             <ModalChakra isOpen={showEditModal} title={`Edit item "${item.product.name}"`}
                          onClose={() => setShowEditModal(false)}>
-                <EditItemInList itemId={item.id}/>
+                <EditItemForm
+                    element="itemInList"
+                    itemId={item.id}
+                    initialInputs={{
+                        name: item.product.name,
+                        category: item.product.category,
+                        weight: item.weight,
+                        count: item.count,
+                }}
+                    initialValid={false}
+                />
             </ModalChakra>
             <Tr>
                 <Td textDecorationLine={!inBasket ? "none" : "line-through"} cursor="pointer"
