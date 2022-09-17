@@ -1,4 +1,4 @@
-import { EditRecipeRequest, RecipeInterface } from "interfaces";
+import { EditRecipeRequest, GetItemInList, RecipeInterface } from "interfaces";
 import { RecipeAction } from "../action-types/recipe";
 
 export const setRecipesAction = (recipes: RecipeInterface[]) => ({
@@ -24,4 +24,8 @@ export const editRecipeAction = (recipe: EditRecipeRequest) => ({
 export const deleteItemInRecipeAction = (id: string, recipeId: string) => ({
     type: RecipeAction.DELETE_ITEM_IN_RECIPE,
     payload: { id, recipeId },
+});
+export const addItemToRecipeAction = (item: GetItemInList) => ({
+    type: RecipeAction.ADD_ITEM_TO_RECIPE,
+    payload: item
 });

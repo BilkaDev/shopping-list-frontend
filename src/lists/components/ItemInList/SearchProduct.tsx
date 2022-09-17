@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../common/Redux/store";
 import { SelectProductCategory } from "../../../common/components/FormElements/SelectProductCategory";
 import { Box, List, ListIcon, ListItem, Stack, Text } from "@chakra-ui/layout";
+import { CheckCircleIcon } from "@chakra-ui/icons";
 
 
 interface Props {
@@ -65,7 +66,6 @@ export const SearchProduct = ({ name, onSelectHandler, product, setProduct }: Pr
         setProduct(product);
         document.body.removeEventListener("keydown", handleClick);
     };
-
     return (
         <Stack>
             {suggestions.length > 0 && name.length > 1 &&
@@ -89,6 +89,7 @@ export const SearchProduct = ({ name, onSelectHandler, product, setProduct }: Pr
                             >
                                 <Box display="inline-flex" alignItems="center">
                                     <ListIcon
+                                        as={suggest.id === product?.id ? CheckCircleIcon : undefined}
                                         color="green.500"
                                         role="img"
                                         display="inline"

@@ -13,6 +13,7 @@ import { Button, VStack } from "@chakra-ui/react";
 import { InfoModal } from "../../../common/components/UiElements/InfoModal";
 import { LoadingSpinner } from "../../../common/components/UiElements/LoadingSpinner";
 import { SuccessfullyBox } from "../../../common/components/UiElements/SuccessfullyBox";
+import { addItemToRecipeAction } from "../../../common/Redux/actions/Recipe";
 
 
 interface Props {
@@ -69,11 +70,11 @@ export const AddItem = ({ isRecipe }: Props) => {
                 itemId: product.id,
                 count: Number(formState.inputs.count.value),
                 weight: Number(formState.inputs.weight.value),
-                listId: id,
+                listId: isRecipe ? undefined : id,
+                recipeId: isRecipe ? id : undefined,
             };
         }
 
-        console.log(newItem);
         const res: any = await sendRequest("/list/item", "POST", newItem, {
             "Content-Type": "application/json",
         });
@@ -86,10 +87,11 @@ export const AddItem = ({ isRecipe }: Props) => {
             id: res.id,
             ...newItem,
             itemInBasket: false,
+            recipeId: isRecipe ? id : undefined,
             product: (product || newProduct) as GetProductResponse,
         };
 
-        dispatch(addItemToList(newItemToStore));
+        isRecipe ? dispatch(addItemToRecipeAction(newItemToStore)) : dispatch(addItemToList(newItemToStore));
         setIsSuccess(true);
         inputHandler("name", "", false);
     };

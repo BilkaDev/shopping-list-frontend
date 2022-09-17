@@ -1,4 +1,4 @@
-import { EditRecipeRequest, RecipeInterface } from "interfaces";
+import { EditRecipeRequest, GetItemInList, RecipeInterface } from "interfaces";
 import { RecipeAction } from "../action-types/recipe";
 
 
@@ -36,6 +36,11 @@ interface DeleteItemInRecipe {
     payload: { id: string, recipeId: string };
 }
 
+interface AddItemToList {
+    type: RecipeAction.ADD_ITEM_TO_RECIPE;
+    payload: GetItemInList;
+}
+
 const initialState: RecipesState = {
     recipes: [],
 };
@@ -47,6 +52,7 @@ type Action =
     | EditRecipe
     | SetItemInRecipes
     | DeleteItemInRecipe
+    | AddItemToList
 
 export default (state = initialState, action: Action) => {
     switch (action.type) {
@@ -79,6 +85,21 @@ export default (state = initialState, action: Action) => {
             return {
                 ...state,
                 recipes: deleteRecipe
+            };
+        case RecipeAction.ADD_ITEM_TO_RECIPE:
+            const addItemToRecipe = state.recipes
+                .map(recipe => {
+                    if (recipe.id === action.payload.recipeId) {
+                        const items = [...recipe.items, action.payload]
+                        return {
+                            ...recipe,
+                            items,
+                        };
+                    } else return recipe;
+                });
+            return {
+                ...state,
+                recipes: addItemToRecipe
             };
         case RecipeAction.DELETE_ITEM_IN_RECIPE:
             const deleteItemInRecipe = state.recipes
