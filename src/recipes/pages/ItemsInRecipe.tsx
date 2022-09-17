@@ -50,9 +50,9 @@ export const ItemsInRecipe = () => {
             {isLoading && <LoadingSpinner/>}
             <Section>
                 <Center>
-                    <Text fontSize="4xl">Add product to list</Text>
+                    <Text fontSize="4xl">Add product to recipe</Text>
                 </Center>
-                <AddItem/>
+                <AddItem isRecipe/>
                 <Center paddingTop="1.5rem">
                     <Text fontSize="4xl">Recipe {name}</Text>
                 </Center>

@@ -34,7 +34,7 @@ export const AddRecipe = () => {
             "Content-Type": "application/json",
         });
         if (!res.isSuccess) {
-            return setError("Adding the list failed, check the recipe name (the name must not repeat)");
+            return setError("Adding the recipe failed, check the recipe name (the name must not repeat)");
         }
         dispatch(addRecipeAction(
             {

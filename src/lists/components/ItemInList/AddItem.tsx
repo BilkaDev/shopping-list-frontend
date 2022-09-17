@@ -15,7 +15,11 @@ import { LoadingSpinner } from "../../../common/components/UiElements/LoadingSpi
 import { SuccessfullyBox } from "../../../common/components/UiElements/SuccessfullyBox";
 
 
-export const AddItem = () => {
+interface Props {
+    isRecipe?: boolean;
+}
+
+export const AddItem = ({ isRecipe }: Props) => {
     const [isSuccess, setIsSuccess] = useState(false);
     const { formState, inputHandler, setFormData, selectHandler } = useForm({
             name: { isValid: false, value: "" },
@@ -57,7 +61,8 @@ export const AddItem = () => {
                 itemId: resProduct.id,
                 count: Number(formState.inputs.count.value),
                 weight: Number(formState.inputs.weight.value),
-                listId: id,
+                listId: isRecipe ? undefined : id,
+                recipeId: isRecipe ? id : undefined,
             };
         } else {
             newItem = {
@@ -68,7 +73,7 @@ export const AddItem = () => {
             };
         }
 
-
+        console.log(newItem);
         const res: any = await sendRequest("/list/item", "POST", newItem, {
             "Content-Type": "application/json",
         });
