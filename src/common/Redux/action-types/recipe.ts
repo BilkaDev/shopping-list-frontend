@@ -1,0 +1,6 @@
+export enum RecipeAction {
+    SET_RECIPES = "SET_RECIPES",
+    ADD_RECIPE = "ADD_RECIPE",
+    EDIT_RECIPE = "EDIT_RECIPE",
+    DELETE_RECIPE = "DELETE_RECIPE",
+}

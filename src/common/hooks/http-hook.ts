@@ -1,13 +1,14 @@
-import {useCallback, useState} from "react";
+import { useCallback, useState } from "react";
 import {
     CreateItemInListRequest,
     CreateListRequest,
     CreateProductRequest,
     UpdateProductRequest,
     LoginRequest,
-    UpdateItemInListRequest
+    UpdateItemInListRequest,
+    AddRecipeRequest
 } from "interfaces";
-import {apiUrl} from "../../config/api";
+import { apiUrl } from "../../config/api";
 
 export type ReqBody = (
     | LoginRequest
@@ -17,6 +18,7 @@ export type ReqBody = (
     | CreateListRequest
     | CreateItemInListRequest
     | UpdateItemInListRequest
+    | AddRecipeRequest
     | null
     )
 
@@ -38,7 +40,7 @@ export const useHttpClient = () => {
                 const response = await fetch(`${apiUrl}${url}`, {
                     method,
                     headers,
-                    body: body && {body: body instanceof FormData ? body : JSON.stringify(body)}.body,
+                    body: body && { body: body instanceof FormData ? body : JSON.stringify(body) }.body,
                 });
 
                 const responseData = await response.json();
@@ -57,5 +59,5 @@ export const useHttpClient = () => {
     const clearError = () => {
         setError(null);
     };
-    return {isLoading, error, sendRequest, setError, clearError};
+    return { isLoading, error, sendRequest, setError, clearError };
 };

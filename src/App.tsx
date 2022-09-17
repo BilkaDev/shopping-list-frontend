@@ -12,6 +12,7 @@ import { useHttpClient } from "./common/hooks/http-hook";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Auth } from "./auth/pages/Auth";
 import { InfoModal } from "./common/components/UiElements/InfoModal";
+import { Recipes } from "./recipes/pages/Recipes";
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
             <Route path="/product" element={<Products/>}/>
             <Route path="/list" element={<Lists/>}/>
             <Route path="/list/:id/:name" element={<ItemsInList/>}/>
+            <Route path="/recipe" element={<Recipes/>}/>
         </>);
     }
     return (
@@ -57,3 +59,4 @@ function App() {
 }
 
 export default App;
+
