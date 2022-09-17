@@ -31,7 +31,7 @@ export const AddList = () => {
             "Content-Type": "application/json",
         });
         if (!res.isSuccess) {
-            return setError("Adding the list failed, check the product name (the name must not repeat)");
+            return setError("Adding the list failed, check the recipe name (the name must not repeat)");
         }
         const newListWithId: GetListResponse = {
             id: res.id,

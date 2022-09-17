@@ -7,6 +7,7 @@ import {
     CreateListRequest,
     UpdateProductRequest,
     UpdateItemInListRequest,
+    EditRecipeRequest,
 } from "interfaces";
 import { editItemInList, editListName } from "../../Redux/actions/list";
 import { ManageList } from "../../../lists/components/List/ManageList";
@@ -15,6 +16,7 @@ import { ManageProduct } from "../../../products/components/ManageProduct";
 import { Button } from "@chakra-ui/react";
 import { InfoModal } from "./InfoModal";
 import { ManageItemInList } from "../../../lists/components/ItemInList/ManageItemInList";
+import { editRecipeAction } from "../../Redux/actions/Recipe";
 
 
 interface Props {
@@ -68,6 +70,7 @@ export const EditItemForm = ({ itemId, initialInputs, element, initialValid }: P
             | CreateListRequest
             | UpdateProductRequest
             | UpdateItemInListRequest
+            | EditRecipeRequest
             | undefined = undefined;
         let path = "";
 
@@ -79,6 +82,14 @@ export const EditItemForm = ({ itemId, initialInputs, element, initialValid }: P
                 };
                 path = `/list/${itemId}`;
                 dispatch(editListName(itemId, editItem as CreateListRequest));
+                break;
+            case "recipe":
+                editItem = {
+                    name: formState.inputs.name.value,
+                    id: itemId,
+                };
+                path = `/recipe/edit`;
+                dispatch(editRecipeAction(editItem as EditRecipeRequest));
                 break;
             case "product":
                 path = `/product/${itemId}/${userId}`;

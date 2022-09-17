@@ -6,7 +6,8 @@ import {
     UpdateProductRequest,
     LoginRequest,
     UpdateItemInListRequest,
-    AddRecipeRequest
+    AddRecipeRequest,
+    EditRecipeRequest
 } from "interfaces";
 import { apiUrl } from "../../config/api";
 
@@ -19,6 +20,7 @@ export type ReqBody = (
     | CreateItemInListRequest
     | UpdateItemInListRequest
     | AddRecipeRequest
+    | EditRecipeRequest
     | null
     )
 
