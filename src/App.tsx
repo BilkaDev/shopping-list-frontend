@@ -13,6 +13,8 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Auth } from "./auth/pages/Auth";
 import { InfoModal } from "./common/components/UiElements/InfoModal";
 import { Recipes } from "./recipes/pages/Recipes";
+import { ItemsInRecipe } from "./recipes/pages/ItemsInRecipe";
+import { setRecipesAction } from "./common/Redux/actions/Recipe";
 
 function App() {
 
@@ -23,6 +25,8 @@ function App() {
 
     useEffect(() => {
         (async () => {
+                const loadedRecipes = await sendRequest(`/recipe/${userId}`);
+                dispatch(setRecipesAction(loadedRecipes?.isSuccess === false ? [] : loadedRecipes));
                 const loadedProducts = await sendRequest(`/product/${userId}`);
                 if (loadedProducts.isSuccess) {
                     dispatch(setProductsAction(loadedProducts.products));
@@ -41,6 +45,7 @@ function App() {
             <Route path="/list" element={<Lists/>}/>
             <Route path="/list/:id/:name" element={<ItemsInList/>}/>
             <Route path="/recipe" element={<Recipes/>}/>
+            <Route path="/recipe/:id/:name" element={<ItemsInRecipe/>}/>
         </>);
     }
     return (

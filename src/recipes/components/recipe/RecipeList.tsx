@@ -1,6 +1,6 @@
 import {  Table, TableContainer, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../common/Redux/store";
+import { RootState } from "../../../common/Redux/store";
 import { RecipeItem } from "./RecipeItem";
 
 

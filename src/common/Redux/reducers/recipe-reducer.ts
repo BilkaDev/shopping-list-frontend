@@ -11,6 +11,11 @@ interface SetRecipes {
     payload: RecipeInterface[];
 }
 
+interface SetItemInRecipes {
+    type: RecipeAction.SET_ITEM_IN_RECIPES;
+    payload: RecipeInterface;
+}
+
 interface AddRecipe {
     type: RecipeAction.ADD_RECIPE;
     payload: RecipeInterface;
@@ -26,6 +31,11 @@ interface EditRecipe {
     payload: EditRecipeRequest;
 }
 
+interface DeleteItemInRecipe {
+    type: RecipeAction.DELETE_ITEM_IN_RECIPE;
+    payload: { id: string, recipeId: string };
+}
+
 const initialState: RecipesState = {
     recipes: [],
 };
@@ -35,6 +45,8 @@ type Action =
     | AddRecipe
     | DeleteRecipe
     | EditRecipe
+    | SetItemInRecipes
+    | DeleteItemInRecipe
 
 export default (state = initialState, action: Action) => {
     switch (action.type) {
@@ -42,6 +54,19 @@ export default (state = initialState, action: Action) => {
             return {
                 ...state,
                 recipes: action.payload,
+            };
+        case RecipeAction.SET_ITEM_IN_RECIPES:
+            const setItem = state.recipes.length > 0 ?
+                state.recipes.map(recipe => {
+                    if (recipe.id === action.payload.id) {
+                        return action.payload;
+                    } else return recipe;
+                })
+                : [action.payload];
+            return {
+                ...state,
+                recipes: setItem,
+
             };
         case RecipeAction.ADD_RECIPE:
             const setRecipes = [...state.recipes, action.payload];
@@ -55,12 +80,27 @@ export default (state = initialState, action: Action) => {
                 ...state,
                 recipes: deleteRecipe
             };
+        case RecipeAction.DELETE_ITEM_IN_RECIPE:
+            const deleteItemInRecipe = state.recipes
+                .map(recipe => {
+                    if (recipe.id === action.payload.recipeId) {
+                        const items = recipe?.items?.filter(item => item.id !== action.payload.id);
+                        return {
+                            ...recipe,
+                            items,
+                        };
+                    } else return recipe;
+                });
+            return {
+                ...state,
+                recipes: deleteItemInRecipe
+            };
         case RecipeAction.EDIT_RECIPE:
             const editRecipe = state.recipes.map(recipe => {
                 if (recipe.id === action.payload.id) {
                     return {
                         ...recipe,
-                        ...action.payload ,
+                        ...action.payload,
                     };
                 } else return recipe;
             });

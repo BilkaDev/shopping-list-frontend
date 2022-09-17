@@ -1,6 +1,6 @@
 import React from "react";
-import { VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH } from "../../common/utils/validators";
-import { Input } from "../../common/components/FormElements/Input";
+import { VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH } from "../../../common/utils/validators";
+import { Input } from "../../../common/components/FormElements/Input";
 
 
 
