@@ -16,12 +16,13 @@ import { ManageProduct } from "../../../products/components/ManageProduct";
 import { Button } from "@chakra-ui/react";
 import { InfoModal } from "./InfoModal";
 import { ManageItemInList } from "../../../lists/components/ItemInList/ManageItemInList";
-import { editRecipeAction } from "../../Redux/actions/Recipe";
+import { editItemInRecipeAction, editRecipeAction } from "../../Redux/actions/Recipe";
 
 
 interface Props {
     element: string;
     itemId: string;
+    recipeId?: string;
     initialValid: boolean,
     initialInputs: {
         name: string,
@@ -32,7 +33,7 @@ interface Props {
 }
 
 
-export const EditItemForm = ({ itemId, initialInputs, element, initialValid }: Props) => {
+export const EditItemForm = ({ itemId, initialInputs, element, initialValid, recipeId }: Props) => {
     const [isSuccess, setIsSuccess] = useState(false);
     const { isLoading, error, sendRequest, clearError, setError } = useHttpClient();
 
@@ -108,6 +109,15 @@ export const EditItemForm = ({ itemId, initialInputs, element, initialValid }: P
                 };
                 dispatch(editItemInList(itemId, editItem as UpdateItemInListRequest));
                 break;
+            case "itemInRecipe":
+                path = `/list/item/${itemId}`;
+                editItem = {
+                    count: Number(formState.inputs.count.value),
+                    weight: Number(formState.inputs.weight.value),
+                    category: Number(formState.inputs.category.value),
+                };
+                dispatch(editItemInRecipeAction(itemId, recipeId as string, editItem as UpdateItemInListRequest));
+                break;
             default:
                 return;
         }
@@ -148,16 +158,17 @@ export const EditItemForm = ({ itemId, initialInputs, element, initialValid }: P
                         }}
                         initialValid={true}
                     />}
-                    {element === "itemInList" && initialInputs.category !== undefined && <ManageItemInList
-                        selectHandler={selectHandler}
-                        inputHandler={inputHandler}
-                        initialValue={{
-                            product: initialInputs.name,
-                            category: initialInputs.category,
-                            count: initialInputs?.count || 0,
-                            weight: initialInputs?.weight || 0,
-                        }}
-                    />}
+                    {(element === "itemInList" || element === "itemInRecipe") && initialInputs.category !== undefined &&
+                        <ManageItemInList
+                            selectHandler={selectHandler}
+                            inputHandler={inputHandler}
+                            initialValue={{
+                                product: initialInputs.name,
+                                category: initialInputs.category,
+                                count: initialInputs?.count || 0,
+                                weight: initialInputs?.weight || 0,
+                            }}
+                        />}
                     <Button disabled={!formState.isValid} type="submit" colorScheme="blue">
                         Update!
                     </Button>

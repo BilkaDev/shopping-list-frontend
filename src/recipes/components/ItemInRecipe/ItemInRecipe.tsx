@@ -38,9 +38,10 @@ export const ItemInRecipe = ({ category, item, recipeId }: Props) => {
             <ModalChakra isOpen={showEditModal} title={`Edit item "${item.product.name}"`}
                          onClose={() => setShowEditModal(false)}>
                 <EditItemForm
-                    element="itemInList"
+                    element="itemInRecipe"
                     itemId={item.id}
-                    initialInputs={{
+                    recipeId={recipeId}
+                initialInputs={{
                         name: item.product.name,
                         category: item.product.category,
                         weight: item.weight,

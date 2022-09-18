@@ -1,6 +1,5 @@
-import { EditRecipeRequest, GetItemInList, RecipeInterface } from "interfaces";
+import { EditRecipeRequest, GetItemInList, RecipeInterface, UpdateItemInListRequest } from "interfaces";
 import { RecipeAction } from "../action-types/recipe";
-
 
 interface RecipesState {
     recipes: RecipeInterface[];
@@ -36,7 +35,18 @@ interface DeleteItemInRecipe {
     payload: { id: string, recipeId: string };
 }
 
-interface AddItemToList {
+interface EditItemInRecipePayload extends UpdateItemInListRequest {
+    id: string;
+    recipeId: string;
+    category: number;
+}
+
+interface EditItemInRecipe {
+    type: RecipeAction.EDIT_ITEM_IN_RECIPE;
+    payload: EditItemInRecipePayload;
+}
+
+interface AddItemToRecipe {
     type: RecipeAction.ADD_ITEM_TO_RECIPE;
     payload: GetItemInList;
 }
@@ -52,7 +62,8 @@ type Action =
     | EditRecipe
     | SetItemInRecipes
     | DeleteItemInRecipe
-    | AddItemToList
+    | AddItemToRecipe
+    | EditItemInRecipe
 
 export default (state = initialState, action: Action) => {
     switch (action.type) {
@@ -90,7 +101,7 @@ export default (state = initialState, action: Action) => {
             const addItemToRecipe = state.recipes
                 .map(recipe => {
                     if (recipe.id === action.payload.recipeId) {
-                        const items = [...recipe.items, action.payload]
+                        const items = [...recipe.items, action.payload];
                         return {
                             ...recipe,
                             items,
@@ -115,6 +126,34 @@ export default (state = initialState, action: Action) => {
             return {
                 ...state,
                 recipes: deleteItemInRecipe
+            };
+        case RecipeAction.EDIT_ITEM_IN_RECIPE:
+            const { count, weight, category, id, recipeId } = action.payload;
+            const editItemInList = state.recipes
+                .map(recipe => {
+                    if (recipe.id === recipeId) {
+                        const items = recipe.items.map(item => {
+                            if (item.id === id) {
+                                return {
+                                    ...item,
+                                    count,
+                                    weight,
+                                    product: {
+                                        ...item.product,
+                                        category,
+                                    }
+                                };
+                            } else return item;
+                        });
+                        return {
+                            ...recipe,
+                            items
+                        };
+                    } else return recipe;
+                });
+            return {
+                ...state,
+                recipes: editItemInList
             };
         case RecipeAction.EDIT_RECIPE:
             const editRecipe = state.recipes.map(recipe => {
