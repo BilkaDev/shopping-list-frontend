@@ -8,7 +8,7 @@ import {
     AccordionItem, AccordionPanel, Box,
     Center,
     Text,
-    UnorderedList
+    UnorderedList,
 } from "@chakra-ui/react";
 import { useHttpClient } from "../../common/hooks/http-hook";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +19,7 @@ import { ProductCategory } from "interfaces";
 import { setItemInRecipesAction } from "../../common/Redux/actions/Recipe";
 import { ItemsListRecipe } from "../components/ItemInRecipe/ItemsListRecipe";
 import { RootState } from "../../common/Redux/store";
+import { DescriptionManage } from "../components/ItemInRecipe/DescriptionManage";
 
 export const ItemsInRecipe = () => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -65,7 +66,12 @@ export const ItemsInRecipe = () => {
                             <AccordionIcon/>
                         </AccordionButton>
                         <AccordionPanel pb={4}>
-                            {recipe?.description || "No description"}
+                            <DescriptionManage show={!recipe?.description} id={id as string}/>
+                            {!!recipe?.description &&
+                                <Text>
+                                    Idz do lodówki sprawdz czy są jajka.
+                                    jak nie ma to się podrpa po worze i zamknij lodówke.
+                                </Text>}
                         </AccordionPanel>
                     </AccordionItem>
                 </Accordion>
