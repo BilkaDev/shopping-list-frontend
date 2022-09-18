@@ -5,14 +5,14 @@ import {
     Accordion,
     AccordionButton,
     AccordionIcon,
-    AccordionItem, AccordionPanel, Box,
+    AccordionItem, AccordionPanel, Box, Button,
     Center,
     Text,
-    UnorderedList,
+    UnorderedList, VStack,
 } from "@chakra-ui/react";
 import { useHttpClient } from "../../common/hooks/http-hook";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AddItem } from "../../lists/components/ItemInList/AddItem";
 import { useParams } from "react-router-dom";
 import { ProductCategory } from "interfaces";
@@ -22,13 +22,15 @@ import { RootState } from "../../common/Redux/store";
 import { DescriptionManage } from "../components/ItemInRecipe/DescriptionManage";
 
 export const ItemsInRecipe = () => {
-    const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const { id, name } = useParams();
+    const { recipes } = useSelector((store: RootState) => store.recipes);
+    const recipe = recipes.filter(recipe => recipe.id === id)[0];
+    const [showEditDescription, setShowEditDescription] = useState(false);
+
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const dispatch = useDispatch();
     const entries = Object.entries(ProductCategory);
     const category = [];
-    const { recipes } = useSelector((store: RootState) => store.recipes);
-
     useEffect(() => {
         (async () => {
             const recipe = await sendRequest(`/recipe/user/${id}`);
@@ -36,7 +38,6 @@ export const ItemsInRecipe = () => {
         })();
     }, [id]);
 
-    const recipe = recipes.filter(recipe => recipe.id === id)[0];
 
     for (const key of entries) {
         if (typeof key[1] === "number") {
@@ -66,12 +67,19 @@ export const ItemsInRecipe = () => {
                             <AccordionIcon/>
                         </AccordionButton>
                         <AccordionPanel pb={4}>
-                            <DescriptionManage show={!recipe?.description} id={id as string}/>
-                            {!!recipe?.description &&
-                                <Text>
-                                    Idz do lodówki sprawdz czy są jajka.
-                                    jak nie ma to się podrpa po worze i zamknij lodówke.
-                                </Text>}
+                            <DescriptionManage
+                                show={!recipe?.description || showEditDescription}
+                                onClose={()=> setShowEditDescription(false)}
+                                id={id as string}
+                                description={recipe.description}
+                            />
+                            {(!!recipe?.description && !showEditDescription) &&
+                                <VStack>
+                                    <pre>{recipe.description}</pre>
+                                    <Button colorScheme="gray"
+                                            color="var(--dark)" onClick={() => setShowEditDescription(true)}>Edit
+                                        description</Button>
+                                </VStack>}
                         </AccordionPanel>
                     </AccordionItem>
                 </Accordion>
