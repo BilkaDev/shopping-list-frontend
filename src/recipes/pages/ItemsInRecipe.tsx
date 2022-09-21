@@ -75,7 +75,7 @@ export const ItemsInRecipe = () => {
                             />
                             {(!!recipe?.description && !showEditDescription) &&
                                 <VStack>
-                                    <pre>{recipe.description}</pre>
+                                    <Text w="100%" whiteSpace="pre-wrap">{recipe.description}</Text>
                                     <Button colorScheme="gray"
                                             color="var(--dark)" onClick={() => setShowEditDescription(true)}>Edit
                                         description</Button>
