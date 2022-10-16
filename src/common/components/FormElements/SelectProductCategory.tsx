@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { ProductCategory } from "interfaces";
-import { Select } from "@chakra-ui/react";
+import { Select } from "../UiElements/Select";
 
 interface Props {
     onInput: (id: string, value: number, isValid: boolean) => void;
@@ -32,9 +32,7 @@ export const SelectProductCategory = (props: Props) => {
     return (
         <label>
             <p>Category:</p>
-            <Select color="var(--dark)"
-                    bgColor="var(--white)"
-                    onChange={changeHandler}
+            <Select onChange={changeHandler}
                     value={selectCategory}>
                 {category}
             </Select>
