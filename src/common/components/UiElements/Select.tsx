@@ -3,16 +3,21 @@ import React, { ChangeEvent } from "react";
 import { Select as SelectChakra } from "@chakra-ui/react";
 
 interface Props {
-    onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
     value: number | string;
+    setValue: (v: string) => void;
     children: React.ReactNode;
 }
 
-export function Select({ onChange, value, children }: Props) {
+export function Select({ value, setValue, children }: Props) {
+
+    function changeHandler(e: ChangeEvent<HTMLSelectElement>) {
+        setValue(e.target.value);
+    }
+
     return (
         <SelectChakra color="var(--dark)"
                       bgColor="var(--white)"
-                      onChange={onChange}
+                      onChange={changeHandler}
                       value={value}>
             {children}
         </SelectChakra>

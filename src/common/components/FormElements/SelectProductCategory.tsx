@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ProductCategory } from "interfaces";
 import { Select } from "../UiElements/Select";
 
@@ -24,19 +24,14 @@ export const SelectProductCategory = (props: Props) => {
         onInput("category", selectCategory, true);
     }, [onInput, selectCategory]);
 
-    function changeHandler(e: ChangeEvent<HTMLSelectElement>) {
-        const value = Number(e.target.value);
-        setSelectCategory(value);
-    }
-
     return (
         <label>
             <p>Category:</p>
-            <Select onChange={changeHandler}
-                    value={selectCategory}>
+            <Select value={selectCategory} setValue={(v) => setSelectCategory(Number(v))}>
                 {category}
             </Select>
         </label>
-    );
+    )
+        ;
 };
 
