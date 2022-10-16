@@ -12,6 +12,7 @@ import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinne
 import { Section } from "../../common/components/UiElements/Section";
 import { Center, Stack, Text, UnorderedList } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
+import { RecipeToList } from "../../recipes/components/RecipeToList/RecipeToList";
 
 export const ItemsInList = () => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -52,6 +53,7 @@ export const ItemsInList = () => {
                     <Text fontSize="4xl">Add product to list</Text>
                 </Center>
                 <AddItem/>
+                <RecipeToList/>
                 <Stack paddingTop="1.5rem" direction="row" spacing={20}>
                     <Text fontSize="4xl">List {name}</Text>
                     <Text cursor="pointer" alignSelf="center" onClick={clearBasketHandler}>Clear basket <button>
