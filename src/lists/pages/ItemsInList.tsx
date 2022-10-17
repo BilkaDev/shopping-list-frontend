@@ -19,7 +19,7 @@ export const ItemsInList = () => {
     const { id, name } = useParams();
     const dispatch = useDispatch();
     const entries = Object.entries(ProductCategory);
-    const category = [];
+    const category: string[] = [];
     const { list } = useSelector((store: RootState) => store.lists);
 
     useEffect(() => {
@@ -53,7 +53,8 @@ export const ItemsInList = () => {
                     <Text fontSize="4xl">Add product to list</Text>
                 </Center>
                 <AddItem/>
-                <RecipeToList/>
+                <RecipeToList/>\
+                {/*render list product*/}
                 <Stack paddingTop="1.5rem" direction="row" spacing={20}>
                     <Text fontSize="4xl">List {name}</Text>
                     <Text cursor="pointer" alignSelf="center" onClick={clearBasketHandler}>Clear basket <button>
@@ -70,6 +71,24 @@ export const ItemsInList = () => {
                         />))}
                     </UnorderedList>
                 </div>
+                {/*render recipe product*/}
+                {list.recipes.map((recipe) => (
+                    <div key={recipe.id}>
+                        <Stack paddingTop="1.5rem" justifyContent="center" align="center" >
+                            <Text fontSize="4xl">Recipe {recipe.name}</Text>
+                        </Stack>
+                        <div>
+                            <UnorderedList styleType="none" spacing={6}>
+                                {category.map((category, id) => (<ItemsList
+                                    key={id}
+                                    categoryId={id}
+                                    list={recipe}
+                                    categoryName={category}
+                                />))}
+                            </UnorderedList>
+                        </div>
+                    </div>
+                ))}
             </Section>
         </>
     );

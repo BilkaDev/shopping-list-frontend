@@ -1,12 +1,12 @@
 import React from "react";
 import { ItemInList } from "./ItemInList";
-import { GetListResponse } from "interfaces";
+import { GetListResponse, RecipeInterface } from "interfaces";
 import { Center, ListItem, Table, TableContainer, Tbody, Text, Th, Thead, Tr } from "@chakra-ui/react";
 
 interface Props {
     categoryName: string;
     categoryId: number;
-    list: GetListResponse;
+    list: GetListResponse | RecipeInterface;
 }
 
 export const ItemsList = ({ categoryName, categoryId, list }: Props) => {
