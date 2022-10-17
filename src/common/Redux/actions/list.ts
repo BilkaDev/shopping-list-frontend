@@ -1,28 +1,56 @@
-import {CreateListRequest, GetItemInList, GetListResponse, GetListsResponse } from "interfaces"
-import { ListAction } from "../action-types/list"
+import {
+    CreateListRequest,
+    GetItemInList,
+    GetListResponse,
+    GetListsResponse,
+    UpdateItemInListRequest
+} from "interfaces";
+import { ListAction } from "../action-types/list";
 
-export const setLists = (lists:GetListsResponse) => ({
+export const setLists = (lists: GetListsResponse) => ({
     type: ListAction.SET_LISTS,
     payload: lists
-})
-export const setItemsInList = (list:GetListResponse) => ({
+});
+export const setItemsInList = (list: GetListResponse) => ({
     type: ListAction.SET_ITEMS_IN_LIST,
     payload: list
-})
+});
 
-export const addList= (list:GetListResponse) => ({
+export const addList = (list: GetListResponse) => ({
     type: ListAction.ADD_TO_LISTS,
     payload: list
-})
-export const addItemToList= (item:GetItemInList) => ({
-    type: ListAction.ADD_ITEM_TO_LIST,
-    payload: item
-})
-export const editListName = (id:string,list:CreateListRequest) => ({
+});
+export const editListName = (id: string, list: CreateListRequest) => ({
     type: ListAction.EDIT_NAME_LIST,
-    payload: {...list,id}
-})
-export const deleteList = (listId:string) => ({
+    payload: { ...list, id }
+});
+export const deleteList = (listId: string) => ({
     type: ListAction.DELETE_LIST,
     payload: listId
-})
+});
+
+export const addItemToList = (item: GetItemInList) => ({
+    type: ListAction.ADD_ITEM_TO_LIST,
+    payload: item
+});
+export const removeItemFromList = (itemId: string) => ({
+    type: ListAction.REMOVE_ITEM_FROM_LIST,
+    payload: itemId
+});
+export const editItemInList = (id: string, item: UpdateItemInListRequest) => ({
+    type: ListAction.EDIT_ITEM_IN_LIST,
+    payload: { ...item, id }
+});
+
+export const addItemToBasket = (itemId: string) => ({
+    type: ListAction.ADD_ITEM_TO_BASKET,
+    payload: itemId
+});
+export const removeItemFromBasket = (itemId: string) => ({
+    type: ListAction.REMOVE_FROM_BASKET,
+    payload: itemId
+});
+export const clearBasket = (listId: string) => ({
+    type: ListAction.CLEAR_BASKET,
+    payload: listId
+});

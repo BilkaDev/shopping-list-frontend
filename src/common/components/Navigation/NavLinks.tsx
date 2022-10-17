@@ -1,24 +1,25 @@
 import React from "react";
-import {NavLink} from "react-router-dom";
-import './NavLinks.css'
+import { NavLink } from "react-router-dom";
+import { Center, ListItem, UnorderedList } from "@chakra-ui/react";
 
 export const NavLinks = () => {
 
     return (
-        <div className="NavLinks">
-            <ul className="NavLinks__list">
-                <li>
-                    <NavLink to="/list">Listy</NavLink>
-                </li>
-                <li>
-                    <NavLink to="/recipe">Przepisy</NavLink>
-                </li>
-                <li>
-                    <NavLink to="/product">Produkty</NavLink>
-                </li>
-
-            </ul>
-        </div>
-
-    )
-}
+        <Center>
+            <UnorderedList styleType={"none"} style={{
+                fontSize: "4rem",
+                color: "var(--white)"
+            }}>
+                <ListItem>
+                    <NavLink to="/list">Lists</NavLink>
+                </ListItem>
+                <ListItem>
+                    <NavLink to="/recipe">Recipes</NavLink>
+                </ListItem>
+                <ListItem>
+                    <NavLink to="/product">Products</NavLink>
+                </ListItem>
+            </UnorderedList>
+        </Center>
+    );
+};

@@ -1,9 +1,10 @@
 import React from "react";
-import {Box, Center, Spinner} from "@chakra-ui/react";
+import { Box, Center, Spinner } from "@chakra-ui/react";
+import ReactDOM from "react-dom";
 
 
 export const LoadingSpinner = () => {
-    return (
+    const content = (
         <Box position="absolute" left="0" top="0" w="100vw" h="100vh" zIndex="100" bgColor="rgba(0, 0, 0, 0.6)">
             <Center style={{
                 position: "absolute",
@@ -20,6 +21,6 @@ export const LoadingSpinner = () => {
                     size="xl"
                 />
             </Center>
-        </Box>
-    );
+        </Box>);
+    return ReactDOM.createPortal(content, document.getElementById("loading-spinner-hook") as HTMLElement);
 };

@@ -1,15 +1,15 @@
 import React from "react";
-import { ItemInList } from "./ItemInList";
-import { GetListResponse, RecipeInterface } from "interfaces";
 import { Center, ListItem, Table, TableContainer, Tbody, Text, Th, Thead, Tr } from "@chakra-ui/react";
+import { RecipeInterface } from "interfaces";
+import { ItemInRecipe } from "./ItemInRecipe";
 
 interface Props {
     categoryName: string;
     categoryId: number;
-    list: GetListResponse | RecipeInterface;
+    recipe: RecipeInterface;
 }
 
-export const ItemsList = ({ categoryName, categoryId, list }: Props) => {
+export const ItemsListRecipe = ({ categoryName, categoryId, recipe }: Props) => {
     return (
         <ListItem>
             <Center>
@@ -20,7 +20,6 @@ export const ItemsList = ({ categoryName, categoryId, list }: Props) => {
                     <Thead>
                         <Tr>
                             <Th>Name</Th>
-                            <Th>In Basket</Th>
                             <Th>Count</Th>
                             <Th>Weight</Th>
                             <Th>Edit</Th>
@@ -28,7 +27,7 @@ export const ItemsList = ({ categoryName, categoryId, list }: Props) => {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {list.items.map((item => <ItemInList key={item.id} category={categoryId} item={item}/>))}
+                        {recipe?.items?.map((item => <ItemInRecipe key={item.id} category={categoryId} recipeId={recipe.id} item={item}/>))}
                     </Tbody>
                 </Table>
             </TableContainer>

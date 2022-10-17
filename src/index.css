@@ -14,7 +14,6 @@ html {
 }
 
 body {
-    background: #f2f2f2;
     font-family: 'Work Sans', 'Open Sans', sans-serif;
     font-size: 1.6rem;
 }
@@ -28,9 +27,11 @@ body {
 }
 
 div#root {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    background: var(--light-dark);
+    color: var(--white);
 }
 
 header,
@@ -39,6 +40,7 @@ footer {
 }
 
 main {
+    margin-top: 13rem;
     flex: 1;
     display: flex;
 }

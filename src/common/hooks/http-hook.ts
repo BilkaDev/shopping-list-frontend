@@ -1,12 +1,16 @@
-import {useCallback, useState} from "react";
+import { useCallback, useState } from "react";
 import {
     CreateItemInListRequest,
     CreateListRequest,
     CreateProductRequest,
     UpdateProductRequest,
-    LoginRequest
+    LoginRequest,
+    UpdateItemInListRequest,
+    AddRecipeRequest,
+    EditRecipeRequest,
+    EditDescriptionRecipeRequest
 } from "interfaces";
-import {apiUrl} from "../../config/api";
+import { apiUrl } from "../../config/api";
 
 export type ReqBody = (
     | LoginRequest
@@ -15,6 +19,10 @@ export type ReqBody = (
     | UpdateProductRequest
     | CreateListRequest
     | CreateItemInListRequest
+    | UpdateItemInListRequest
+    | AddRecipeRequest
+    | EditRecipeRequest
+    | EditDescriptionRecipeRequest
     | null
     )
 
@@ -36,26 +44,24 @@ export const useHttpClient = () => {
                 const response = await fetch(`${apiUrl}${url}`, {
                     method,
                     headers,
-                    body: body && {body: body instanceof FormData ? body : JSON.stringify(body)}.body,
+                    body: body && { body: body instanceof FormData ? body : JSON.stringify(body) }.body,
                 });
 
                 const responseData = await response.json();
-                if (!response.ok) {
-                    statusError = responseData;
-                    throw new Error(responseData.message);
-                }
                 setIsLoading(false);
-
+                if (!responseData.isSuccess) {
+                    setError(responseData.message);
+                    return responseData;
+                }
                 return responseData;
             } catch (e: any) {
                 setError(statusError === 500 ? "Sorry, please try again later" : e.message);
                 setIsLoading(false);
-
                 throw e;
             }
         }, []);
     const clearError = () => {
         setError(null);
     };
-    return {isLoading, error, sendRequest, setError, clearError};
+    return { isLoading, error, sendRequest, setError, clearError };
 };

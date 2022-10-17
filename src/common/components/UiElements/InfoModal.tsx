@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
     Alert,
     AlertDescription,
@@ -9,6 +9,7 @@ import {
     ModalContent,
     ModalOverlay
 } from "@chakra-ui/react";
+import ReactDOM from "react-dom";
 
 interface Props {
     isError?: boolean;
@@ -18,14 +19,14 @@ interface Props {
 }
 
 export const InfoModal = (props: Props) => {
-    const {title, message, onClose, isError} = props;
-    return (
+    const { title, message, onClose, isError } = props;
+    const content = (
         <Modal onClose={onClose} isOpen={true} isCentered>
             <ModalOverlay/>
-            <ModalContent borderRadius="8px" borderColor={isError ? 'red.200' : 'green.200'} p="0.5rem"
-                          bgColor={isError ? 'red.200' : 'green.200'}>
+            <ModalContent borderRadius="8px" borderColor={isError ? "red.200" : "green.200"} p="0.5rem"
+                          bgColor={isError ? "red.200" : "green.200"}>
                 <Alert
-                    status={isError ? 'error' : 'success'}
+                    status={isError ? "error" : "success"}
                     variant="subtle"
                     flexDirection="column"
                     alignItems="center"
@@ -40,12 +41,15 @@ export const InfoModal = (props: Props) => {
                     <AlertDescription maxWidth="sm">
                         {message}
                     </AlertDescription>
-                    <Button mt="0.5rem" bgColor={isError ? 'red' : 'green'} onClick={onClose} type="submit"
-                            colorScheme={isError ? 'red' : 'green'}>
-                        Zamknij
+                    <Button mt="0.5rem" bgColor={isError ? "red" : "green"} onClick={onClose} type="submit"
+                            colorScheme={isError ? "red" : "green"}>
+                        Exit
                     </Button>
                 </Alert>
             </ModalContent>
         </Modal>
     );
-}
+
+    return ReactDOM.createPortal(content, document.getElementById("modal-hook") as HTMLElement);
+
+};

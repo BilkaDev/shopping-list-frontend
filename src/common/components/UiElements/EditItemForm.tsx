@@ -1,114 +1,179 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 
-import {useDispatch} from "react-redux";
-import {useHttpClient} from "../../hooks/http-hook";
-import {useForm} from "../../hooks/form-hook";
-import {CreateListRequest, GetListResponse, GetProductResponse, UpdateProductRequest } from 'interfaces';
-import {editListName} from "../../Redux/actions/list";
-import {ManageList} from "../../../lists/components/List/ManageList";
-import {editProductAction} from "../../Redux/actions/product";
-import {ManageProduct} from "../../../products/components/ManageProduct";
-
+import { useDispatch } from "react-redux";
+import { useHttpClient } from "../../hooks/http-hook";
+import { useForm } from "../../hooks/form-hook";
+import {
+    CreateListRequest,
+    UpdateProductRequest,
+    UpdateItemInListRequest,
+    EditRecipeRequest,
+} from "interfaces";
+import { editItemInList, editListName } from "../../Redux/actions/list";
+import { ManageList } from "../../../lists/components/List/ManageList";
+import { editProductAction } from "../../Redux/actions/product";
+import { ManageProduct } from "../../../products/components/ManageProduct";
+import { Button } from "@chakra-ui/react";
+import { InfoModal } from "./InfoModal";
+import { ManageItemInList } from "../../../lists/components/ItemInList/ManageItemInList";
+import { editItemInRecipeAction, editRecipeAction } from "../../Redux/actions/Recipe";
 
 
 interface Props {
     element: string;
     itemId: string;
-    item: GetListResponse | GetProductResponse;
+    recipeId?: string;
     initialValid: boolean,
-    iniitialInputs:{
-        name: {
-            value: string,
-            isValid: boolean,
-        }
-        category?: {
-            value: number,
-            isValid: boolean,
-        }
+    initialInputs: {
+        name: string,
+        category?: number,
+        weight?: number,
+        count?: number,
     }
 }
 
 
-export const EditItemForm = ({itemId, item, iniitialInputs, element,initialValid}: Props) => {
+export const EditItemForm = ({ itemId, initialInputs, element, initialValid, recipeId }: Props) => {
     const [isSuccess, setIsSuccess] = useState(false);
-    const {isLoading, error, sendRequest, clearError, setError} = useHttpClient();
-    const {formState, selectHandler, inputHandler, setFormData} = useForm(iniitialInputs, false);
-    const dispatch = useDispatch();
+    const { isLoading, error, sendRequest, clearError, setError } = useHttpClient();
 
+    const initialInputsForm = {
+        name: {
+            value: initialInputs.name,
+            isValid: true,
+        },
+        category: {
+            value: initialInputs?.category || 0,
+            isValid: true,
+        },
+        weight: {
+            value: initialInputs?.weight || 0,
+            isValid: true,
+        },
+        count: {
+            value: initialInputs?.count || 0,
+            isValid: true,
+        }
+    };
+    const { formState, selectHandler, inputHandler, setFormData } = useForm(initialInputsForm, false);
+    const dispatch = useDispatch();
     //@TODO USERID CHANGEIT
-    const userId = 'user1';
+    const userId = "user1";
 
     useEffect(() => {
-        setFormData(iniitialInputs, initialValid);
+        setFormData(initialInputsForm, initialValid);
         return () => clearError();
     }, [itemId]);
 
     const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const editItem: CreateListRequest | UpdateProductRequest=  element === 'list' ?
-            {
-            listName: formState.inputs.name.value,
-            userId,
-        }:{
-                name: formState.inputs.name.value,
-                category: Number(formState.inputs.category.value)
-            };
-           const path = element === 'list' ? `/list/${itemId}` : `/product/${itemId}/${userId}`;
+        let editItem:
+            | CreateListRequest
+            | UpdateProductRequest
+            | UpdateItemInListRequest
+            | EditRecipeRequest
+            | undefined = undefined;
+        let path = "";
 
-        const res = await sendRequest(path, 'PATCH', editItem, {
-            'Content-Type': 'application/json',
+        switch (element) {
+            case "list":
+                editItem = {
+                    listName: formState.inputs.name.value,
+                    userId
+                };
+                path = `/list/${itemId}`;
+                dispatch(editListName(itemId, editItem as CreateListRequest));
+                break;
+            case "recipe":
+                editItem = {
+                    name: formState.inputs.name.value,
+                    id: itemId,
+                };
+                path = `/recipe/edit`;
+                dispatch(editRecipeAction(editItem as EditRecipeRequest));
+                break;
+            case "product":
+                path = `/product/${itemId}/${userId}`;
+                editItem = {
+                    name: formState.inputs.name.value,
+                    category: Number(formState.inputs.category.value)
+                };
+                dispatch(editProductAction(itemId, editItem as UpdateProductRequest));
+                break;
+            case "itemInList":
+                path = `/list/item/${itemId}`;
+                editItem = {
+                    count: Number(formState.inputs.count.value),
+                    weight: Number(formState.inputs.weight.value),
+                    category: Number(formState.inputs.category.value),
+                };
+                dispatch(editItemInList(itemId, editItem as UpdateItemInListRequest));
+                break;
+            case "itemInRecipe":
+                path = `/list/item/${itemId}`;
+                editItem = {
+                    count: Number(formState.inputs.count.value),
+                    weight: Number(formState.inputs.weight.value),
+                    category: Number(formState.inputs.category.value),
+                };
+                dispatch(editItemInRecipeAction(itemId, recipeId as string, editItem as UpdateItemInListRequest));
+                break;
+            default:
+                return;
+        }
+        const res = await sendRequest(path, "PATCH", editItem, {
+            "Content-Type": "application/json"
         });
         if (!res.isSuccess) {
-            return setError(`Ops. coś poszło nie tak... sprawdź nazwe ${iniitialInputs.name.value} (nie może się powtarzać)`);
+            return setError(res?.message ? `Sorry, please try again later.` : `Ops. something went wrong.... check the name ${initialInputs.name} (can't be repeated)`);
         }
         setIsSuccess(true);
-        if (element === 'list'){
-            dispatch(editListName(item.id,editItem as CreateListRequest))
-        } else {
-            dispatch(editProductAction(item.id,editItem as UpdateProductRequest))
-        }
-
     };
-    //@TODO improve text appearance
     if (isSuccess) {
         return (
             <>
-                <p>Edycja "{iniitialInputs.name.value}" powiodła się.</p>
-        </>
-    );
+                <p>Update "{initialInputs.name}" is success.</p>
+            </>
+        );
     }
-
-
-    //@TODO fix the appearance of an error or add a modal
 
     return (
         <>
-            {error && (<>
-                <p>{error}</p>
-            </>
-        )}
-    {isLoading && <p>Loading</p>}
-        {!isLoading && !error &&
-        (<form onSubmit={submitHandler}>
-            {element === 'list' && <ManageList
-                inputHandler={inputHandler}
-                initialValue={{
-                    name: iniitialInputs.name.value
-                }}
-                initialValid={true}
-            />}
-            {!iniitialInputs.category || <ManageProduct
-                selectHandler={selectHandler}
-                inputHandler={inputHandler}
-                initialValue={{
-                    product: iniitialInputs.name.value,
-                    category: iniitialInputs.category.value
-                }}
-                initialValid={true}
-            />}
-        <button disabled={!formState.isValid}>Aktualizuj!</button>
-        </form>)
-        }
+            {error && <InfoModal isError message={error} onClose={clearError} title={"Failed!"}/>}
+            {!isLoading && !error &&
+                (<form onSubmit={submitHandler}>
+                    {(element === "list" || element === "recipe") && <ManageList
+                        inputHandler={inputHandler}
+                        initialValue={{
+                            name: initialInputs.name
+                        }}
+                        initialValid={true}
+                    />}
+                    {element === "product" && initialInputs.category !== undefined && <ManageProduct
+                        selectHandler={selectHandler}
+                        inputHandler={inputHandler}
+                        initialValue={{
+                            product: initialInputs.name,
+                            category: initialInputs.category
+                        }}
+                        initialValid={true}
+                    />}
+                    {(element === "itemInList" || element === "itemInRecipe") && initialInputs.category !== undefined &&
+                        <ManageItemInList
+                            selectHandler={selectHandler}
+                            inputHandler={inputHandler}
+                            initialValue={{
+                                product: initialInputs.name,
+                                category: initialInputs.category,
+                                count: initialInputs?.count || 0,
+                                weight: initialInputs?.weight || 0,
+                            }}
+                        />}
+                    <Button disabled={!formState.isValid} type="submit" colorScheme="blue">
+                        Update!
+                    </Button>
+                </form>)
+            }
         </>
     );
-    };
+};

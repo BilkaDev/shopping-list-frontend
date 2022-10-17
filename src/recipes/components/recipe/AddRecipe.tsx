@@ -1,16 +1,17 @@
-import React, { useState } from "react";
-import { ManageList } from "./ManageList";
-import { CreateListRequest, CreateListResponse, GetListResponse } from "interfaces";
-import { useForm } from "../../../common/hooks/form-hook";
-import { useHttpClient } from "../../../common/hooks/http-hook";
-import { useDispatch } from "react-redux";
-import { addList } from "../../../common/Redux/actions/list";
-import { Button, VStack } from "@chakra-ui/react";
 import { InfoModal } from "../../../common/components/UiElements/InfoModal";
+import { useForm } from "../../../common/hooks/form-hook";
 import { LoadingSpinner } from "../../../common/components/UiElements/LoadingSpinner";
+import { useHttpClient } from "../../../common/hooks/http-hook";
+import { Button, VStack } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
+import { FormEvent, useState } from "react";
 import { SuccessfullyBox } from "../../../common/components/UiElements/SuccessfullyBox";
+import { ManageRecipeList } from "./ManageRecipeList";
+import { AddRecipeRequest, CreateRecipeResponse } from "interfaces";
+import { addRecipeAction } from "../../../common/Redux/actions/Recipe";
 
-export const AddList = () => {
+
+export const AddRecipe = () => {
     const [isSuccess, setIsSuccess] = useState(false);
     const { formState, inputHandler } = useForm({
             name: { isValid: false, value: "" }
@@ -20,32 +21,35 @@ export const AddList = () => {
     const dispatch = useDispatch();
     const userId = "user1";
 
-    const addListToLists = async (e: React.FormEvent) => {
+    const addRecipe = async (e: FormEvent) => {
         e.preventDefault();
 
-        const newList: CreateListRequest = {
-            listName: formState.inputs.name.value,
+        const newRecipe: AddRecipeRequest = {
+            name: formState.inputs.name.value,
             userId,
+            description: "",
+            items: [],
         };
-        const res: CreateListResponse = await sendRequest("/list", "POST", newList, {
+        const res: CreateRecipeResponse = await sendRequest("/recipe", "POST", newRecipe, {
             "Content-Type": "application/json",
         });
         if (!res.isSuccess) {
-            return setError("Adding the list failed, check the recipe name (the name must not repeat)");
+            return setError("Adding the recipe failed, check the recipe name (the name must not repeat)");
         }
-        const newListWithId: GetListResponse = {
-            id: res.id,
-            listName: newList.listName,
-            items: [],
-            recipes: []
-        };
-        dispatch(addList(newListWithId));
+        dispatch(addRecipeAction(
+            {
+                id: res.id,
+                name: newRecipe.name,
+                description: "",
+                items: []
+            }
+        ));
         setIsSuccess(true);
     };
 
     if (isSuccess) {
         return (
-            <SuccessfullyBox text="Adding the list was successful." setIsSuccess={setIsSuccess}/>
+            <SuccessfullyBox text="Adding the recipe was successful." setIsSuccess={setIsSuccess}/>
         );
     }
 
@@ -55,14 +59,13 @@ export const AddList = () => {
                 <InfoModal message={error} isError onClose={clearError} title={"Failed!"}/>}
             {isLoading && <LoadingSpinner/>}
             {!isLoading && !error &&
-                <form onSubmit={addListToLists}>
+                <form onSubmit={addRecipe}>
                     <VStack spacing={4} align="flex-start">
-                        <ManageList inputHandler={inputHandler}/>
+                        <ManageRecipeList inputHandler={inputHandler}/>
                         <Button type="submit" disabled={!formState.isValid} colorScheme="gray"
                                 color="var(--dark)">Add</Button>
                     </VStack>
                 </form>}
-
         </>
     );
 };

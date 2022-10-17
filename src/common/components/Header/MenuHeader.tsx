@@ -14,7 +14,8 @@ import defaultIcon from "../../../assets/default-icon-profil.jpg";
 import {useHttpClient} from "../../hooks/http-hook";
 import {LoadingSpinner} from "../UiElements/LoadingSpinner";
 import {InfoModal} from "../UiElements/InfoModal";
-import {ModalEditPassword} from "./ModalEditPassword";
+import {ModalChakra} from "../UiElements/ModalChakra";
+import { EditPasswordForm } from "./EditPasswordForm";
 
 
 export function MenuHeader() {
@@ -35,8 +36,10 @@ export function MenuHeader() {
         <>
             {isLoading && <LoadingSpinner/>}
             {error && <InfoModal isError message={error} onClose={clearError} title={"Failed!"}/>}
-            <ModalEditPassword isOpen={isEditPassword} onClose={() => setIsEditPassword(false)}/>
-            <Menu autoSelect={false}>
+            <ModalChakra title="Change password" isOpen={isEditPassword} onClose={() => setIsEditPassword(false)}>
+                <EditPasswordForm />
+            </ModalChakra>
+                <Menu autoSelect={false}>
                 <MenuButton>
                     <Flex align="center"
                           justify="space-between" w="260px">

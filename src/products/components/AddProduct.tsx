@@ -1,75 +1,72 @@
-import React, {useState} from 'react';
-import {ManageProduct} from "./ManageProduct";
-import {useForm} from "../../common/hooks/form-hook";
-import {CreateProductRequest, GetProductResponse} from 'interfaces';
-import {useHttpClient} from "../../common/hooks/http-hook";
-import {useDispatch} from "react-redux";
-import {addProductAction} from "../../common/Redux/actions/product";
-
+import React, { useState } from "react";
+import { ManageProduct } from "./ManageProduct";
+import { useForm } from "../../common/hooks/form-hook";
+import { CreateProductRequest, GetProductResponse } from "interfaces";
+import { useHttpClient } from "../../common/hooks/http-hook";
+import { useDispatch } from "react-redux";
+import { addProductAction } from "../../common/Redux/actions/product";
+import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinner";
+import { InfoModal } from "../../common/components/UiElements/InfoModal";
+import { Button, VStack } from "@chakra-ui/react";
+import { SuccessfullyBox } from "../../common/components/UiElements/SuccessfullyBox";
 
 
 export const AddProduct = () => {
-    const [isSuccess,setIsSuccess] = useState(false)
-    const {formState, selectHandler, inputHandler} = useForm({
+    const [isSuccess, setIsSuccess] = useState(false);
+    const { formState, selectHandler, inputHandler } = useForm({
             name: {
                 value: "",
-                isValid: false,
+                isValid: false
             },
             category: {
                 value: 0,
-                isValid: true,
+                isValid: true
             }
         }, false
     );
-    const {isLoading, error, sendRequest, clearError,setError} = useHttpClient();
+    const { isLoading, error, sendRequest, clearError, setError } = useHttpClient();
     const dispatch = useDispatch();
-    const userId = 'user1';
+    const userId = "user1";
 
     const createProduct = async (e: React.FormEvent) => {
         e.preventDefault();
         const newProduct: CreateProductRequest = {
             name: formState.inputs.name.value,
             category: Number(formState.inputs.category.value),
-            userId,
+            userId
         };
-        const res = await sendRequest('/product', 'POST', newProduct, {
-            'Content-Type': 'application/json',
+        const res = await sendRequest("/product", "POST", newProduct, {
+            "Content-Type": "application/json"
         });
         if (!res.isSuccess) {
-            return setError("Dodawanie produktu nie powiodło się, sprawdź nazwe produktu (nazwa nie może się powtarzać)")
+            return setError("Adding a product failed, check the product name (name must not repeat)");
         }
         const newProductWithId: GetProductResponse = {
             ...newProduct,
-            id: res.id,
-        }
-        setIsSuccess(true)
-        dispatch(addProductAction(newProductWithId))
+            id: res.id
+        };
+        setIsSuccess(true);
+        dispatch(addProductAction(newProductWithId));
     };
 
-    //@TODO improve text appearance
-    if (isSuccess){
+    if (isSuccess) {
         return (
-            <>
-                <p>Dodanie produktu powiodło się.</p>
-                <button onClick={()=>setIsSuccess(false)}>Dodaj kolejny</button>
-            </>
-        )
+            <SuccessfullyBox text="Adding the product was successful." setIsSuccess={setIsSuccess}/>
+        );
     }
 
-    //@TODO fix the appearance of an error or add a modal
     return (
         <>
-            {error && (<>
-                    <p>{error}</p>
-                    <button onClick={clearError}>Zamknij</button>
-                </>
-            )}
-            {isLoading && <p>Loading</p>}
+            {error &&
+                <InfoModal message={error} isError onClose={clearError} title={"Failed!"}/>}
+            {isLoading && <LoadingSpinner/>}
             {!isLoading && !error && <form onSubmit={createProduct}>
-                <ManageProduct selectHandler={selectHandler} inputHandler={inputHandler}/>
-                <button disabled={!formState.isValid}>Dodaj produkt</button>
+                <VStack spacing={4} align="flex-start">
+                    <ManageProduct selectHandler={selectHandler} inputHandler={inputHandler}/>
+                    <Button type="submit" disabled={!formState.isValid} colorScheme="gray" color="var(--dark)">Add
+                        product</Button>
+                </VStack>
             </form>}
-
         </>
     );
 };
