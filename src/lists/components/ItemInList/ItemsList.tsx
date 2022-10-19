@@ -7,9 +7,10 @@ interface Props {
     categoryName: string;
     categoryId: number;
     list: GetListResponse | RecipeInterface;
+    isRecipe?: boolean;
 }
 
-export const ItemsList = ({ categoryName, categoryId, list }: Props) => {
+export const ItemsList = ({ categoryName, categoryId, list, isRecipe }: Props) => {
     return (
         <ListItem>
             <Center>
@@ -23,12 +24,16 @@ export const ItemsList = ({ categoryName, categoryId, list }: Props) => {
                             <Th>In Basket</Th>
                             <Th>Count</Th>
                             <Th>Weight</Th>
-                            <Th>Edit</Th>
-                            <Th>Delete</Th>
+                            {!isRecipe &&
+                                <>
+                                    <Th>Edit</Th>
+                                    <Th>Delete</Th>
+                                </>
+                            }
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {list.items.map((item => <ItemInList key={item.id} category={categoryId} item={item}/>))}
+                        {list.items.map((item => <ItemInList key={item.id} isRecipe={isRecipe} category={categoryId} item={item}/>))}
                     </Tbody>
                 </Table>
             </TableContainer>

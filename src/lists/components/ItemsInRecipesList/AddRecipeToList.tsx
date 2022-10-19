@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { InfoModal } from "../../../common/components/UiElements/InfoModal";
 import { SuccessfullyBox } from "../../../common/components/UiElements/SuccessfullyBox";
 
-export function RecipeToList() {
+export function AddRecipeToList() {
     const { recipes } = useSelector((store: RootState) => store.recipes);
     const [selectValue, setSelectValue] = useState(recipes[0].name);
     const [isSuccess, setIsSuccess] = useState(false);

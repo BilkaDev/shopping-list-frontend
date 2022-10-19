@@ -13,9 +13,10 @@ import { EditItemForm } from "../../../common/components/UiElements/EditItemForm
 interface Props {
     category: number;
     item: ItemInListInterface;
+    isRecipe?: boolean;
 }
 
-export const ItemInList = ({ category, item }: Props) => {
+export const ItemInList = ({ category, item, isRecipe }: Props) => {
     const [inBasket, setInBasket] = useState(item.itemInBasket);
     const [showEditModal, setShowEditModal] = useState(false);
     const dispatch = useDispatch();
@@ -61,7 +62,7 @@ export const ItemInList = ({ category, item }: Props) => {
                         category: item.product.category,
                         weight: item.weight,
                         count: item.count,
-                }}
+                    }}
                     initialValid={false}
                 />
             </ModalChakra>
@@ -82,12 +83,16 @@ export const ItemInList = ({ category, item }: Props) => {
                     </Center> </Td>
                 <Td>{item.count}</Td>
                 <Td>{item.weight}</Td>
-                <Td>
-                    <button onClick={() => setShowEditModal(true)}><EditIcon/></button>
-                </Td>
-                <Td>
-                    <button onClick={deleteItemHandler}><DeleteIcon/></button>
-                </Td>
+                {!isRecipe &&
+                    <>
+                        <Td>
+                            <button onClick={() => setShowEditModal(true)}><EditIcon/></button>
+                        </Td>
+                        <Td>
+                            <button onClick={deleteItemHandler}><DeleteIcon/></button>
+                        </Td>
+                    </>
+                }
             </Tr>
         </>
 

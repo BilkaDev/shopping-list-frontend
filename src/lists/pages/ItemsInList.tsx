@@ -12,7 +12,8 @@ import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinne
 import { Section } from "../../common/components/UiElements/Section";
 import { Center, Stack, Text, UnorderedList } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
-import { RecipeToList } from "../../recipes/components/RecipeToList/RecipeToList";
+import { AddRecipeToList } from "../components/ItemsInRecipesList/AddRecipeToList";
+import { ItemsInRecipesList } from "../components/ItemsInRecipesList/ItemsInRecipesList";
 
 export const ItemsInList = () => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -53,7 +54,7 @@ export const ItemsInList = () => {
                     <Text fontSize="4xl">Add product to list</Text>
                 </Center>
                 <AddItem/>
-                <RecipeToList/>\
+                <AddRecipeToList/>\
                 {/*render list product*/}
                 <Stack paddingTop="1.5rem" direction="row" spacing={20}>
                     <Text fontSize="4xl">List {name}</Text>
@@ -72,23 +73,7 @@ export const ItemsInList = () => {
                     </UnorderedList>
                 </div>
                 {/*render recipe product*/}
-                {list.recipes.map((recipe) => (
-                    <div key={recipe.id}>
-                        <Stack paddingTop="1.5rem" justifyContent="center" align="center" >
-                            <Text fontSize="4xl">Recipe {recipe.name}</Text>
-                        </Stack>
-                        <div>
-                            <UnorderedList styleType="none" spacing={6}>
-                                {category.map((category, id) => (<ItemsList
-                                    key={id}
-                                    categoryId={id}
-                                    list={recipe}
-                                    categoryName={category}
-                                />))}
-                            </UnorderedList>
-                        </div>
-                    </div>
-                ))}
+                <ItemsInRecipesList recipes={list.recipes} category={category}/>
             </Section>
         </>
     );
