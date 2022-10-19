@@ -1,4 +1,4 @@
-import { GetItemInList, GetListResponse, GetListsResponse, UpdateItemInListRequest } from "interfaces";
+import { GetItemInList, GetListResponse, GetListsResponse, RecipeInterface, UpdateItemInListRequest } from "interfaces";
 import { ListAction } from "../action-types/list";
 
 export interface ListOfLists {
@@ -78,6 +78,18 @@ interface ClearBasket {
     payload: string;
 }
 
+/*RECIPE TO LIST*/
+interface AddRecipeToList {
+    type: ListAction.ADD_RECIPE_TO_LIST;
+    payload: RecipeInterface;
+
+}
+
+interface DeleteRecipeFromList {
+    type: ListAction.DELETE_RECIPE_FROM_LIST;
+    payload: string;
+}
+
 type Action =
     | SetLists
     | AddList
@@ -90,7 +102,9 @@ type Action =
     | ClearBasket
     | RemoveItemFromList
     | EditItemInList
-    ;
+    | DeleteRecipeFromList
+    | AddRecipeToList
+
 export default (state: ListOfLists = initialState, action: Action) => {
     switch (action.type) {
         case ListAction.SET_LISTS:
@@ -212,7 +226,26 @@ export default (state: ListOfLists = initialState, action: Action) => {
                     items: clearBasket,
                 }
             };
-
+        case ListAction.ADD_RECIPE_TO_LIST:
+            const checkRecipes = state.list.recipes.findIndex(recipe => recipe.id === action.payload.id);
+            if (checkRecipes !== -1) return state;
+            const addRecipeToList = [...state.list.recipes, action.payload];
+            return {
+                ...state,
+                list: {
+                    ...state.list,
+                    recipes: addRecipeToList
+                }
+            };
+        case ListAction.DELETE_RECIPE_FROM_LIST:
+            const deleteRecipeFromList = state.list.recipes.filter(recipe => recipe.id !== action.payload)
+            return {
+                ...state,
+                list: {
+                    ...state.list,
+                    recipes: deleteRecipeFromList
+                }
+            };
         default:
             return state;
     }

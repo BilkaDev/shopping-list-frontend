@@ -73,7 +73,7 @@ export const ItemsInList = () => {
                     </UnorderedList>
                 </div>
                 {/*render recipe product*/}
-                <ItemsInRecipesList recipes={list.recipes} category={category}/>
+                <ItemsInRecipesList listId={id as string} recipes={list.recipes} category={category}/>
             </Section>
         </>
     );

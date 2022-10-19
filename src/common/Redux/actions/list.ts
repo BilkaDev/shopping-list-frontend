@@ -3,6 +3,7 @@ import {
     GetItemInList,
     GetListResponse,
     GetListsResponse,
+    RecipeInterface,
     UpdateItemInListRequest
 } from "interfaces";
 import { ListAction } from "../action-types/list";
@@ -53,4 +54,14 @@ export const removeItemFromBasket = (itemId: string) => ({
 export const clearBasket = (listId: string) => ({
     type: ListAction.CLEAR_BASKET,
     payload: listId
+});
+
+export const addRecipeToList = (recipeId: RecipeInterface) => ({
+    type: ListAction.ADD_RECIPE_TO_LIST,
+    payload: recipeId
+});
+
+export const deleteRecipeFromList = (recipeId: string) => ({
+    type: ListAction.DELETE_RECIPE_FROM_LIST,
+    payload: recipeId
 });
