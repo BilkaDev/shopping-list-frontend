@@ -23,6 +23,7 @@ function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        console.log("reflsh");
         if (!userId) return;
         (async () => {
                 const loadedRecipes = await sendRequest(`/recipe/${userId}`);
@@ -33,11 +34,10 @@ function App() {
                 }
             }
         )();
-    }, []);
+    }, [userId]);
 
     let routes;
 
-    console.log(!userId);
     if (!userId) {
         routes = <Route path="/" element={<Auth/>}/>;
     } else {

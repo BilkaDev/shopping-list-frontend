@@ -41,7 +41,7 @@ export function AddRecipeToList() {
 
     if (isSuccess) {
         return (
-            <SuccessfullyBox text="Adding the product was successful." setIsSuccess={setIsSuccess}/>
+            <SuccessfullyBox text="Adding the recipes was successful." setIsSuccess={setIsSuccess}/>
         );
     }
 

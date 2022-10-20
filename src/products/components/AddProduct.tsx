@@ -3,12 +3,13 @@ import { ManageProduct } from "./ManageProduct";
 import { useForm } from "../../common/hooks/form-hook";
 import { CreateProductRequest, GetProductResponse } from "interfaces";
 import { useHttpClient } from "../../common/hooks/http-hook";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addProductAction } from "../../common/Redux/actions/product";
 import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinner";
 import { InfoModal } from "../../common/components/UiElements/InfoModal";
 import { Button, VStack } from "@chakra-ui/react";
 import { SuccessfullyBox } from "../../common/components/UiElements/SuccessfullyBox";
+import { RootState } from "../../common/Redux/store";
 
 
 export const AddProduct = () => {
@@ -26,7 +27,7 @@ export const AddProduct = () => {
     );
     const { isLoading, error, sendRequest, clearError, setError } = useHttpClient();
     const dispatch = useDispatch();
-    const userId = "user1";
+    const { userId } = useSelector((store: RootState) => store.user )
 
     const createProduct = async (e: React.FormEvent) => {
         e.preventDefault();

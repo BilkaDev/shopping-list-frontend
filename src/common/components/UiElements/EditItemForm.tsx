@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHttpClient } from "../../hooks/http-hook";
 import { useForm } from "../../hooks/form-hook";
 import {
@@ -17,6 +17,7 @@ import { Button } from "@chakra-ui/react";
 import { InfoModal } from "./InfoModal";
 import { ManageItemInList } from "../../../lists/components/ItemInList/ManageItemInList";
 import { editItemInRecipeAction, editRecipeAction } from "../../Redux/actions/Recipe";
+import { RootState } from "../../Redux/store";
 
 
 interface Props {
@@ -57,8 +58,7 @@ export const EditItemForm = ({ itemId, initialInputs, element, initialValid, rec
     };
     const { formState, selectHandler, inputHandler, setFormData } = useForm(initialInputsForm, false);
     const dispatch = useDispatch();
-    //@TODO USERID CHANGEIT
-    const userId = "user1";
+    const { userId } = useSelector((store: RootState) => store.user )
 
     useEffect(() => {
         setFormData(initialInputsForm, initialValid);

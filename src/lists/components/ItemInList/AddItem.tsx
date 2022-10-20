@@ -3,7 +3,7 @@ import { Input } from "../../../common/components/FormElements/Input";
 import { VALIDATOR_MAX, VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH } from "../../../common/utils/validators";
 import { useForm } from "../../../common/hooks/form-hook";
 import { useHttpClient } from "../../../common/hooks/http-hook";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SearchProduct } from "./SearchProduct";
 import { useParams } from "react-router-dom";
 import { CreateProductRequest, CreateItemInListRequest, GetItemInList, GetProductResponse } from "interfaces";
@@ -14,6 +14,7 @@ import { InfoModal } from "../../../common/components/UiElements/InfoModal";
 import { LoadingSpinner } from "../../../common/components/UiElements/LoadingSpinner";
 import { SuccessfullyBox } from "../../../common/components/UiElements/SuccessfullyBox";
 import { addItemToRecipeAction } from "../../../common/Redux/actions/Recipe";
+import { RootState } from "../../../common/Redux/store";
 
 
 interface Props {
@@ -32,7 +33,7 @@ export const AddItem = ({ isRecipe }: Props) => {
     const { isLoading, error, sendRequest, clearError, setError } = useHttpClient();
     const dispatch = useDispatch();
     const { id } = useParams();
-    const userId = "user1";
+    const { userId } = useSelector((store: RootState) => store.user )
 
 
     const addItemToListRequest = async (e: React.FormEvent) => {

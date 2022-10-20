@@ -3,12 +3,13 @@ import { useForm } from "../../../common/hooks/form-hook";
 import { LoadingSpinner } from "../../../common/components/UiElements/LoadingSpinner";
 import { useHttpClient } from "../../../common/hooks/http-hook";
 import { Button, VStack } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FormEvent, useState } from "react";
 import { SuccessfullyBox } from "../../../common/components/UiElements/SuccessfullyBox";
 import { ManageRecipeList } from "./ManageRecipeList";
 import { AddRecipeRequest, CreateRecipeResponse } from "interfaces";
 import { addRecipeAction } from "../../../common/Redux/actions/Recipe";
+import { RootState } from "../../../common/Redux/store";
 
 
 export const AddRecipe = () => {
@@ -19,7 +20,7 @@ export const AddRecipe = () => {
     );
     const { isLoading, error, sendRequest, clearError, setError } = useHttpClient();
     const dispatch = useDispatch();
-    const userId = "user1";
+    const { userId } = useSelector((store: RootState) => store.user )
 
     const addRecipe = async (e: FormEvent) => {
         e.preventDefault();
