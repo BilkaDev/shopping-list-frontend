@@ -51,7 +51,7 @@ function App() {
     }
     return (
         <ChakraProvider>
-            <MainHeader/>
+            {!!userId && <MainHeader/>}
             <main>
                 {error &&
                     <InfoModal message={error} isError onClose={clearError} title={"Failed!"}/>}
