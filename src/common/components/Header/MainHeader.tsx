@@ -1,9 +1,9 @@
 import logo from "../../../assets/logo.png";
-import {Box, Center, Flex, Image} from "@chakra-ui/react";
-import {Link} from "react-router-dom";
+import { Box, Center, Flex, Image } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 import React from "react";
-import {MenuHeader} from "./MenuHeader";
+import { MenuHeader } from "./MenuHeader";
 
 export const MainHeader = () => {
 

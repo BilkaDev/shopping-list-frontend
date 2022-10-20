@@ -1,16 +1,18 @@
 import React from "react";
-import {useFormik} from "formik";
+import { useFormik } from "formik";
 import {
     Button,
     FormControl, FormErrorMessage,
     Input, Link, Stack, Text,
     VStack,
 } from "@chakra-ui/react";
-import {useHttpClient} from "../../common/hooks/http-hook";
-import {LoadingSpinner} from "../../common/components/UiElements/LoadingSpinner";
+import { useHttpClient } from "../../common/hooks/http-hook";
+import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinner";
 import * as Yup from "yup";
-import {Link as ReachLink} from "react-router-dom";
-import {InfoModal} from "../../common/components/UiElements/InfoModal";
+import { Link as ReachLink } from "react-router-dom";
+import { InfoModal } from "../../common/components/UiElements/InfoModal";
+import { useDispatch } from "react-redux";
+import { login } from "../../common/Redux/actions/auth";
 
 const LoginSchema = Yup.object().shape({
     password: Yup.string()
@@ -21,7 +23,8 @@ const LoginSchema = Yup.object().shape({
 });
 
 export const LoginForm = () => {
-        const {sendRequest, error, clearError, isLoading} = useHttpClient();
+        const { sendRequest, error, clearError, isLoading } = useHttpClient();
+        const dispatch = useDispatch();
         const formik = useFormik({
             initialValues: {
                 email: "",
@@ -37,6 +40,7 @@ export const LoginForm = () => {
                 });
                 if (data.isSuccess) {
                     // login(data.userFullName,data.userId,data.userRole,data.avatarUrl);
+                    dispatch(login(data.userId));
                 }
             }
         });
@@ -81,7 +85,7 @@ export const LoginForm = () => {
                         </FormControl>
                         <Stack spacing={10} width="100%" pt="10px">
                             <Stack
-                                direction={{base: "column", sm: "row"}}
+                                direction={{ base: "column", sm: "row" }}
                                 align={"center"}
                                 justify={"flex-end"}>
                                 <Text> <Link as={ReachLink} to="/recover-password" color="var(--light-gray)">Forgot your
