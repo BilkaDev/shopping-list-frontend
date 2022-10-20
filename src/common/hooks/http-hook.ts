@@ -45,6 +45,7 @@ export const useHttpClient = () => {
                     method,
                     headers,
                     body: body && { body: body instanceof FormData ? body : JSON.stringify(body) }.body,
+                    credentials: "include",
                 });
 
                 const responseData = await response.json();

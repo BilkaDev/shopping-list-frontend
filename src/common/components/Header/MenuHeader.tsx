@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
     Box,
     Flex,
@@ -11,24 +11,31 @@ import {
     Text,
 } from "@chakra-ui/react";
 import defaultIcon from "../../../assets/default-icon-profil.jpg";
-import {useHttpClient} from "../../hooks/http-hook";
-import {LoadingSpinner} from "../UiElements/LoadingSpinner";
-import {InfoModal} from "../UiElements/InfoModal";
-import {ModalChakra} from "../UiElements/ModalChakra";
+import { useHttpClient } from "../../hooks/http-hook";
+import { LoadingSpinner } from "../UiElements/LoadingSpinner";
+import { InfoModal } from "../UiElements/InfoModal";
+import { ModalChakra } from "../UiElements/ModalChakra";
 import { EditPasswordForm } from "./EditPasswordForm";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../Redux/actions/auth";
 
 
 export function MenuHeader() {
     const [isEditPassword, setIsEditPassword] = useState(false);
-    const {sendRequest, error, clearError, isLoading} = useHttpClient();
+    const { sendRequest, error, clearError, isLoading } = useHttpClient();
+    const nav = useNavigate();
+    const dispatch = useDispatch();
 
     //@Todo Added avatar user and auth user full name.
     const avatarUrl = null;
     const userFullName = "Test Test";
 
     const logoutClick = async () => {
-        const data = await sendRequest("/auth/logout", "GET");
+        const data = await sendRequest("/auth/logout", "POST");
         if (data.isSuccess) {
+            dispatch(logout())
+            nav("/");
         }
     };
 
@@ -37,9 +44,9 @@ export function MenuHeader() {
             {isLoading && <LoadingSpinner/>}
             {error && <InfoModal isError message={error} onClose={clearError} title={"Failed!"}/>}
             <ModalChakra title="Change password" isOpen={isEditPassword} onClose={() => setIsEditPassword(false)}>
-                <EditPasswordForm />
+                <EditPasswordForm/>
             </ModalChakra>
-                <Menu autoSelect={false}>
+            <Menu autoSelect={false}>
                 <MenuButton>
                     <Flex align="center"
                           justify="space-between" w="260px">
@@ -66,9 +73,9 @@ export function MenuHeader() {
                 </MenuButton>
                 <MenuList borderRadius={0} bgColor="var(--dark)" borderColor="var(--dark)">
                     <MenuGroup title="Profile">
-                        <MenuItem onClick={() => setIsEditPassword(true)} _hover={{backgroundColor: "#292A2B"}}>Change
+                        <MenuItem onClick={() => setIsEditPassword(true)} _hover={{ backgroundColor: "#292A2B" }}>Change
                             password</MenuItem>
-                        <MenuItem onClick={logoutClick} _hover={{backgroundColor: "#292A2B"}}>Logout </MenuItem>
+                        <MenuItem onClick={logoutClick} _hover={{ backgroundColor: "#292A2B" }}>Logout </MenuItem>
                     </MenuGroup>
                 </MenuList>
             </Menu>
