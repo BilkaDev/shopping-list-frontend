@@ -16,9 +16,10 @@ import { Recipes } from "./recipes/pages/Recipes";
 import { ItemsInRecipe } from "./recipes/pages/ItemsInRecipe";
 import { setRecipesAction } from "./common/Redux/actions/Recipe";
 import { RootState } from "./common/Redux/store";
+import { RecoverPassword } from "./auth/pages/RecoverPassword";
 
 function App() {
-    const { userId } = useSelector((store: RootState) => store.user )
+    const { userId } = useSelector((store: RootState) => store.user);
     const { error, sendRequest, clearError } = useHttpClient();
     const dispatch = useDispatch();
 
@@ -38,7 +39,10 @@ function App() {
     let routes;
 
     if (!userId) {
-        routes = <Route path="/" element={<Auth/>}/>;
+        routes = <>
+            <Route path="/" element={<Auth/>}/>
+            <Route path="/recover-password" element={<RecoverPassword/>}/>
+        </>;
     } else {
         routes = (<>
             <Route path="/" element={<NavLinks/>}/>
