@@ -1,13 +1,13 @@
-import { LoginRequest } from "interfaces";
 import { AuthAction } from "../action-types/auth";
 
 interface AuthState {
     userId: string,
+    email: string;
 }
 
 interface Login {
     type: AuthAction.LOGIN,
-    payload: LoginRequest,
+    payload: { id: string, email: string },
 }
 
 interface Logout {
@@ -16,6 +16,7 @@ interface Logout {
 
 const initialState: AuthState = {
     userId: "",
+    email: "",
 };
 
 type Action =
@@ -27,12 +28,14 @@ export default (state = initialState, action: Action) => {
         case AuthAction.LOGIN:
             return {
                 ...state,
-                userId: action.payload,
+                userId: action.payload.id,
+                email: action.payload.email,
             };
         case AuthAction.LOGOUT:
             return {
                 ...state,
                 userId: "",
+                email: "",
             };
         default:
             return state;

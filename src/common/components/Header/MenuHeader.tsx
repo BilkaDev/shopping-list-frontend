@@ -17,24 +17,25 @@ import { InfoModal } from "../UiElements/InfoModal";
 import { ModalChakra } from "../UiElements/ModalChakra";
 import { EditPasswordForm } from "./EditPasswordForm";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../Redux/actions/auth";
+import { RootState } from "../../Redux/store";
+
+const AVATAR_URL = "http://localhost:3002/user/avatar";
 
 
 export function MenuHeader() {
     const [isEditPassword, setIsEditPassword] = useState(false);
     const { sendRequest, error, clearError, isLoading } = useHttpClient();
     const nav = useNavigate();
-    const dispatch = useDispatch();
 
-    //@Todo Added avatar user and auth user full name.
-    const avatarUrl = null;
-    const userFullName = "Test Test";
+    const { email } = useSelector((store: RootState) => store.user);
+    const dispatch = useDispatch();
 
     const logoutClick = async () => {
         const data = await sendRequest("/auth/logout", "POST");
         if (data.isSuccess) {
-            dispatch(logout())
+            dispatch(logout());
             nav("/");
         }
     };
@@ -58,12 +59,16 @@ export function MenuHeader() {
                                     height="45"
                                     borderRadius="full"
                                     objectFit="cover"
-                                    src={avatarUrl ? avatarUrl : defaultIcon}
+                                    src={AVATAR_URL}
+                                    onError={({ currentTarget }) => {
+                                        currentTarget.onerror = null;
+                                        currentTarget.src = defaultIcon;
+                                    }}
                                     alt="user profil icon"
                                     alignItems="center"
                                     mr="10px"
                                 />
-                                <Text fontSize="18px">{userFullName}</Text>
+                                <Text fontSize="18px">{email}</Text>
                             </Flex>
                         </Box>
                         <Box w={0} h={0} borderTop="5px solid #9e9e9e" borderLeft="5px solid transparent"

@@ -40,7 +40,7 @@ export const LoginForm = () => {
                 });
                 if (data.isSuccess) {
                     // login(data.userFullName,data.userId,data.userRole,data.avatarUrl);
-                    dispatch(login(data.userId));
+                    dispatch(login(data.userId, data.email));
                 }
             }
         });
