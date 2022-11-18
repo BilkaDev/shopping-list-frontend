@@ -20,16 +20,16 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../Redux/actions/auth";
 import { RootState } from "../../Redux/store";
-
-const AVATAR_URL = "http://localhost:3002/user/avatar";
+import { ChangeAvatar } from "./ChangeAvatar";
 
 
 export function MenuHeader() {
     const [isEditPassword, setIsEditPassword] = useState(false);
+    const [isChangeAvatar, setIsChangeAvatar] = useState(false);
     const { sendRequest, error, clearError, isLoading } = useHttpClient();
     const nav = useNavigate();
 
-    const { email } = useSelector((store: RootState) => store.user);
+    const { email, avatarImg} = useSelector((store: RootState) => store.user);
     const dispatch = useDispatch();
 
     const logoutClick = async () => {
@@ -47,6 +47,9 @@ export function MenuHeader() {
             <ModalChakra title="Change password" isOpen={isEditPassword} onClose={() => setIsEditPassword(false)}>
                 <EditPasswordForm/>
             </ModalChakra>
+            <ModalChakra title="Change avatar image" isOpen={isChangeAvatar} onClose={() => setIsChangeAvatar(false)}>
+                <ChangeAvatar onClose={() => setIsChangeAvatar(false)} />
+            </ModalChakra>
             <Menu autoSelect={false}>
                 <MenuButton>
                     <Flex align="center"
@@ -59,7 +62,7 @@ export function MenuHeader() {
                                     height="45"
                                     borderRadius="full"
                                     objectFit="cover"
-                                    src={AVATAR_URL}
+                                    src={avatarImg}
                                     onError={({ currentTarget }) => {
                                         currentTarget.onerror = null;
                                         currentTarget.src = defaultIcon;
@@ -80,6 +83,8 @@ export function MenuHeader() {
                     <MenuGroup title="Profile">
                         <MenuItem onClick={() => setIsEditPassword(true)} _hover={{ backgroundColor: "#292A2B" }}>Change
                             password</MenuItem>
+                        <MenuItem onClick={() => setIsChangeAvatar(true)} _hover={{ backgroundColor: "#292A2B" }}>Change
+                            avatar</MenuItem>
                         <MenuItem onClick={logoutClick} _hover={{ backgroundColor: "#292A2B" }}>Logout </MenuItem>
                     </MenuGroup>
                 </MenuList>
