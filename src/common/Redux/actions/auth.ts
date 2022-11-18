@@ -8,3 +8,6 @@ export const login = (id: string, email: string) => ({
 export const logout = () => ({
     type: AuthAction.LOGOUT,
 });
+export const changeAvatar = () => ({
+    type: AuthAction.CHANGE_AVATAR,
+});

@@ -1,4 +1,5 @@
 export enum AuthAction {
     LOGIN = "LOGIN",
-    LOGOUT = "LOGOUT"
+    LOGOUT = "LOGOUT",
+    CHANGE_AVATAR = "CHANGE_AVATAR",
 }

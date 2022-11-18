@@ -3,6 +3,7 @@ import { AuthAction } from "../action-types/auth";
 interface AuthState {
     userId: string,
     email: string;
+    avatarImg: string,
 }
 
 interface Login {
@@ -13,15 +14,21 @@ interface Login {
 interface Logout {
     type: AuthAction.LOGOUT,
 }
+interface ChangeAvatar {
+    type: AuthAction.CHANGE_AVATAR,
+}
 
 const initialState: AuthState = {
     userId: "",
     email: "",
+    avatarImg: "http://localhost:3002/user/avatar"
+
 };
 
 type Action =
     | Login
     | Logout
+    | ChangeAvatar
 
 export default (state = initialState, action: Action) => {
     switch (action.type) {
@@ -36,6 +43,11 @@ export default (state = initialState, action: Action) => {
                 ...state,
                 userId: "",
                 email: "",
+            };
+        case AuthAction.CHANGE_AVATAR:
+            return {
+                ...state,
+                avatarImg: `${state.avatarImg}?${new Date().getTime()}`
             };
         default:
             return state;
