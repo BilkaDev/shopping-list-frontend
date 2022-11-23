@@ -11,10 +11,12 @@ import { InfoModal } from "../UiElements/InfoModal";
 import { ImageUpload } from "../FormElements/ImageUpload";
 import { useDispatch } from "react-redux";
 import { changeAvatar } from "../../Redux/actions/auth";
+import defaultIcon from "../../../assets/default-icon-profil.jpg";
+import { useAuth } from "../../hooks/auth-hook";
 
 
 interface Props {
-    onClose: () => void
+    onClose: () => void;
 }
 
 export const ChangeAvatar = ({ onClose }: Props) => {
@@ -22,6 +24,7 @@ export const ChangeAvatar = ({ onClose }: Props) => {
     const [image, setImage] = useState<File>();
     const [isValid, setIsValid] = useState(true);
     const dispatch = useDispatch();
+    const { avatarImg } = useAuth();
 
     const [toastMessage, setToastMessage] = useState<{ title: string, body: string, status: "error" | "success" | "info" | "warning" | "loading" | undefined }>({
         title: "",
@@ -57,12 +60,12 @@ export const ChangeAvatar = ({ onClose }: Props) => {
             );
             if (res.isSuccess) {
                 dispatch(changeAvatar());
-                    setToastMessage({
-                        status: 'success',
-                        title: 'Success!',
-                        body: 'The avatar has been changed.',
-                    })
-                onClose()
+                setToastMessage({
+                    status: "success",
+                    title: "Success!",
+                    body: "The avatar has been changed.",
+                });
+                onClose();
             }
         }
     }
@@ -77,6 +80,8 @@ export const ChangeAvatar = ({ onClose }: Props) => {
                         <ImageUpload
                             setImage={setImage}
                             setIsValid={setIsValid}
+                            defaultImage={defaultIcon}
+                            image={avatarImg}
                         />
                         <FormErrorMessage>Please add image format png/jpg/jpeg and max size 512kb</FormErrorMessage>
                     </FormControl>

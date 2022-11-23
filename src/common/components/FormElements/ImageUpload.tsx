@@ -1,18 +1,17 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Box, Button, Img, VStack } from "@chakra-ui/react";
-import defaultIcon from "../../../assets/default-icon-profil.jpg";
-import { useAuth } from "../../hooks/auth-hook";
 
 
 interface Props {
     setImage: (image: File) => void;
     setIsValid: (value: boolean) => void;
+    defaultImage: string;
+    image: string;
 }
 
-export const ImageUpload = ({ setImage, setIsValid }: Props) => {
+export const ImageUpload = ({ setImage, setIsValid, defaultImage, image }: Props) => {
     const [file, setFile] = useState<Blob | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | ArrayBuffer | null>();
-    const { avatarImg } = useAuth();
 
     useEffect(() => {
         if (!file) {
@@ -59,10 +58,10 @@ export const ImageUpload = ({ setImage, setIsValid }: Props) => {
             />
             <VStack justify="center" align="center">
                 <Box w="16rem" h="16rem" border="1px solid #ccc" mb="1rem">
-                    <Img objectFit="contain" w="100%" h="100%" src={previewUrl ? (previewUrl as string) : avatarImg}
+                    <Img objectFit="contain" w="100%" h="100%" src={previewUrl ? (previewUrl as string) : image}
                          onError={({ currentTarget }) => {
                              currentTarget.onerror = null;
-                             currentTarget.src = defaultIcon;
+                             currentTarget.src = defaultImage;
                          }} alt="Preview logo image"/>
                 </Box>
                 <Button colorScheme="whiteAlpha" onClick={pickImageHandler}>
