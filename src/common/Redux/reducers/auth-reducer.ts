@@ -4,6 +4,7 @@ interface AuthState {
     userId: string,
     email: string;
     avatarImg: string,
+    isLoggedIn: boolean,
 }
 
 interface Login {
@@ -21,8 +22,8 @@ interface ChangeAvatar {
 const initialState: AuthState = {
     userId: "",
     email: "",
-    avatarImg: "http://localhost:3002/user/avatar"
-
+    avatarImg: "http://localhost:3002/user/avatar",
+    isLoggedIn: false,
 };
 
 type Action =
@@ -37,12 +38,14 @@ export default (state = initialState, action: Action) => {
                 ...state,
                 userId: action.payload.id,
                 email: action.payload.email,
+                isLoggedIn: true,
             };
         case AuthAction.LOGOUT:
             return {
                 ...state,
                 userId: "",
                 email: "",
+                isLoggedIn: false,
             };
         case AuthAction.CHANGE_AVATAR:
             return {

@@ -11,8 +11,7 @@ import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinne
 import * as Yup from "yup";
 import { Link as ReachLink } from "react-router-dom";
 import { InfoModal } from "../../common/components/UiElements/InfoModal";
-import { useDispatch } from "react-redux";
-import { login } from "../../common/Redux/actions/auth";
+import { useAuth } from "../../common/hooks/auth-hook";
 
 const LoginSchema = Yup.object().shape({
     password: Yup.string()
@@ -24,7 +23,7 @@ const LoginSchema = Yup.object().shape({
 
 export const LoginForm = () => {
         const { sendRequest, error, clearError, isLoading } = useHttpClient();
-        const dispatch = useDispatch();
+        const auth = useAuth();
         const formik = useFormik({
             initialValues: {
                 email: "",
@@ -39,8 +38,7 @@ export const LoginForm = () => {
                     "Content-Type": "application/json",
                 });
                 if (data.isSuccess) {
-                    // login(data.userFullName,data.userId,data.userRole,data.avatarUrl);
-                    dispatch(login(data.userId, data.email));
+                    auth.login(data.userId, data.email);
                 }
             }
         });

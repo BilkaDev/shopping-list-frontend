@@ -1,22 +1,22 @@
 import React, { useEffect } from "react";
 import { ListsList } from "../components/List/ListsList";
 import { useHttpClient } from "../../common/hooks/http-hook";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setLists } from "../../common/Redux/actions/list";
 import { AddList } from "../components/List/AddList";
 import { Section } from "../../common/components/UiElements/Section";
 import { InfoModal } from "../../common/components/UiElements/InfoModal";
 import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinner";
-import { RootState } from "../../common/Redux/store";
+import { useAuth } from "../../common/hooks/auth-hook";
 
 export const Lists = () => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
-    const { userId } = useSelector((store: RootState) => store.user )
+    const { userId } = useAuth();
     const dispatch = useDispatch();
 
     useEffect(() => {
         (async () => {
-            if (!userId) return;
+                if (!userId) return;
                 const loadedProducts = await sendRequest(`/list/${userId}`);
                 dispatch(setLists(loadedProducts?.isSuccess === false ? [] : loadedProducts));
             }

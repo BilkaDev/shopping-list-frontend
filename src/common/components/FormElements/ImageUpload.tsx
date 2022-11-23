@@ -1,8 +1,7 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Box, Button, Img, VStack } from "@chakra-ui/react";
 import defaultIcon from "../../../assets/default-icon-profil.jpg";
-import { useSelector } from "react-redux";
-import { RootState } from "../../Redux/store";
+import { useAuth } from "../../hooks/auth-hook";
 
 
 interface Props {
@@ -13,9 +12,7 @@ interface Props {
 export const ImageUpload = ({ setImage, setIsValid }: Props) => {
     const [file, setFile] = useState<Blob | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | ArrayBuffer | null>();
-    const { avatarImg} = useSelector((store: RootState) => store.user);
-
-
+    const { avatarImg } = useAuth();
 
     useEffect(() => {
         if (!file) {
@@ -62,11 +59,11 @@ export const ImageUpload = ({ setImage, setIsValid }: Props) => {
             />
             <VStack justify="center" align="center">
                 <Box w="16rem" h="16rem" border="1px solid #ccc" mb="1rem">
-                        <Img objectFit="contain" w="100%" h="100%" src={previewUrl ? (previewUrl as string) : avatarImg}
-                             onError={({ currentTarget }) => {
-                                 currentTarget.onerror = null;
-                                 currentTarget.src = defaultIcon;
-                             }} alt="Preview logo image"/>
+                    <Img objectFit="contain" w="100%" h="100%" src={previewUrl ? (previewUrl as string) : avatarImg}
+                         onError={({ currentTarget }) => {
+                             currentTarget.onerror = null;
+                             currentTarget.src = defaultIcon;
+                         }} alt="Preview logo image"/>
                 </Box>
                 <Button colorScheme="whiteAlpha" onClick={pickImageHandler}>
                     PICK IMAGE

@@ -3,13 +3,13 @@ import { ManageList } from "./ManageList";
 import { CreateListRequest, CreateListResponse, GetListResponse } from "interfaces";
 import { useForm } from "../../../common/hooks/form-hook";
 import { useHttpClient } from "../../../common/hooks/http-hook";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addList } from "../../../common/Redux/actions/list";
 import { Button, VStack } from "@chakra-ui/react";
 import { InfoModal } from "../../../common/components/UiElements/InfoModal";
 import { LoadingSpinner } from "../../../common/components/UiElements/LoadingSpinner";
 import { SuccessfullyBox } from "../../../common/components/UiElements/SuccessfullyBox";
-import { RootState } from "../../../common/Redux/store";
+import { useAuth } from "../../../common/hooks/auth-hook";
 
 export const AddList = () => {
     const [isSuccess, setIsSuccess] = useState(false);
@@ -19,7 +19,7 @@ export const AddList = () => {
     );
     const { isLoading, error, sendRequest, clearError, setError } = useHttpClient();
     const dispatch = useDispatch();
-    const { userId } = useSelector((store: RootState) => store.user )
+    const { userId } = useAuth();
 
     const addListToLists = async (e: React.FormEvent) => {
         e.preventDefault();

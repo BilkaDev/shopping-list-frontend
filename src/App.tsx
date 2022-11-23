@@ -6,7 +6,7 @@ import { Route, Routes } from "react-router-dom";
 import { Products } from "./products/pages/Products";
 import { Lists } from "./lists/pages/Lists";
 import { ItemsInList } from "./lists/pages/ItemsInList";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setProductsAction } from "./common/Redux/actions/product";
 import { useHttpClient } from "./common/hooks/http-hook";
 import { ChakraProvider } from "@chakra-ui/react";
@@ -15,13 +15,13 @@ import { InfoModal } from "./common/components/UiElements/InfoModal";
 import { Recipes } from "./recipes/pages/Recipes";
 import { ItemsInRecipe } from "./recipes/pages/ItemsInRecipe";
 import { setRecipesAction } from "./common/Redux/actions/Recipe";
-import { RootState } from "./common/Redux/store";
 import { RecoverPassword } from "./auth/pages/RecoverPassword";
+import { useAuth } from "./common/hooks/auth-hook";
 
 function App() {
-    const { userId } = useSelector((store: RootState) => store.user);
     const { error, sendRequest, clearError } = useHttpClient();
     const dispatch = useDispatch();
+    const { userId, isLoggedIn } = useAuth();
 
     useEffect(() => {
         if (!userId) return;
@@ -38,7 +38,7 @@ function App() {
 
     let routes;
 
-    if (!userId) {
+    if (!isLoggedIn) {
         routes = <>
             <Route path="/" element={<Auth/>}/>
             <Route path="/recover-password" element={<RecoverPassword/>}/>
@@ -55,7 +55,7 @@ function App() {
     }
     return (
         <ChakraProvider>
-            {!!userId && <MainHeader/>}
+            {isLoggedIn && <MainHeader/>}
             <main>
                 {error &&
                     <InfoModal message={error} isError onClose={clearError} title={"Failed!"}/>}

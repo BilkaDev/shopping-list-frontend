@@ -17,10 +17,8 @@ import { InfoModal } from "../UiElements/InfoModal";
 import { ModalChakra } from "../UiElements/ModalChakra";
 import { EditPasswordForm } from "./EditPasswordForm";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../Redux/actions/auth";
-import { RootState } from "../../Redux/store";
 import { ChangeAvatar } from "./ChangeAvatar";
+import { useAuth } from "../../hooks/auth-hook";
 
 
 export function MenuHeader() {
@@ -29,13 +27,12 @@ export function MenuHeader() {
     const { sendRequest, error, clearError, isLoading } = useHttpClient();
     const nav = useNavigate();
 
-    const { email, avatarImg} = useSelector((store: RootState) => store.user);
-    const dispatch = useDispatch();
+    const { logout, email, avatarImg } = useAuth();
 
     const logoutClick = async () => {
         const data = await sendRequest("/auth/logout", "POST");
         if (data.isSuccess) {
-            dispatch(logout());
+            logout();
             nav("/");
         }
     };
@@ -48,7 +45,7 @@ export function MenuHeader() {
                 <EditPasswordForm/>
             </ModalChakra>
             <ModalChakra title="Change avatar image" isOpen={isChangeAvatar} onClose={() => setIsChangeAvatar(false)}>
-                <ChangeAvatar onClose={() => setIsChangeAvatar(false)} />
+                <ChangeAvatar onClose={() => setIsChangeAvatar(false)}/>
             </ModalChakra>
             <Menu autoSelect={false}>
                 <MenuButton>

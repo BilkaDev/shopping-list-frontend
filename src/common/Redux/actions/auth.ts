@@ -2,7 +2,7 @@ import { AuthAction } from "../action-types/auth";
 
 export const login = (id: string, email: string) => ({
     type: AuthAction.LOGIN,
-    payload: {id, email,},
+    payload: { id, email, },
 });
 
 export const logout = () => ({

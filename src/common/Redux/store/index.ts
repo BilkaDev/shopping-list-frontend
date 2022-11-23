@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
     products: productReducer,
     lists: listReducer,
     recipes: recipes,
-    user: auth,
+    auth: auth,
 });
 
 export const store = configureStore(
