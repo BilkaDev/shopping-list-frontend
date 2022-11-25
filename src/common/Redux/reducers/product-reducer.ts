@@ -27,7 +27,7 @@ const initialState: ProductState= {
 
 type Action = SetProducts | AddProduct | DeleteProduct | EditProduct
 
-export default (state = initialState,action:Action) => {
+export const productReducer = (state = initialState,action:Action) => {
     switch (action.type) {
         case ProductAction.SET_PRODUCTS:
             return {

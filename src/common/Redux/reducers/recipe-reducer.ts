@@ -77,7 +77,7 @@ type Action =
     | EditItemInRecipe
     | EditDescriptionRecipe
 
-export default (state = initialState, action: Action) => {
+export const recipeReducer = (state = initialState, action: Action) => {
     switch (action.type) {
         case RecipeAction.SET_RECIPES:
             return {

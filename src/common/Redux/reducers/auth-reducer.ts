@@ -31,7 +31,7 @@ type Action =
     | Logout
     | ChangeAvatar
 
-export default (state = initialState, action: Action) => {
+export const authReducer = (state = initialState, action: Action) => {
     switch (action.type) {
         case AuthAction.LOGIN:
             return {

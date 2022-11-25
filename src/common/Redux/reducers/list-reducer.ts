@@ -105,7 +105,7 @@ type Action =
     | DeleteRecipeFromList
     | AddRecipeToList
 
-export default (state: ListOfLists = initialState, action: Action) => {
+export const listReducer = (state: ListOfLists = initialState, action: Action) => {
     switch (action.type) {
         case ListAction.SET_LISTS:
             return {
@@ -238,7 +238,7 @@ export default (state: ListOfLists = initialState, action: Action) => {
                 }
             };
         case ListAction.DELETE_RECIPE_FROM_LIST:
-            const deleteRecipeFromList = state.list.recipes.filter(recipe => recipe.id !== action.payload)
+            const deleteRecipeFromList = state.list.recipes.filter(recipe => recipe.id !== action.payload);
             return {
                 ...state,
                 list: {
@@ -249,4 +249,4 @@ export default (state: ListOfLists = initialState, action: Action) => {
         default:
             return state;
     }
-}
+};
