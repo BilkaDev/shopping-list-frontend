@@ -62,7 +62,7 @@ export const useHttpClient = () => {
                 setIsLoading(false);
                 throw e;
             }
-        }, []);
+        }, [statusError]);
     const clearError = () => {
         setError(null);
     };

@@ -11,8 +11,13 @@ export const useAuth = () => {
     const { sendRequest, error, clearError, isLoading } = useHttpClient();
     const dispatch = useDispatch();
 
+    const login = useCallback((userId: string, email: string) => {
+        dispatch(loginAction(userId, email));
+    }, [dispatch]);
+
     useEffect(() => {
         (async () => {
+                console.log("tutaj");
             if (autoLogin) {
                 autoLogin = !autoLogin;
                 const data = await sendRequest("/auth/auto-login");
@@ -21,15 +26,11 @@ export const useAuth = () => {
                 } else clearError();
             }
         })();
-    }, []);
-
-    const login = useCallback((userId: string, email: string) => {
-        dispatch(loginAction(userId, email));
-    }, []);
+    }, [clearError, login, sendRequest]);
 
     const logout = useCallback(() => {
         dispatch(logoutAction());
-    }, []);
+    }, [dispatch]);
 
     return {
         userId,
