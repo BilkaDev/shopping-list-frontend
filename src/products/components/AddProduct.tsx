@@ -9,7 +9,6 @@ import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinne
 import { InfoModal } from '../../common/components/UiElements/InfoModal';
 import { Button, VStack } from '@chakra-ui/react';
 import { SuccessfullyBox } from '../../common/components/UiElements/SuccessfullyBox';
-import { useAuth } from '../../common/hooks/auth-hook';
 
 export const AddProduct = () => {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -29,14 +28,12 @@ export const AddProduct = () => {
   const { isLoading, error, sendRequest, clearError, setError } =
     useHttpClient();
   const dispatch = useDispatch();
-  const { userId } = useAuth();
 
   const createProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     const newProduct: CreateProductRequest = {
       name: formState.inputs.name.value,
       category: Number(formState.inputs.category.value),
-      userId,
     };
     const res = await sendRequest('/product', 'POST', newProduct);
     if (!res.isSuccess) {

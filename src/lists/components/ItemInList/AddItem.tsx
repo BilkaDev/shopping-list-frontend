@@ -23,7 +23,6 @@ import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
 import { SuccessfullyBox } from '../../../common/components/UiElements/SuccessfullyBox';
 import { addItemToRecipeAction } from '../../../common/Redux/actions/Recipe';
-import { useAuth } from '../../../common/hooks/auth-hook';
 
 interface Props {
   isRecipe?: boolean;
@@ -44,7 +43,6 @@ export const AddItem = ({ isRecipe }: Props) => {
     useHttpClient();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { userId } = useAuth();
 
   const addItemToListRequest = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,7 +54,6 @@ export const AddItem = ({ isRecipe }: Props) => {
       const newProductReq: CreateProductRequest = {
         name: formState.inputs.name.value,
         category: Number(formState.inputs.category.value),
-        userId,
       };
       const resProduct = await sendRequest('/product', 'POST', newProductReq);
       if (!resProduct.isSuccess) {
