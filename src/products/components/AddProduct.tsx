@@ -38,9 +38,7 @@ export const AddProduct = () => {
       category: Number(formState.inputs.category.value),
       userId,
     };
-    const res = await sendRequest('/product', 'POST', newProduct, {
-      'Content-Type': 'application/json',
-    });
+    const res = await sendRequest('/product', 'POST', newProduct);
     if (!res.isSuccess) {
       return setError(
         'Adding a product failed, check the product name (name must not repeat)'

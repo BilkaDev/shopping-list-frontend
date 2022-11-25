@@ -36,17 +36,10 @@ export const LoginForm = () => {
     },
     validationSchema: LoginSchema,
     onSubmit: async values => {
-      const data = await sendRequest(
-        '/auth/login',
-        'POST',
-        {
-          email: values.email,
-          pwd: values.password,
-        },
-        {
-          'Content-Type': 'application/json',
-        }
-      );
+      const data = await sendRequest('/auth/login', 'POST', {
+        email: values.email,
+        pwd: values.password,
+      });
       if (data.isSuccess) {
         auth.login(data.userId, data.email);
       }

@@ -58,9 +58,7 @@ export const AddItem = ({ isRecipe }: Props) => {
         category: Number(formState.inputs.category.value),
         userId,
       };
-      const resProduct = await sendRequest('/product', 'POST', newProductReq, {
-        'Content-Type': 'application/json',
-      });
+      const resProduct = await sendRequest('/product', 'POST', newProductReq);
       if (!resProduct.isSuccess) {
         return setError(
           'Adding a product failed, check the product name (the name must not repeat)'
@@ -88,9 +86,7 @@ export const AddItem = ({ isRecipe }: Props) => {
       };
     }
 
-    const res: any = await sendRequest('/list/item', 'POST', newItem, {
-      'Content-Type': 'application/json',
-    });
+    const res: any = await sendRequest('/list/item', 'POST', newItem);
 
     if (!res.isSuccess) {
       return setError('Adding a product to the list failed.');

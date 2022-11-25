@@ -30,10 +30,7 @@ export function AddRecipeToList() {
     const resProduct = await sendRequest(
       `/list/add-recipe/${listId}/${recipe?.id}`,
       'POST',
-      null,
-      {
-        'Content-Type': 'application/json',
-      }
+      null
     );
     if (!resProduct.isSuccess) {
       return setError('Adding a recipe failed.');

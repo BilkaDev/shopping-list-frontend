@@ -31,16 +31,9 @@ export function RecoverForm() {
     },
     validationSchema: RecoverSchema,
     onSubmit: async values => {
-      const data = await sendRequest(
-        '/user/recover',
-        'POST',
-        {
-          email: values.email,
-        },
-        {
-          'Content-Type': 'application/json',
-        }
-      );
+      const data = await sendRequest('/user/recover', 'POST', {
+        email: values.email,
+      });
       if (data.isSuccess) {
         setIsSuccess(true);
       }

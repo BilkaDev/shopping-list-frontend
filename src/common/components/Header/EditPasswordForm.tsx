@@ -53,8 +53,6 @@ export const EditPasswordForm = () => {
       // const data = await sendRequest('/user/edit', 'PATCH', {
       //     pwd: values.password,
       //     newPwd: values["new-password"],
-      // }, {
-      //     'Content-Type': 'application/json',
       // });
       // if (data.isSuccess) {
       //     setToastMessage({

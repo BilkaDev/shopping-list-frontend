@@ -35,14 +35,7 @@ export const AddList = () => {
       listName: formState.inputs.name.value,
       userId,
     };
-    const res: CreateListResponse = await sendRequest(
-      '/list',
-      'POST',
-      newList,
-      {
-        'Content-Type': 'application/json',
-      }
-    );
+    const res: CreateListResponse = await sendRequest('/list', 'POST', newList);
     if (!res.isSuccess) {
       return setError(
         'Adding the list failed, check the recipe name (the name must not repeat)'

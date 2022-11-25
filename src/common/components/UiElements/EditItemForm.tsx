@@ -146,9 +146,7 @@ export const EditItemForm = ({
       default:
         return;
     }
-    const res = await sendRequest(path, 'PATCH', editItem, {
-      'Content-Type': 'application/json',
-    });
+    const res = await sendRequest(path, 'PATCH', editItem);
     if (!res.isSuccess) {
       return setError(
         res?.message

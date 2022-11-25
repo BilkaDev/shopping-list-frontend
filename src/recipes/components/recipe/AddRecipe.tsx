@@ -36,10 +36,7 @@ export const AddRecipe = () => {
     const res: CreateRecipeResponse = await sendRequest(
       '/recipe',
       'POST',
-      newRecipe,
-      {
-        'Content-Type': 'application/json',
-      }
+      newRecipe
     );
     if (!res.isSuccess) {
       return setError(

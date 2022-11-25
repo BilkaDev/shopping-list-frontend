@@ -13,6 +13,10 @@ import {
 } from 'interfaces';
 import { apiUrl } from '../../config/api';
 
+type headerType = {
+  [key: string]: string;
+};
+
 export type ReqBody =
   | LoginRequest
   | FormData
@@ -33,12 +37,17 @@ export const useHttpClient = () => {
 
   let statusError = 500;
   const sendRequest = useCallback(
-    async (url: string, method = 'GET', body: ReqBody = null, headers = {}) => {
+    async (
+      url: string,
+      method = 'GET',
+      body: ReqBody = null,
+      headers: headerType = { 'Content-Type': 'application/json' }
+    ) => {
       try {
         setIsLoading(true);
         const response = await fetch(`${apiUrl}${url}`, {
           method,
-          headers,
+          headers: headers,
           body:
             body &&
             { body: body instanceof FormData ? body : JSON.stringify(body) }

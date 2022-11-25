@@ -21,14 +21,10 @@ export function DescriptionManage({ show, id, onClose, description }: Props) {
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
-    const res: any = await sendRequest(
-      '/recipe/edit-description',
-      'PATCH',
-      { description: descriptionInput, id },
-      {
-        'Content-Type': 'application/json',
-      }
-    );
+    const res: any = await sendRequest('/recipe/edit-description', 'PATCH', {
+      description: descriptionInput,
+      id,
+    });
     if (!res.isSuccess) {
       return setError('Adding description to the recipe failed.');
     } else {

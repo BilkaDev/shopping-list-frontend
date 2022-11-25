@@ -57,7 +57,7 @@ export const ChangeAvatar = ({ onClose }: Props) => {
     if (image) {
       const formData = new FormData();
       formData.append('photo', image);
-      const res = await sendRequest('/user/avatar', 'POST', formData);
+      const res = await sendRequest('/user/avatar', 'POST', formData, {});
       if (res.isSuccess) {
         dispatch(changeAvatar());
         setToastMessage({
