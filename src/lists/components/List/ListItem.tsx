@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHttpClient } from '../../../common/hooks/http-hook';
 import { deleteList } from '../../../common/Redux/actions/list';

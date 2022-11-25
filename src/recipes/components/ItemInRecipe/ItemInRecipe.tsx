@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ItemInListInterface } from 'interfaces';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Td, Tr } from '@chakra-ui/react';

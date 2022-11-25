@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Center, Spinner } from '@chakra-ui/react';
 import ReactDOM from 'react-dom';
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Input } from '../../../common/components/FormElements/Input';
 import {
   VALIDATOR_MAX,

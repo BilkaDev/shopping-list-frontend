@@ -1,5 +1,5 @@
 import { ProductCategory } from 'interfaces';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { ItemsList } from '../components/ItemInList/ItemsList';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';

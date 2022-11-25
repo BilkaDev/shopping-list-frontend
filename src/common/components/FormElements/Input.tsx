@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useReducer } from 'react';
+import { ChangeEvent, useEffect, useReducer } from 'react';
 import { validate, Validator } from '../../utils/validators';
 import {
   FormControl,

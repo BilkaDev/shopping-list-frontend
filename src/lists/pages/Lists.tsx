@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { ListsList } from '../components/List/ListsList';
 import { useHttpClient } from '../../common/hooks/http-hook';
 import { useDispatch } from 'react-redux';

@@ -1,5 +1,5 @@
 import { GetProductResponse } from 'interfaces';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../common/Redux/store';
 import { SelectProductCategory } from '../../../common/components/FormElements/SelectProductCategory';

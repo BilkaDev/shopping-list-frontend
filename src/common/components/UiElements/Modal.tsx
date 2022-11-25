@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import './Modal.css';
 import { Backdrop } from './Backdrop';

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ProductCategory } from 'interfaces';
 import { Select } from '../UiElements/Select';
 

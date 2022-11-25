@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ManageProduct } from './ManageProduct';
 import { useForm } from '../../common/hooks/form-hook';
 import { CreateProductRequest, GetProductResponse } from 'interfaces';

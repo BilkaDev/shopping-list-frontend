@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Center, Flex, Image } from '@chakra-ui/react';
 import logo from '../../assets/logo.png';
 import { LoginForm } from '../components/LoginForm';

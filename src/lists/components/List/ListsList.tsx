@@ -1,4 +1,3 @@
-import React from 'react';
 import { RootState } from '../../../common/Redux/store';
 import { ListItem } from './ListItem';
 import { useSelector } from 'react-redux';

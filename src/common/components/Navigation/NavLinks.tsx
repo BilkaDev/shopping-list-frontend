@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Center, ListItem, UnorderedList } from '@chakra-ui/react';
 

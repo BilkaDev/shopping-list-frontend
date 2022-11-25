@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { useHttpClient } from '../../common/hooks/http-hook';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AddItem } from '../../lists/components/ItemInList/AddItem';
 import { useParams } from 'react-router-dom';
 import { ProductCategory } from 'interfaces';

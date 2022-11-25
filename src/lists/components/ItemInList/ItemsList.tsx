@@ -1,4 +1,3 @@
-import React from 'react';
 import { ItemInList } from './ItemInList';
 import { GetListResponse, RecipeInterface } from 'interfaces';
 import {

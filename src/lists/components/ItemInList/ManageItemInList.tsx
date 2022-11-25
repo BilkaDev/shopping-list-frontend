@@ -1,7 +1,6 @@
 import { SelectProductCategory } from '../../../common/components/FormElements/SelectProductCategory';
 import { Input } from '../../../common/components/FormElements/Input';
 import { VALIDATOR_MAX, VALIDATOR_MIN } from '../../../common/utils/validators';
-import React from 'react';
 
 interface Props {
   inputHandler: (id: string, value: string, isValid: boolean) => void;

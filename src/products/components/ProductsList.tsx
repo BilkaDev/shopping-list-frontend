@@ -1,4 +1,3 @@
-import React from 'react';
 import { ProductsItem } from './ProductsItem';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/Redux/store';

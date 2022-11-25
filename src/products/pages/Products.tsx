@@ -1,4 +1,3 @@
-import React from 'react';
 import { ProductsList } from '../components/ProductsList';
 import { AddProduct } from '../components/AddProduct';
 import { Section } from '../../common/components/UiElements/Section';

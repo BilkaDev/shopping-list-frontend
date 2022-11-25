@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { useHttpClient } from '../../hooks/http-hook';

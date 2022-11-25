@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   VALIDATOR_MAXLENGTH,
   VALIDATOR_MINLENGTH,

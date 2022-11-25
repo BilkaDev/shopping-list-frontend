@@ -1,4 +1,3 @@
-import React from 'react';
 import { Stack, Text, UnorderedList } from '@chakra-ui/react';
 import { RecipeInterface } from 'interfaces';
 import { ItemsList } from '../ItemInList/ItemsList';
