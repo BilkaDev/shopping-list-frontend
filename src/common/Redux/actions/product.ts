@@ -1,20 +1,27 @@
-import { GetProductResponse, ProductInterface, UpdateProductRequest } from "interfaces";
-import { ProductAction } from "../action-types/product";
+import {
+  GetProductResponse,
+  ProductInterface,
+  UpdateProductRequest,
+} from 'interfaces';
+import { ProductAction } from '../action-types/product';
 
 export const setProductsAction = (products: ProductInterface[]) => ({
-    type: ProductAction.SET_PRODUCTS,
-    payload: products
+  type: ProductAction.SET_PRODUCTS,
+  payload: products,
 });
 
 export const addProductAction = (product: GetProductResponse) => ({
-    type: ProductAction.ADD_TO_PRODUCTS,
-    payload: product
+  type: ProductAction.ADD_TO_PRODUCTS,
+  payload: product,
 });
-export const editProductAction = (id: string, product: UpdateProductRequest) => ({
-    type: ProductAction.EDIT_PRODUCTS,
-    payload: { ...product, id }
+export const editProductAction = (
+  id: string,
+  product: UpdateProductRequest
+) => ({
+  type: ProductAction.EDIT_PRODUCTS,
+  payload: { ...product, id },
 });
 export const deleteProductAction = (productId: string) => ({
-    type: ProductAction.DELETE_FROM_PRODUCTS,
-    payload: productId
+  type: ProductAction.DELETE_FROM_PRODUCTS,
+  payload: productId,
 });
