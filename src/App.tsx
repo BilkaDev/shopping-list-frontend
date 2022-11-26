@@ -22,6 +22,7 @@ function App() {
   const { error, sendRequest, clearError } = useHttpClient();
   const dispatch = useDispatch();
   const { userId, isLoggedIn } = useAuth();
+  console.log(userId);
 
   useEffect(() => {
     if (!userId) return;
@@ -32,12 +33,12 @@ function App() {
           loadedRecipes?.isSuccess === false ? [] : loadedRecipes
         )
       );
-      const loadedProducts = await sendRequest(`/product/${userId}`);
+      const loadedProducts = await sendRequest(`/product/`);
       if (loadedProducts.isSuccess) {
         dispatch(setProductsAction(loadedProducts.products));
       }
     })();
-  }, [dispatch, sendRequest, userId]);
+  }, [dispatch, userId, sendRequest]);
 
   let routes;
 

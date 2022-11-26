@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Input } from '../../../common/components/FormElements/Input';
 import {
   VALIDATOR_MAX,
@@ -44,7 +44,7 @@ export const AddItem = ({ isRecipe }: Props) => {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  const addItemToListRequest = async (e: React.FormEvent) => {
+  const addItemToListRequest = async (e: FormEvent) => {
     e.preventDefault();
 
     // Create product if product not found

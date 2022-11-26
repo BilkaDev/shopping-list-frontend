@@ -1,11 +1,11 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, ReactNode } from 'react';
 
 import { Select as SelectChakra } from '@chakra-ui/react';
 
 interface Props {
   value: number | string;
   setValue: (v: string) => void;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export function Select({ value, setValue, children }: Props) {

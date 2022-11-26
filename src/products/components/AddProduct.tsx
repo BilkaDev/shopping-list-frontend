@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { ManageProduct } from './ManageProduct';
 import { useForm } from '../../common/hooks/form-hook';
 import { CreateProductRequest, GetProductResponse } from 'interfaces';
@@ -29,7 +29,7 @@ export const AddProduct = () => {
     useHttpClient();
   const dispatch = useDispatch();
 
-  const createProduct = async (e: React.FormEvent) => {
+  const createProduct = async (e: FormEvent) => {
     e.preventDefault();
     const newProduct: CreateProductRequest = {
       name: formState.inputs.name.value,

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { useHttpClient } from '../../hooks/http-hook';
@@ -82,9 +82,9 @@ export const EditItemForm = ({
   useEffect(() => {
     setFormData(initialInputsForm, initialValid);
     return () => clearError();
-  }, [clearError, initialInputsForm, initialValid, itemId, setFormData]);
+  }, [clearError, initialInputsForm, initialValid, setFormData]);
 
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let editItem:
       | CreateListRequest
@@ -112,7 +112,7 @@ export const EditItemForm = ({
         dispatch(editRecipeAction(editItem as EditRecipeRequest));
         break;
       case 'product':
-        path = `/product/${itemId}/${userId}`;
+        path = `/product/${itemId}`;
         editItem = {
           name: formState.inputs.name.value,
           category: Number(formState.inputs.category.value),

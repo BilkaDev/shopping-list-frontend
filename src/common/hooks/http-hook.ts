@@ -72,8 +72,8 @@ export const useHttpClient = () => {
     },
     [statusError]
   );
-  const clearError = () => {
+  const clearError = useCallback(() => {
     setError(null);
-  };
+  }, []);
   return { isLoading, error, sendRequest, setError, clearError };
 };

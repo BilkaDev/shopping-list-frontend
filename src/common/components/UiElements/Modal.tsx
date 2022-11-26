@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { CSSProperties, ReactNode, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import './Modal.css';
 import { Backdrop } from './Backdrop';
@@ -11,8 +11,8 @@ interface Props {
   footer?: JSX.Element;
   contentClass?: string;
   onCancel: () => void;
-  style?: React.CSSProperties;
-  children: React.ReactNode;
+  style?: CSSProperties;
+  children: ReactNode;
   show: boolean;
 }
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { ManageList } from './ManageList';
 import {
   CreateListRequest,
@@ -28,7 +28,7 @@ export const AddList = () => {
   const dispatch = useDispatch();
   const { userId } = useAuth();
 
-  const addListToLists = async (e: React.FormEvent) => {
+  const addListToLists = async (e: FormEvent) => {
     e.preventDefault();
 
     const newList: CreateListRequest = {
