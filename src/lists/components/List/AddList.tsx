@@ -13,7 +13,6 @@ import { Button, VStack } from '@chakra-ui/react';
 import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
 import { SuccessfullyBox } from '../../../common/components/UiElements/SuccessfullyBox';
-import { useAuth } from '../../../common/hooks/auth-hook';
 
 export const AddList = () => {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -26,14 +25,12 @@ export const AddList = () => {
   const { isLoading, error, sendRequest, clearError, setError } =
     useHttpClient();
   const dispatch = useDispatch();
-  const { userId } = useAuth();
 
   const addListToLists = async (e: FormEvent) => {
     e.preventDefault();
 
     const newList: CreateListRequest = {
       listName: formState.inputs.name.value,
-      userId,
     };
     const res: CreateListResponse = await sendRequest('/list', 'POST', newList);
     if (!res.isSuccess) {

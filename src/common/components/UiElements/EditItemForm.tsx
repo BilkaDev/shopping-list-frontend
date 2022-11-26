@@ -20,7 +20,6 @@ import {
   editItemInRecipeAction,
   editRecipeAction,
 } from '../../Redux/actions/Recipe';
-import { useAuth } from '../../hooks/auth-hook';
 
 interface Props {
   element: string;
@@ -77,7 +76,6 @@ export const EditItemForm = ({
     false
   );
   const dispatch = useDispatch();
-  const { userId } = useAuth();
 
   useEffect(() => {
     setFormData(initialInputsForm, initialValid);
@@ -98,7 +96,6 @@ export const EditItemForm = ({
       case 'list':
         editItem = {
           listName: formState.inputs.name.value,
-          userId,
         };
         path = `/list/${itemId}`;
         dispatch(editListName(itemId, editItem as CreateListRequest));
