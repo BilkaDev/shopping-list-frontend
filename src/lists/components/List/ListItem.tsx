@@ -21,8 +21,8 @@ export const ListItem = ({ id, name }: Props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   async function deleteHandler(id: string) {
-    const response = await sendRequest(`/list/${id}`, 'DELETE');
-    if (response.isSuccess) {
+    const res = await sendRequest(`/list/${id}`, 'DELETE');
+    if (res.status === 200) {
       dispatch(deleteList(id));
     }
   }
