@@ -2,13 +2,14 @@ import {
   GetItemInList,
   GetListResponse,
   GetListsResponse,
+  Lists,
   RecipeInterface,
   UpdateItemInListRequest,
 } from 'interfaces';
 import { ListAction } from '../action-types/list';
 
 export interface ListOfLists {
-  listOfLists: GetListsResponse;
+  listOfLists: Lists;
   list: GetListResponse;
 }
 
@@ -118,7 +119,7 @@ export const listReducer = (
     case ListAction.SET_LISTS:
       return {
         ...state,
-        listOfLists: action.payload,
+        listOfLists: action.payload.lists,
       };
     case ListAction.SET_ITEMS_IN_LIST:
       return {
