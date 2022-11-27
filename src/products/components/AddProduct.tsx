@@ -30,8 +30,9 @@ export const AddProduct = () => {
     },
     false
   );
-  const { isLoading, error, sendRequest, clearError, setError } =
-    useHttpClient();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient({
+    400: 'Adding a product failed, check the product name (name must not repeat)',
+  });
   const dispatch = useDispatch();
 
   const createProduct = async (e: FormEvent) => {
@@ -45,17 +46,14 @@ export const AddProduct = () => {
       'POST',
       newProduct
     );
-    if (res.status !== 201) {
-      return setError(
-        'Adding a product failed, check the product name (name must not repeat)'
-      );
+    if (res.status === 201) {
+      const newProductWithId: ProductInterface = {
+        ...newProduct,
+        id: res.data.product.id,
+      };
+      setIsSuccess(true);
+      dispatch(addProductAction(newProductWithId));
     }
-    const newProductWithId: ProductInterface = {
-      ...newProduct,
-      id: res.data.product.id,
-    };
-    setIsSuccess(true);
-    dispatch(addProductAction(newProductWithId));
   };
 
   if (isSuccess) {

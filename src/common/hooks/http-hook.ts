@@ -71,15 +71,16 @@ export const useHttpClient = (httpErrorMap?: HttpErrorMap) => {
       } catch (e: unknown) {
         if (httpErrorMap?.all) {
           setError(httpErrorMap.all);
-          return;
+          return { status: 500 };
         }
         if (e instanceof HttpError) {
           const message =
             httpErrorMap?.[e.statusCode] ?? defaultHttpErrorMap[e.statusCode];
-          setError(message);
-          return;
+          setError(message ?? defaultHttpErrorMap['500']);
+          return { status: e.statusCode };
         }
         setError(defaultHttpErrorMap['500']);
+        return { status: 500 };
       } finally {
         setIsLoading(false);
       }

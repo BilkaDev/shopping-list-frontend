@@ -23,8 +23,9 @@ export const AddList = () => {
     },
     false
   );
-  const { isLoading, error, sendRequest, clearError, setError } =
-    useHttpClient();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient({
+    400: 'Adding the list failed, check the recipe name (the name must not repeat)',
+  });
   const dispatch = useDispatch();
 
   const addListToLists = async (e: FormEvent) => {
@@ -38,19 +39,16 @@ export const AddList = () => {
       'POST',
       newList
     );
-    if (res.status !== 201) {
-      return setError(
-        'Adding the list failed, check the recipe name (the name must not repeat)'
-      );
+    if (res.status === 201) {
+      const newListWithId: ListInterface = {
+        id: res.data.id,
+        listName: newList.listName,
+        items: [],
+        recipes: [],
+      };
+      dispatch(addList(newListWithId));
+      setIsSuccess(true);
     }
-    const newListWithId: ListInterface = {
-      id: res.data.id,
-      listName: newList.listName,
-      items: [],
-      recipes: [],
-    };
-    dispatch(addList(newListWithId));
-    setIsSuccess(true);
   };
 
   if (isSuccess) {
