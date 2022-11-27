@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { ManageList } from './ManageList';
 import {
+  ApiResponse,
   CreateListRequest,
   CreateListResponse,
   ListInterface,
@@ -32,14 +33,18 @@ export const AddList = () => {
     const newList: CreateListRequest = {
       listName: formState.inputs.name.value,
     };
-    const res: CreateListResponse = await sendRequest('/list', 'POST', newList);
-    if (!res.isSuccess) {
+    const res: ApiResponse<CreateListResponse> = await sendRequest(
+      '/list',
+      'POST',
+      newList
+    );
+    if (res.status !== 201) {
       return setError(
         'Adding the list failed, check the recipe name (the name must not repeat)'
       );
     }
     const newListWithId: ListInterface = {
-      id: res.id,
+      id: res.data.id,
       listName: newList.listName,
       items: [],
       recipes: [],
