@@ -23,7 +23,6 @@ function App() {
   const { error, sendRequest, clearError } = useHttpClient();
   const dispatch = useDispatch();
   const { userId, isLoggedIn } = useAuth();
-  console.log(userId);
 
   useEffect(() => {
     if (!userId) return;
