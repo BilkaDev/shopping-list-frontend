@@ -1,4 +1,4 @@
-import { ProductCategory } from 'interfaces';
+import { ApiResponse, GetListResponse, ProductCategory } from 'interfaces';
 import { useEffect } from 'react';
 import { ItemsList } from '../components/ItemInList/ItemsList';
 import { useParams } from 'react-router-dom';
@@ -25,8 +25,10 @@ export const ItemsInList = () => {
 
   useEffect(() => {
     (async () => {
-      const list = await sendRequest(`/list/user/${id}`);
-      dispatch(setItemsInList(list));
+      const res: ApiResponse<GetListResponse> = await sendRequest(
+        `/list/user/${id}`
+      );
+      dispatch(setItemsInList(res.data.list));
     })();
   }, [dispatch, id, sendRequest]);
 

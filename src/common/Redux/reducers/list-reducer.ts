@@ -1,7 +1,6 @@
 import {
   GetItemInList,
-  GetListResponse,
-  GetListsResponse,
+  ListInterface,
   Lists,
   RecipeInterface,
   UpdateItemInListRequest,
@@ -10,7 +9,7 @@ import { ListAction } from '../action-types/list';
 
 export interface ListOfLists {
   listOfLists: Lists;
-  list: GetListResponse;
+  list: ListInterface;
 }
 
 const initialState: ListOfLists = {
@@ -25,17 +24,17 @@ const initialState: ListOfLists = {
 
 interface SetLists {
   type: ListAction.SET_LISTS;
-  payload: GetListsResponse;
+  payload: Lists;
 }
 
 interface AddList {
   type: ListAction.ADD_TO_LISTS;
-  payload: GetListResponse;
+  payload: ListInterface;
 }
 
 interface EditList {
   type: ListAction.EDIT_NAME_LIST;
-  payload: GetListResponse;
+  payload: ListInterface;
 }
 
 interface DeleteList {
@@ -46,7 +45,7 @@ interface DeleteList {
 /*ITEMS IN LIST*/
 interface SetItemsInList {
   type: ListAction.SET_ITEMS_IN_LIST;
-  payload: GetListResponse;
+  payload: ListInterface;
 }
 
 interface AddItemToList {
@@ -119,7 +118,7 @@ export const listReducer = (
     case ListAction.SET_LISTS:
       return {
         ...state,
-        listOfLists: action.payload.lists,
+        listOfLists: action.payload,
       };
     case ListAction.SET_ITEMS_IN_LIST:
       return {

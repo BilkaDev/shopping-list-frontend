@@ -29,9 +29,7 @@ function App() {
     (async () => {
       const loadedRecipes = await sendRequest(`/recipe/${userId}`);
       dispatch(
-        setRecipesAction(
-          loadedRecipes?.isSuccess === false ? [] : loadedRecipes
-        )
+        setRecipesAction(loadedRecipes.status === 200 ? loadedRecipes.data : [])
       );
       const loadedProducts: ApiResponse<ProductListResponse> =
         await sendRequest(`/product`);

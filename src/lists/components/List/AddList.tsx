@@ -3,7 +3,7 @@ import { ManageList } from './ManageList';
 import {
   CreateListRequest,
   CreateListResponse,
-  GetListResponse,
+  ListInterface,
 } from 'interfaces';
 import { useForm } from '../../../common/hooks/form-hook';
 import { useHttpClient } from '../../../common/hooks/http-hook';
@@ -38,7 +38,7 @@ export const AddList = () => {
         'Adding the list failed, check the recipe name (the name must not repeat)'
       );
     }
-    const newListWithId: GetListResponse = {
+    const newListWithId: ListInterface = {
       id: res.id,
       listName: newList.listName,
       items: [],

@@ -24,9 +24,7 @@ export const Lists = () => {
       );
 
       dispatch(
-        setLists(
-          loadedProducts.status === 200 ? loadedProducts.data : { lists: [] }
-        )
+        setLists(loadedProducts.status === 200 ? loadedProducts.data.lists : [])
       );
     })();
   }, [dispatch, sendRequest, userId]);

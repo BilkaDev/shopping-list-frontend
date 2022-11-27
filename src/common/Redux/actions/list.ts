@@ -1,23 +1,23 @@
 import {
   CreateListRequest,
   GetItemInList,
-  GetListResponse,
-  GetListsResponse,
+  ListInterface,
+  Lists,
   RecipeInterface,
   UpdateItemInListRequest,
 } from 'interfaces';
 import { ListAction } from '../action-types/list';
 
-export const setLists = (lists: GetListsResponse) => ({
+export const setLists = (lists: Lists) => ({
   type: ListAction.SET_LISTS,
   payload: lists,
 });
-export const setItemsInList = (list: GetListResponse) => ({
+export const setItemsInList = (list: ListInterface) => ({
   type: ListAction.SET_ITEMS_IN_LIST,
   payload: list,
 });
 
-export const addList = (list: GetListResponse) => ({
+export const addList = (list: ListInterface) => ({
   type: ListAction.ADD_TO_LISTS,
   payload: list,
 });
