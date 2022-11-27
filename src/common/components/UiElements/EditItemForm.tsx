@@ -43,8 +43,6 @@ export const EditItemForm = ({
   recipeId,
 }: Props) => {
   const [isSuccess, setIsSuccess] = useState(false);
-  const { isLoading, error, sendRequest, clearError, setError } =
-    useHttpClient();
 
   const initialInputsForm = useMemo(
     () => ({
@@ -76,6 +74,7 @@ export const EditItemForm = ({
     initialInputsForm,
     false
   );
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -151,13 +150,14 @@ export const EditItemForm = ({
     );
     if (res.status === 200) {
       setIsSuccess(true);
-    } else {
-      return setError(
-        res.status === 500
-          ? `Sorry, please try again later.`
-          : `Ops. something went wrong.... check the name ${initialInputs.name} (can't be repeated)`
-      );
     }
+    // else {
+    //   return setError(
+    //     res.status === 500
+    //       ? `Sorry, please try again later.`
+    //       : `Ops. something went wrong.... check the name ${initialInputs.name} (can't be repeated)`
+    //   );
+    // }
   };
   if (isSuccess) {
     return (
