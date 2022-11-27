@@ -57,7 +57,7 @@ export const useHttpClient = () => {
 
         const responseData = await response.json();
         setIsLoading(false);
-        if (!responseData.isSuccess) {
+        if (responseData.status !== 200 && responseData.status !== 201) {
           setError(responseData.message);
           return responseData;
         }

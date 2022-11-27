@@ -8,6 +8,7 @@ import {
   UpdateProductRequest,
   UpdateItemInListRequest,
   EditRecipeRequest,
+  ApiResponse,
 } from 'interfaces';
 import { editItemInList, editListName } from '../../Redux/actions/list';
 import { ManageList } from '../../../lists/components/List/ManageList';
@@ -143,15 +144,20 @@ export const EditItemForm = ({
       default:
         return;
     }
-    const res = await sendRequest(path, 'PATCH', editItem);
-    if (!res.isSuccess) {
+    const res: ApiResponse<unknown> = await sendRequest(
+      path,
+      'PATCH',
+      editItem
+    );
+    if (res.status === 200) {
+      setIsSuccess(true);
+    } else {
       return setError(
-        res?.message
+        res.status === 500
           ? `Sorry, please try again later.`
           : `Ops. something went wrong.... check the name ${initialInputs.name} (can't be repeated)`
       );
     }
-    setIsSuccess(true);
   };
   if (isSuccess) {
     return (
