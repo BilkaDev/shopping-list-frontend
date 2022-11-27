@@ -1,5 +1,5 @@
 import {
-  GetItemInList,
+  ItemInListInterface,
   ListInterface,
   Lists,
   RecipeInterface,
@@ -50,7 +50,7 @@ interface SetItemsInList {
 
 interface AddItemToList {
   type: ListAction.ADD_ITEM_TO_LIST;
-  payload: GetItemInList;
+  payload: ItemInListInterface;
 }
 
 interface RemoveItemFromList {

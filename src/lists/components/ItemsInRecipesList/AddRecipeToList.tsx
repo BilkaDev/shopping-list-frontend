@@ -8,6 +8,8 @@ import { useParams } from 'react-router-dom';
 import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { SuccessfullyBox } from '../../../common/components/UiElements/SuccessfullyBox';
 import { addRecipeToList } from '../../../common/Redux/actions/list';
+import { ApiResponse } from '../../../../../shopping-list-BE/src/interfaces/api';
+import { AddRecipeToListResponse } from 'interfaces';
 
 export function AddRecipeToList() {
   const { recipes } = useSelector((store: RootState) => store.recipes);
@@ -27,12 +29,12 @@ export function AddRecipeToList() {
     if (recipe.isSuccess === false) {
       return setError('Adding recipe failed. Please try again later');
     }
-    const resProduct = await sendRequest(
+    const res: ApiResponse<AddRecipeToListResponse> = await sendRequest(
       `/list/add-recipe/${listId}/${recipe?.id}`,
       'POST',
       null
     );
-    if (!resProduct.isSuccess) {
+    if (res.status !== 200) {
       return setError('Adding a recipe failed.');
     } else {
       dispatch(addRecipeToList(recipe));

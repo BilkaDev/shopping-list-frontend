@@ -13,10 +13,11 @@ import { useParams } from 'react-router-dom';
 import {
   CreateProductRequest,
   CreateItemInListRequest,
-  GetItemInList,
   ApiResponse,
+  AddItemToListResponse,
   AddProductResponse,
   ProductInterface,
+  ItemInListInterface,
 } from 'interfaces';
 import { addProductAction } from '../../../common/Redux/actions/product';
 import { addItemToList } from '../../../common/Redux/actions/list';
@@ -89,14 +90,18 @@ export const AddItem = ({ isRecipe }: Props) => {
       };
     }
 
-    const res: any = await sendRequest('/list/item', 'POST', newItem);
+    const res: ApiResponse<AddItemToListResponse> = await sendRequest(
+      '/list/item',
+      'POST',
+      newItem
+    );
 
-    if (!res.isSuccess) {
+    if (res.status !== 201) {
       return setError('Adding a product to the list failed.');
     }
 
-    const newItemToStore: GetItemInList = {
-      id: res.id,
+    const newItemToStore: ItemInListInterface = {
+      id: res.data.id,
       ...newItem,
       itemInBasket: false,
       recipeId: isRecipe ? id : undefined,

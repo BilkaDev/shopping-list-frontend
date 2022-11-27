@@ -1,6 +1,6 @@
 import {
   CreateListRequest,
-  GetItemInList,
+  ItemInListInterface,
   ListInterface,
   Lists,
   RecipeInterface,
@@ -30,7 +30,7 @@ export const deleteList = (listId: string) => ({
   payload: listId,
 });
 
-export const addItemToList = (item: GetItemInList) => ({
+export const addItemToList = (item: ItemInListInterface) => ({
   type: ListAction.ADD_ITEM_TO_LIST,
   payload: item,
 });

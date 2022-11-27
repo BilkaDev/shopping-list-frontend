@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
-import { ItemInListInterface } from 'interfaces';
+import {
+  ApiResponse,
+  DeleteItemInListResponse,
+  ItemInListInterface,
+} from 'interfaces';
 import { DeleteIcon, EditIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import { Td, Tr, Center } from '@chakra-ui/react';
 import { useHttpClient } from '../../../common/hooks/http-hook';
@@ -45,8 +49,11 @@ export const ItemInList = ({ category, item, isRecipe }: Props) => {
   };
 
   const deleteItemHandler = async () => {
-    const res = await sendRequest(`/list/item/${item.id}`, 'DELETE');
-    if (res.isSuccess) {
+    const res: ApiResponse<DeleteItemInListResponse> = await sendRequest(
+      `/list/item/${item.id}`,
+      'DELETE'
+    );
+    if (res.status === 200) {
       dispatch(removeItemFromList(item.id));
     }
   };

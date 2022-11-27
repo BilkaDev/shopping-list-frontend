@@ -1,7 +1,7 @@
 import {
   EditDescriptionRecipeRequest,
   EditRecipeRequest,
-  GetItemInList,
+  ItemInListInterface,
   RecipeInterface,
   UpdateItemInListRequest,
 } from 'interfaces';
@@ -37,7 +37,7 @@ export const deleteItemInRecipeAction = (id: string, recipeId: string) => ({
   type: RecipeAction.DELETE_ITEM_IN_RECIPE,
   payload: { id, recipeId },
 });
-export const addItemToRecipeAction = (item: GetItemInList) => ({
+export const addItemToRecipeAction = (item: ItemInListInterface) => ({
   type: RecipeAction.ADD_ITEM_TO_RECIPE,
   payload: item,
 });
