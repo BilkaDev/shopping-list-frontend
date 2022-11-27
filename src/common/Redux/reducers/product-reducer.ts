@@ -1,4 +1,4 @@
-import { GetProductResponse, ProductInterface } from 'interfaces';
+import { ProductInterface } from 'interfaces';
 import { ProductAction } from '../action-types/product';
 
 interface ProductState {
@@ -11,11 +11,11 @@ interface SetProducts {
 }
 interface AddProduct {
   type: ProductAction.ADD_TO_PRODUCTS;
-  payload: GetProductResponse;
+  payload: ProductInterface;
 }
 interface EditProduct {
   type: ProductAction.EDIT_PRODUCTS;
-  payload: GetProductResponse;
+  payload: ProductInterface;
 }
 interface DeleteProduct {
   type: ProductAction.DELETE_FROM_PRODUCTS;

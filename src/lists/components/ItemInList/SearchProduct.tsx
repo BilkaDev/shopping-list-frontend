@@ -1,4 +1,4 @@
-import { GetProductResponse } from 'interfaces';
+import { ProductInterface } from 'interfaces';
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../common/Redux/store';
@@ -8,8 +8,8 @@ import { CheckCircleIcon } from '@chakra-ui/icons';
 
 interface Props {
   name: string;
-  product: GetProductResponse | undefined;
-  setProduct: (product: GetProductResponse | undefined) => void;
+  product: ProductInterface | undefined;
+  setProduct: (product: ProductInterface | undefined) => void;
   onSelectHandler: (id: string, value: number, isValid: boolean) => void;
 }
 
@@ -19,7 +19,7 @@ export const SearchProduct = ({
   product,
   setProduct,
 }: Props) => {
-  const [suggestions, setSuggestions] = useState<GetProductResponse[]>([]);
+  const [suggestions, setSuggestions] = useState<ProductInterface[]>([]);
   const { listProducts } = useSelector((store: RootState) => store.products);
 
   const handleClick = useCallback(
@@ -68,7 +68,7 @@ export const SearchProduct = ({
     };
   }, [handleClick, name, product]);
 
-  const setProductHandler = (product: GetProductResponse) => {
+  const setProductHandler = (product: ProductInterface) => {
     setProduct(product);
     document.body.removeEventListener('keydown', handleClick);
   };

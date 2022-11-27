@@ -17,6 +17,7 @@ import { ItemsInRecipe } from './recipes/pages/ItemsInRecipe';
 import { setRecipesAction } from './common/Redux/actions/Recipe';
 import { RecoverPassword } from './auth/pages/RecoverPassword';
 import { useAuth } from './common/hooks/auth-hook';
+import { ApiResponse, ProductListResponse } from 'interfaces';
 
 function App() {
   const { error, sendRequest, clearError } = useHttpClient();
@@ -33,9 +34,10 @@ function App() {
           loadedRecipes?.isSuccess === false ? [] : loadedRecipes
         )
       );
-      const loadedProducts = await sendRequest(`/product/`);
-      if (loadedProducts.isSuccess) {
-        dispatch(setProductsAction(loadedProducts.products));
+      const loadedProducts: ApiResponse<ProductListResponse> =
+        await sendRequest(`/product`);
+      if (loadedProducts.status === 200) {
+        dispatch(setProductsAction(loadedProducts.data.products));
       }
     })();
   }, [dispatch, userId, sendRequest]);
