@@ -9,6 +9,7 @@ import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpi
 import { ModalChakra } from '../../../common/components/UiElements/ModalChakra';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { EditItemForm } from '../../../common/components/UiElements/EditItemForm';
+import { DeleteItemInListResponse } from '../../../../../shopping-list-BE/src/interfaces/list';
 
 interface Props {
   id: string;
@@ -21,8 +22,11 @@ export const ListItem = ({ id, name }: Props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   async function deleteHandler(id: string) {
-    const res = await sendRequest(`/list/${id}`, 'DELETE');
-    if (res.status === 200) {
+    const data = await sendRequest<DeleteItemInListResponse>(
+      `/list/${id}`,
+      'DELETE'
+    );
+    if (data) {
       dispatch(deleteList(id));
     }
   }

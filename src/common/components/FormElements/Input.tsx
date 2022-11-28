@@ -41,19 +41,19 @@ function inputReducer(state: any, action: any) {
 }
 
 export const Input = ({
-                        autoCompleteOff,
-                        errorText,
-                        id,
-                        initialValid,
-                        initialValue,
-                        label,
-                        max,
-                        min,
-                        onInput,
-                        placeholder,
-                        type,
-                        validators
-                      }: Props) => {
+  autoCompleteOff,
+  errorText,
+  id,
+  initialValid,
+  initialValue,
+  label,
+  max,
+  min,
+  onInput,
+  placeholder,
+  type,
+  validators,
+}: Props) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: initialValue || '',
     isValid: initialValid || false,

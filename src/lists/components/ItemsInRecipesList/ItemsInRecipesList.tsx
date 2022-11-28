@@ -1,9 +1,5 @@
 import { Stack, Text, UnorderedList } from '@chakra-ui/react';
-import {
-  ApiResponse,
-  DeleteRecipeFromListResponse,
-  RecipeInterface,
-} from 'interfaces';
+import { DeleteRecipeFromListResponse, RecipeInterface } from 'interfaces';
 import { ItemsList } from '../ItemInList/ItemsList';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { useDispatch } from 'react-redux';
@@ -19,17 +15,18 @@ interface Props {
 
 export function ItemsInRecipesList({ recipes, category, listId }: Props) {
   const dispatch = useDispatch();
-  const { error, sendRequest, clearError, setError } = useHttpClient();
+  const { error, sendRequest, clearError } = useHttpClient({
+    all: 'Something went wrong when deleting the recipe. Please try again later.',
+  });
 
   async function deleteItemHandler(recipeId: string, listId: string) {
-    const res: ApiResponse<DeleteRecipeFromListResponse> = await sendRequest(
+    const data = await sendRequest<DeleteRecipeFromListResponse>(
       `/list/delete-recipe/${listId}/${recipeId}`,
       'DELETE'
     );
-    if (res.status !== 200) {
-      setError('Delete recipe failed!');
+    if (data) {
+      dispatch(deleteRecipeFromList(recipeId));
     }
-    dispatch(deleteRecipeFromList(recipeId));
   }
 
   const list = recipes.map(recipe => (

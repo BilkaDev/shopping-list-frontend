@@ -15,7 +15,6 @@ import * as Yup from 'yup';
 import { Link as ReachLink } from 'react-router-dom';
 import { InfoModal } from '../../common/components/UiElements/InfoModal';
 import { useAuth } from '../../common/hooks/auth-hook';
-import { ApiResponse } from '../../../../shopping-list-BE/src/interfaces/api';
 import { AuthLogin } from 'interfaces';
 
 const LoginSchema = Yup.object().shape({
@@ -38,16 +37,12 @@ export const LoginForm = () => {
     },
     validationSchema: LoginSchema,
     onSubmit: async values => {
-      const res: ApiResponse<AuthLogin> = await sendRequest(
-        '/auth/login',
-        'POST',
-        {
-          email: values.email,
-          pwd: values.password,
-        }
-      );
-      if (res.status === 200) {
-        auth.login(res.data.user.userId, res.data.user.email);
+      const data = await sendRequest<AuthLogin>('/auth/login', 'POST', {
+        email: values.email,
+        pwd: values.password,
+      });
+      if (data) {
+        auth.login(data.user.userId, data.user.email);
       }
     },
   });

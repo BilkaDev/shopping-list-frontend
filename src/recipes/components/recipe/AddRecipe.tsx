@@ -7,11 +7,7 @@ import { useDispatch } from 'react-redux';
 import { FormEvent, useState } from 'react';
 import { SuccessfullyBox } from '../../../common/components/UiElements/SuccessfullyBox';
 import { ManageRecipeList } from './ManageRecipeList';
-import {
-  AddRecipeRequest,
-  ApiResponse,
-  CreateRecipeResponse,
-} from 'interfaces';
+import { AddRecipeRequest, CreateRecipeResponse } from 'interfaces';
 import { addRecipeAction } from '../../../common/Redux/actions/Recipe';
 import { useAuth } from '../../../common/hooks/auth-hook';
 
@@ -38,15 +34,15 @@ export const AddRecipe = () => {
       description: '',
       items: [],
     };
-    const res: ApiResponse<CreateRecipeResponse> = await sendRequest(
+    const data = await sendRequest<CreateRecipeResponse>(
       '/recipe',
       'POST',
       newRecipe
     );
-    if (res.status === 201) {
+    if (data) {
       dispatch(
         addRecipeAction({
-          id: res.data.id,
+          id: data.id,
           name: newRecipe.name,
           description: '',
           items: [],

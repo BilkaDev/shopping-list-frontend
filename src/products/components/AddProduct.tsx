@@ -3,7 +3,6 @@ import { ManageProduct } from './ManageProduct';
 import { useForm } from '../../common/hooks/form-hook';
 import {
   AddProductResponse,
-  ApiResponse,
   CreateProductRequest,
   ProductInterface,
 } from 'interfaces';
@@ -31,7 +30,8 @@ export const AddProduct = () => {
     false
   );
   const { isLoading, error, sendRequest, clearError } = useHttpClient({
-    400: 'Adding a product failed, check the product name (name must not repeat)',
+    '400':
+      'Adding a product failed, check the product name (name must not repeat)',
   });
   const dispatch = useDispatch();
 
@@ -41,15 +41,15 @@ export const AddProduct = () => {
       name: formState.inputs.name.value,
       category: Number(formState.inputs.category.value),
     };
-    const res: ApiResponse<AddProductResponse> = await sendRequest(
+    const data = await sendRequest<AddProductResponse>(
       '/product',
       'POST',
       newProduct
     );
-    if (res.status === 201) {
+    if (data) {
       const newProductWithId: ProductInterface = {
         ...newProduct,
-        id: res.data.product.id,
+        id: data.product.id,
       };
       setIsSuccess(true);
       dispatch(addProductAction(newProductWithId));

@@ -1,9 +1,5 @@
 import { useState } from 'react';
-import {
-  ApiResponse,
-  DeleteItemInListResponse,
-  ItemInListInterface,
-} from 'interfaces';
+import { DeleteItemInListResponse, ItemInListInterface } from 'interfaces';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Td, Tr } from '@chakra-ui/react';
 import { useHttpClient } from '../../../common/hooks/http-hook';
@@ -22,17 +18,19 @@ interface Props {
 export const ItemInRecipe = ({ category, item, recipeId }: Props) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const dispatch = useDispatch();
-  const { error, sendRequest, clearError } = useHttpClient();
+  const { error, sendRequest, clearError } = useHttpClient({
+    all: 'Something went wrong when deleting the recipe. Please try again later.',
+  });
   if (category !== item.product.category) {
     return null;
   }
 
   const deleteItemHandler = async () => {
-    const res: ApiResponse<DeleteItemInListResponse> = await sendRequest(
+    const data = await sendRequest<DeleteItemInListResponse>(
       `/list/item/${item.id}`,
       'DELETE'
     );
-    if (res.status === 200) {
+    if (data) {
       dispatch(deleteItemInRecipeAction(item.id, recipeId));
     }
   };

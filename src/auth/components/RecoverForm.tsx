@@ -13,7 +13,7 @@ import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinne
 import { InfoModal } from '../../common/components/UiElements/InfoModal';
 import { useHttpClient } from '../../common/hooks/http-hook';
 import { useNavigate } from 'react-router-dom';
-import { ApiResponse, RecoverPasswordResponse } from 'interfaces';
+import { RecoverPasswordResponse } from 'interfaces';
 
 const RecoverSchema = Yup.object().shape({
   email: Yup.string()
@@ -22,7 +22,9 @@ const RecoverSchema = Yup.object().shape({
 });
 
 export function RecoverForm() {
-  const { sendRequest, error, clearError, isLoading } = useHttpClient();
+  const { sendRequest, error, clearError, isLoading } = useHttpClient({
+    all: 'Something went wrong when recover password. Please try again later!',
+  });
   const [isSuccess, setIsSuccess] = useState(false);
   const nav = useNavigate();
 
@@ -32,20 +34,20 @@ export function RecoverForm() {
     },
     validationSchema: RecoverSchema,
     onSubmit: async values => {
-      const res: ApiResponse<RecoverPasswordResponse> = await sendRequest(
+      const data = await sendRequest<RecoverPasswordResponse>(
         '/user/recover',
         'POST',
         {
           email: values.email,
         }
       );
-      if (res.status === 200) {
+      if (data) {
         setIsSuccess(true);
       }
     },
   });
 
-  const closeSucessModalHandler = () => {
+  const closeSuccessModalHandler = () => {
     setIsSuccess(false);
     nav('/');
   };
@@ -64,7 +66,7 @@ export function RecoverForm() {
       {isSuccess && (
         <InfoModal
           message={'If e-mail is used then password has been sent'}
-          onClose={closeSucessModalHandler}
+          onClose={closeSuccessModalHandler}
           title={'Success!'}
         />
       )}

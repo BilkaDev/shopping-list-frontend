@@ -8,7 +8,6 @@ import {
   UpdateProductRequest,
   UpdateItemInListRequest,
   EditRecipeRequest,
-  ApiResponse,
 } from 'interfaces';
 import { editItemInList, editListName } from '../../Redux/actions/list';
 import { ManageList } from '../../../lists/components/List/ManageList';
@@ -74,7 +73,9 @@ export const EditItemForm = ({
     initialInputsForm,
     false
   );
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient({
+    '400': "Ops. something went wrong.... check the name (can't be repeated)",
+  });
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -143,21 +144,10 @@ export const EditItemForm = ({
       default:
         return;
     }
-    const res: ApiResponse<unknown> = await sendRequest(
-      path,
-      'PATCH',
-      editItem
-    );
-    if (res.status === 200) {
+    const data = await sendRequest(path, 'PATCH', editItem);
+    if (data) {
       setIsSuccess(true);
     }
-    // else {
-    //   return setError(
-    //     res.status === 500
-    //       ? `Sorry, please try again later.`
-    //       : `Ops. something went wrong.... check the name ${initialInputs.name} (can't be repeated)`
-    //   );
-    // }
   };
   if (isSuccess) {
     return (

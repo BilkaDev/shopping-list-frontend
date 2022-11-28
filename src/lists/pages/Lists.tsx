@@ -8,7 +8,6 @@ import { Section } from '../../common/components/UiElements/Section';
 import { InfoModal } from '../../common/components/UiElements/InfoModal';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
 import { useAuth } from '../../common/hooks/auth-hook';
-import { ApiResponse } from '../../../../shopping-list-BE/src/interfaces/api';
 import { GetListsResponse } from '../../../../shopping-list-BE/src/interfaces/list';
 
 export const Lists = () => {
@@ -19,13 +18,9 @@ export const Lists = () => {
   useEffect(() => {
     (async () => {
       if (!userId) return;
-      const loadedProducts: ApiResponse<GetListsResponse> = await sendRequest(
-        `/list/${userId}`
-      );
+      const data = await sendRequest<GetListsResponse>(`/list/${userId}`);
 
-      dispatch(
-        setLists(loadedProducts.status === 200 ? loadedProducts.data.lists : [])
-      );
+      dispatch(setLists(data ? data.lists : []));
     })();
   }, [dispatch, sendRequest, userId]);
 
