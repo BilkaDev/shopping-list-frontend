@@ -9,11 +9,11 @@ import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { SuccessfullyBox } from '../../../common/components/UiElements/SuccessfullyBox';
 import { addRecipeToList } from '../../../common/Redux/actions/list';
 import { ApiResponse } from '../../../../../shopping-list-BE/src/interfaces/api';
-import { AddRecipeToListResponse } from 'interfaces';
+import { AddRecipeToListResponse, GetRecipeResponse } from 'interfaces';
 
 export function AddRecipeToList() {
   const { recipes } = useSelector((store: RootState) => store.recipes);
-  const [selectValue, setSelectValue] = useState(recipes[0].id);
+  const [selectValue, setSelectValue] = useState(recipes[0]?.id);
   const [isSuccess, setIsSuccess] = useState(false);
   const { error, sendRequest, clearError, setError } = useHttpClient();
   const dispatch = useDispatch();
@@ -25,19 +25,21 @@ export function AddRecipeToList() {
   }
 
   async function addToListHandler() {
-    const recipe = await sendRequest(`/recipe/user/${selectValue}`);
-    if (recipe.isSuccess === false) {
+    const recipe: ApiResponse<GetRecipeResponse> = await sendRequest(
+      `/recipe/user/${selectValue}`
+    );
+    if (recipe.status !== 200) {
       return setError('Adding recipe failed. Please try again later');
     }
     const res: ApiResponse<AddRecipeToListResponse> = await sendRequest(
-      `/list/add-recipe/${listId}/${recipe?.id}`,
+      `/list/add-recipe/${listId}/${recipe.data.recipe.id}`,
       'POST',
       null
     );
-    if (res.status !== 200) {
+    if (res.status !== 201) {
       return setError('Adding a recipe failed.');
     } else {
-      dispatch(addRecipeToList(recipe));
+      dispatch(addRecipeToList(recipe.data.recipe));
       setIsSuccess(true);
     }
   }

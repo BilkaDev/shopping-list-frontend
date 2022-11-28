@@ -22,7 +22,6 @@ export const ItemsInList = () => {
   const entries = Object.entries(ProductCategory);
   const category: string[] = [];
   const { list } = useSelector((store: RootState) => store.lists);
-
   useEffect(() => {
     (async () => {
       const res: ApiResponse<GetListResponse> = await sendRequest(
@@ -62,7 +61,7 @@ export const ItemsInList = () => {
           <Text fontSize="4xl">Add product to list</Text>
         </Center>
         <AddItem />
-        <AddRecipeToList />\{/*render list product*/}
+        <AddRecipeToList />
         <Stack paddingTop="1.5rem" direction="row" spacing={20}>
           <Text fontSize="4xl">List {name}</Text>
           <Text
@@ -88,7 +87,6 @@ export const ItemsInList = () => {
             ))}
           </UnorderedList>
         </div>
-        {/*render recipe product*/}
         <ItemsInRecipesList
           listId={id as string}
           recipes={list.recipes}
