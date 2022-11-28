@@ -3,11 +3,12 @@ import {
   EditRecipeRequest,
   ItemInListInterface,
   RecipeInterface,
+  RecipeFilter,
   UpdateItemInListRequest,
 } from 'interfaces';
 import { RecipeAction } from '../action-types/recipe';
 
-export const setRecipesAction = (recipes: RecipeInterface[]) => ({
+export const setRecipesAction = (recipes: RecipeFilter[]) => ({
   type: RecipeAction.SET_RECIPES,
   payload: recipes,
 });

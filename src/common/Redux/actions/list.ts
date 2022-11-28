@@ -2,13 +2,13 @@ import {
   CreateListRequest,
   ItemInListInterface,
   ListInterface,
-  Lists,
+  ListFilter,
   RecipeInterface,
   UpdateItemInListRequest,
 } from 'interfaces';
 import { ListAction } from '../action-types/list';
 
-export const setLists = (lists: Lists) => ({
+export const setLists = (lists: ListFilter[]) => ({
   type: ListAction.SET_LISTS,
   payload: lists,
 });

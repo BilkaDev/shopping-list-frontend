@@ -5,6 +5,8 @@ import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
 import { useDispatch } from 'react-redux';
 import { editDescriptionRecipeAction } from '../../../common/Redux/actions/Recipe';
+import { ApiResponse } from '../../../../../shopping-list-BE/src/interfaces/api';
+import { EditDescriptionRecipeRequest } from 'interfaces';
 
 interface Props {
   show: boolean;
@@ -15,19 +17,22 @@ interface Props {
 
 export function DescriptionManage({ show, id, onClose, description }: Props) {
   const [descriptionInput, setDescriptionInput] = useState(description ?? '');
-  const { isLoading, error, sendRequest, clearError, setError } =
-    useHttpClient();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient(
+    { all: 'Adding description to the recipe failed.' }
+  );
   const dispatch = useDispatch();
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
-    const res: any = await sendRequest('/recipe/edit-description', 'PATCH', {
-      description: descriptionInput,
-      id,
-    });
-    if (!res.isSuccess) {
-      return setError('Adding description to the recipe failed.');
-    } else {
+    const res: ApiResponse<EditDescriptionRecipeRequest> = await sendRequest(
+      '/recipe/edit-description',
+      'PATCH',
+      {
+        description: descriptionInput,
+        id,
+      }
+    );
+    if (res.status === 200) {
       dispatch(
         editDescriptionRecipeAction({ description: descriptionInput, id })
       );

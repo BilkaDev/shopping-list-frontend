@@ -7,7 +7,11 @@ import { useDispatch } from 'react-redux';
 import { FormEvent, useState } from 'react';
 import { SuccessfullyBox } from '../../../common/components/UiElements/SuccessfullyBox';
 import { ManageRecipeList } from './ManageRecipeList';
-import { AddRecipeRequest, CreateRecipeResponse } from 'interfaces';
+import {
+  AddRecipeRequest,
+  ApiResponse,
+  CreateRecipeResponse,
+} from 'interfaces';
 import { addRecipeAction } from '../../../common/Redux/actions/Recipe';
 import { useAuth } from '../../../common/hooks/auth-hook';
 
@@ -19,8 +23,9 @@ export const AddRecipe = () => {
     },
     false
   );
-  const { isLoading, error, sendRequest, clearError, setError } =
-    useHttpClient();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient({
+    400: 'Adding the recipe failed, check the recipe name (the name must not repeat)',
+  });
   const dispatch = useDispatch();
   const { userId } = useAuth();
 
@@ -33,25 +38,22 @@ export const AddRecipe = () => {
       description: '',
       items: [],
     };
-    const res: CreateRecipeResponse = await sendRequest(
+    const res: ApiResponse<CreateRecipeResponse> = await sendRequest(
       '/recipe',
       'POST',
       newRecipe
     );
-    if (!res.isSuccess) {
-      return setError(
-        'Adding the recipe failed, check the recipe name (the name must not repeat)'
+    if (res.status === 201) {
+      dispatch(
+        addRecipeAction({
+          id: res.data.id,
+          name: newRecipe.name,
+          description: '',
+          items: [],
+        })
       );
+      setIsSuccess(true);
     }
-    dispatch(
-      addRecipeAction({
-        id: res.id,
-        name: newRecipe.name,
-        description: '',
-        items: [],
-      })
-    );
-    setIsSuccess(true);
   };
 
   if (isSuccess) {

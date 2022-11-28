@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { AddItem } from '../../lists/components/ItemInList/AddItem';
 import { useParams } from 'react-router-dom';
-import { ProductCategory } from 'interfaces';
+import { ApiResponse, GetRecipeResponse, ProductCategory } from 'interfaces';
 import { setItemInRecipesAction } from '../../common/Redux/actions/Recipe';
 import { ItemsListRecipe } from '../components/ItemInRecipe/ItemsListRecipe';
 import { RootState } from '../../common/Redux/store';
@@ -37,8 +37,10 @@ export const ItemsInRecipe = () => {
   const category = [];
   useEffect(() => {
     (async () => {
-      const recipe = await sendRequest(`/recipe/user/${id}`);
-      dispatch(setItemInRecipesAction(recipe));
+      const res: ApiResponse<GetRecipeResponse> = await sendRequest(
+        `/recipe/user/${id}`
+      );
+      dispatch(setItemInRecipesAction(res.data.recipe));
     })();
   }, [dispatch, id, sendRequest]);
 

@@ -1,14 +1,14 @@
 import {
   ItemInListInterface,
   ListInterface,
-  Lists,
+  ListFilter,
   RecipeInterface,
   UpdateItemInListRequest,
 } from 'interfaces';
 import { ListAction } from '../action-types/list';
 
 export interface ListOfLists {
-  listOfLists: Lists;
+  listOfLists: ListFilter[];
   list: ListInterface;
 }
 
@@ -24,7 +24,7 @@ const initialState: ListOfLists = {
 
 interface SetLists {
   type: ListAction.SET_LISTS;
-  payload: Lists;
+  payload: ListFilter[];
 }
 
 interface AddList {
