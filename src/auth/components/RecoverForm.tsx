@@ -13,6 +13,7 @@ import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinne
 import { InfoModal } from '../../common/components/UiElements/InfoModal';
 import { useHttpClient } from '../../common/hooks/http-hook';
 import { useNavigate } from 'react-router-dom';
+import { ApiResponse, RecoverPasswordResponse } from 'interfaces';
 
 const RecoverSchema = Yup.object().shape({
   email: Yup.string()
@@ -31,10 +32,14 @@ export function RecoverForm() {
     },
     validationSchema: RecoverSchema,
     onSubmit: async values => {
-      const data = await sendRequest('/user/recover', 'POST', {
-        email: values.email,
-      });
-      if (data.isSuccess) {
+      const res: ApiResponse<RecoverPasswordResponse> = await sendRequest(
+        '/user/recover',
+        'POST',
+        {
+          email: values.email,
+        }
+      );
+      if (res.status === 200) {
         setIsSuccess(true);
       }
     },

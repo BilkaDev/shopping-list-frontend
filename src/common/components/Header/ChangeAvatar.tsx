@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { changeAvatar } from '../../Redux/actions/auth';
 import defaultIcon from '../../../assets/default-icon-profil.jpg';
 import { useAuth } from '../../hooks/auth-hook';
+import { AddAvatarResponse, ApiResponse } from 'interfaces';
 
 interface Props {
   onClose: () => void;
@@ -57,8 +58,13 @@ export const ChangeAvatar = ({ onClose }: Props) => {
     if (image) {
       const formData = new FormData();
       formData.append('photo', image);
-      const res = await sendRequest('/user/avatar', 'POST', formData, {});
-      if (res.isSuccess) {
+      const res: ApiResponse<AddAvatarResponse> = await sendRequest(
+        '/user/avatar',
+        'POST',
+        formData,
+        {}
+      );
+      if (res.status === 201) {
         dispatch(changeAvatar());
         setToastMessage({
           status: 'success',
