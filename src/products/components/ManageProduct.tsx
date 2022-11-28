@@ -12,8 +12,12 @@ interface Props {
   initialValid?: boolean;
 }
 
-export const ManageProduct = (props: Props) => {
-  const { inputHandler, selectHandler, initialValid, initialValue } = props;
+export const ManageProduct = ({
+  initialValid,
+  initialValue,
+  inputHandler,
+  selectHandler,
+}: Props) => {
   return (
     <>
       <Input

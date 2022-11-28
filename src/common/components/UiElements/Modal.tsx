@@ -16,18 +16,23 @@ interface Props {
   show: boolean;
 }
 
-const ModalOverlay = (props: Props) => {
+const ModalOverlay = ({
+  children,
+  className,
+  contentClass,
+  footer,
+  footerClass,
+  header,
+  headerClass,
+  style,
+}: Props) => {
   const content = (
-    <div className={`Modal ${props.className}`} style={props.style}>
-      <header className={`Modal__header ${props.headerClass}`}>
-        <h2>{useMemo(() => props.header, [props.header])}</h2>
+    <div className={`Modal ${className}`} style={style}>
+      <header className={`Modal__header ${headerClass}`}>
+        <h2>{useMemo(() => header, [header])}</h2>
       </header>
-      <div className={`Modal__content ${props.contentClass}`}>
-        {props.children}
-      </div>
-      <footer className={`Modal__footer ${props.footerClass}`}>
-        {props.footer}
-      </footer>
+      <div className={`Modal__content ${contentClass}`}>{children}</div>
+      <footer className={`Modal__footer ${footerClass}`}>{footer}</footer>
     </div>
   );
   return ReactDOM.createPortal(

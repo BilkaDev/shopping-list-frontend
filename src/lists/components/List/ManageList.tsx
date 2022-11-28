@@ -10,8 +10,11 @@ interface Props {
   initialValid?: boolean;
 }
 
-export const ManageList = (props: Props) => {
-  const { inputHandler, initialValid, initialValue } = props;
+export const ManageList = ({
+  initialValid,
+  initialValue,
+  inputHandler,
+}: Props) => {
   return (
     <>
       <Input

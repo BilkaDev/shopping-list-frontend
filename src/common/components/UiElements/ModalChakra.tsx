@@ -18,9 +18,7 @@ interface Props {
   title: string;
 }
 
-export function ModalChakra(props: Props) {
-  const { isOpen, onClose, title, children } = props;
-
+export function ModalChakra({ children, isOpen, onClose, title }: Props) {
   const content = (
     <Modal onClose={onClose} isOpen={isOpen} isCentered>
       <ModalOverlay />

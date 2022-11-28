@@ -7,11 +7,10 @@ interface Props {
   initialValue?: number;
 }
 
-export const SelectProductCategory = (props: Props) => {
+export const SelectProductCategory = ({ initialValue, onInput }: Props) => {
   const [selectCategory, setSelectCategory] = useState<ProductCategory>(
-    props.initialValue || 0
+    initialValue || 0
   );
-  const { onInput } = props;
 
   const entries = Object.entries(ProductCategory);
   const category = [];

@@ -20,9 +20,8 @@ interface Props {
   id: string;
 }
 
-export const ProductsItem = (props: Props) => {
+export const ProductsItem = ({ category, id, name }: Props) => {
   const [showEditModal, setShowEditModal] = useState(false);
-  const { name, id, category } = props;
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const dispatch = useDispatch();
 

@@ -13,8 +13,11 @@ interface Props {
   };
 }
 
-export const ManageItemInList = (props: Props) => {
-  const { inputHandler, selectHandler, initialValue } = props;
+export const ManageItemInList = ({
+  initialValue: { category, count, weight },
+  inputHandler,
+  selectHandler,
+}: Props) => {
   return (
     <>
       <Input
@@ -23,7 +26,7 @@ export const ManageItemInList = (props: Props) => {
         placeholder="Count:"
         errorText="Maximum quantity 1000"
         validators={[VALIDATOR_MAX(1000), VALIDATOR_MIN(0)]}
-        initialValue={initialValue.count + ''}
+        initialValue={count + ''}
         initialValid={true}
         onInput={inputHandler}
         type="number"
@@ -38,15 +41,12 @@ export const ManageItemInList = (props: Props) => {
         validators={[VALIDATOR_MAX(1000000), VALIDATOR_MIN(0)]}
         onInput={inputHandler}
         initialValid={true}
-        initialValue={initialValue.weight + ''}
+        initialValue={weight + ''}
         type="number"
         min="0"
         max="1000000"
       />
-      <SelectProductCategory
-        onInput={selectHandler}
-        initialValue={initialValue?.category}
-      />
+      <SelectProductCategory onInput={selectHandler} initialValue={category} />
     </>
   );
 };

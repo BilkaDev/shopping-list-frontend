@@ -6,9 +6,9 @@ interface Props {
   onClick: () => void;
 }
 
-export const Backdrop = (props: Props) => {
+export const Backdrop = ({ onClick }: Props) => {
   return ReactDOM.createPortal(
-    <div className="Backdrop" onClick={props.onClick}></div>,
+    <div className="Backdrop" onClick={onClick}></div>,
     document.getElementById('backdrop-hook') as HTMLElement
   );
 };
