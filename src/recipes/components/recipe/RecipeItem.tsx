@@ -9,6 +9,7 @@ import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { useHttpClient } from '../../../common/hooks/http-hook';
 import { deleteRecipeAction } from '../../../common/Redux/actions/Recipe';
 import { EditItemForm } from '../../../common/components/UiElements/EditItemForm';
+import { ApiResponse, DeleteRecipeResponse } from 'interfaces';
 
 interface Props {
   id: string;
@@ -21,8 +22,11 @@ export const RecipeItem = ({ id, name }: Props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   async function deleteHandler(id: string) {
-    const response = await sendRequest(`/recipe/${id}`, 'DELETE');
-    if (response.isSuccess) {
+    const res: ApiResponse<DeleteRecipeResponse> = await sendRequest(
+      `/recipe/${id}`,
+      'DELETE'
+    );
+    if (res.status === 200) {
       dispatch(deleteRecipeAction(id));
     }
   }

@@ -8,6 +8,7 @@ import {
   UpdateProductRequest,
   UpdateItemInListRequest,
   EditRecipeRequest,
+  ApiResponse,
 } from 'interfaces';
 import { editItemInList, editListName } from '../../Redux/actions/list';
 import { ManageList } from '../../../lists/components/List/ManageList';
@@ -20,7 +21,6 @@ import {
   editItemInRecipeAction,
   editRecipeAction,
 } from '../../Redux/actions/Recipe';
-import { useAuth } from '../../hooks/auth-hook';
 
 interface Props {
   element: string;
@@ -43,8 +43,6 @@ export const EditItemForm = ({
   recipeId,
 }: Props) => {
   const [isSuccess, setIsSuccess] = useState(false);
-  const { isLoading, error, sendRequest, clearError, setError } =
-    useHttpClient();
 
   const initialInputsForm = useMemo(
     () => ({
@@ -76,8 +74,8 @@ export const EditItemForm = ({
     initialInputsForm,
     false
   );
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const dispatch = useDispatch();
-  const { userId } = useAuth();
 
   useEffect(() => {
     setFormData(initialInputsForm, initialValid);
@@ -98,7 +96,6 @@ export const EditItemForm = ({
       case 'list':
         editItem = {
           listName: formState.inputs.name.value,
-          userId,
         };
         path = `/list/${itemId}`;
         dispatch(editListName(itemId, editItem as CreateListRequest));
@@ -146,15 +143,21 @@ export const EditItemForm = ({
       default:
         return;
     }
-    const res = await sendRequest(path, 'PATCH', editItem);
-    if (!res.isSuccess) {
-      return setError(
-        res?.message
-          ? `Sorry, please try again later.`
-          : `Ops. something went wrong.... check the name ${initialInputs.name} (can't be repeated)`
-      );
+    const res: ApiResponse<unknown> = await sendRequest(
+      path,
+      'PATCH',
+      editItem
+    );
+    if (res.status === 200) {
+      setIsSuccess(true);
     }
-    setIsSuccess(true);
+    // else {
+    //   return setError(
+    //     res.status === 500
+    //       ? `Sorry, please try again later.`
+    //       : `Ops. something went wrong.... check the name ${initialInputs.name} (can't be repeated)`
+    //   );
+    // }
   };
   if (isSuccess) {
     return (

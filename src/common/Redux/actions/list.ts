@@ -1,23 +1,23 @@
 import {
   CreateListRequest,
-  GetItemInList,
-  GetListResponse,
-  GetListsResponse,
+  ItemInListInterface,
+  ListInterface,
+  ListFilter,
   RecipeInterface,
   UpdateItemInListRequest,
 } from 'interfaces';
 import { ListAction } from '../action-types/list';
 
-export const setLists = (lists: GetListsResponse) => ({
+export const setLists = (lists: ListFilter[]) => ({
   type: ListAction.SET_LISTS,
   payload: lists,
 });
-export const setItemsInList = (list: GetListResponse) => ({
+export const setItemsInList = (list: ListInterface) => ({
   type: ListAction.SET_ITEMS_IN_LIST,
   payload: list,
 });
 
-export const addList = (list: GetListResponse) => ({
+export const addList = (list: ListInterface) => ({
   type: ListAction.ADD_TO_LISTS,
   payload: list,
 });
@@ -30,7 +30,7 @@ export const deleteList = (listId: string) => ({
   payload: listId,
 });
 
-export const addItemToList = (item: GetItemInList) => ({
+export const addItemToList = (item: ItemInListInterface) => ({
   type: ListAction.ADD_ITEM_TO_LIST,
   payload: item,
 });

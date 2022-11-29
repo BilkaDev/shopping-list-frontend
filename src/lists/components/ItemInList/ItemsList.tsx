@@ -1,5 +1,5 @@
 import { ItemInList } from './ItemInList';
-import { GetListResponse, RecipeInterface } from 'interfaces';
+import { ListInterface, RecipeInterface } from 'interfaces';
 import {
   Center,
   ListItem,
@@ -15,7 +15,7 @@ import {
 interface Props {
   categoryName: string;
   categoryId: number;
-  list: GetListResponse | RecipeInterface;
+  list: ListInterface | RecipeInterface;
   isRecipe?: boolean;
 }
 

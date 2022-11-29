@@ -17,8 +17,7 @@ interface Props {
   onClose: () => void;
 }
 
-export const InfoModal = (props: Props) => {
-  const { title, message, onClose, isError } = props;
+export const InfoModal = ({ title, message, onClose, isError }: Props) => {
   const content = (
     <Modal onClose={onClose} isOpen={true} isCentered>
       <ModalOverlay />

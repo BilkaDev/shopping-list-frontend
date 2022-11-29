@@ -1,9 +1,10 @@
 import { FormEvent, useState } from 'react';
 import { ManageList } from './ManageList';
 import {
+  ApiResponse,
   CreateListRequest,
   CreateListResponse,
-  GetListResponse,
+  ListInterface,
 } from 'interfaces';
 import { useForm } from '../../../common/hooks/form-hook';
 import { useHttpClient } from '../../../common/hooks/http-hook';
@@ -13,7 +14,6 @@ import { Button, VStack } from '@chakra-ui/react';
 import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
 import { SuccessfullyBox } from '../../../common/components/UiElements/SuccessfullyBox';
-import { useAuth } from '../../../common/hooks/auth-hook';
 
 export const AddList = () => {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -23,32 +23,32 @@ export const AddList = () => {
     },
     false
   );
-  const { isLoading, error, sendRequest, clearError, setError } =
-    useHttpClient();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient({
+    400: 'Adding the list failed, check the recipe name (the name must not repeat)',
+  });
   const dispatch = useDispatch();
-  const { userId } = useAuth();
 
   const addListToLists = async (e: FormEvent) => {
     e.preventDefault();
 
     const newList: CreateListRequest = {
       listName: formState.inputs.name.value,
-      userId,
     };
-    const res: CreateListResponse = await sendRequest('/list', 'POST', newList);
-    if (!res.isSuccess) {
-      return setError(
-        'Adding the list failed, check the recipe name (the name must not repeat)'
-      );
+    const res: ApiResponse<CreateListResponse> = await sendRequest(
+      '/list',
+      'POST',
+      newList
+    );
+    if (res.status === 201) {
+      const newListWithId: ListInterface = {
+        id: res.data.id,
+        listName: newList.listName,
+        items: [],
+        recipes: [],
+      };
+      dispatch(addList(newListWithId));
+      setIsSuccess(true);
     }
-    const newListWithId: GetListResponse = {
-      id: res.id,
-      listName: newList.listName,
-      items: [],
-      recipes: [],
-    };
-    dispatch(addList(newListWithId));
-    setIsSuccess(true);
   };
 
   if (isSuccess) {

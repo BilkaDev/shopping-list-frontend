@@ -40,20 +40,20 @@ function inputReducer(state: any, action: any) {
   }
 }
 
-export const Input = (props: Props) => {
-  const {
-    label,
-    placeholder,
-    min,
-    max,
-    onInput,
-    id,
-    validators,
-    initialValid,
-    initialValue,
-    type,
-    autoCompleteOff,
-  } = props;
+export const Input = ({
+                        autoCompleteOff,
+                        errorText,
+                        id,
+                        initialValid,
+                        initialValue,
+                        label,
+                        max,
+                        min,
+                        onInput,
+                        placeholder,
+                        type,
+                        validators
+                      }: Props) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: initialValue || '',
     isValid: initialValid || false,
@@ -105,7 +105,7 @@ export const Input = (props: Props) => {
       >
         <p>{label}:</p>
         {element}
-        <FormErrorMessage>{props.errorText}</FormErrorMessage>
+        <FormErrorMessage>{errorText}</FormErrorMessage>
       </label>
     </FormControl>
   );

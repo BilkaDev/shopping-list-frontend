@@ -13,8 +13,11 @@ import { useParams } from 'react-router-dom';
 import {
   CreateProductRequest,
   CreateItemInListRequest,
-  GetItemInList,
-  GetProductResponse,
+  ApiResponse,
+  AddItemToListResponse,
+  AddProductResponse,
+  ProductInterface,
+  ItemInListInterface,
 } from 'interfaces';
 import { addProductAction } from '../../../common/Redux/actions/product';
 import { addItemToList } from '../../../common/Redux/actions/list';
@@ -38,7 +41,7 @@ export const AddItem = ({ isRecipe }: Props) => {
     },
     false
   );
-  const [product, setProduct] = useState<GetProductResponse>();
+  const [product, setProduct] = useState<ProductInterface>();
   const { isLoading, error, sendRequest, clearError, setError } =
     useHttpClient();
   const dispatch = useDispatch();
@@ -48,26 +51,30 @@ export const AddItem = ({ isRecipe }: Props) => {
     e.preventDefault();
 
     // Create product if product not found
-    let newProduct: GetProductResponse | undefined = undefined;
+    let newProduct: ProductInterface | undefined = undefined;
     let newItem: CreateItemInListRequest | undefined = undefined;
     if (!product) {
       const newProductReq: CreateProductRequest = {
         name: formState.inputs.name.value,
         category: Number(formState.inputs.category.value),
       };
-      const resProduct = await sendRequest('/product', 'POST', newProductReq);
-      if (!resProduct.isSuccess) {
+      const resProduct: ApiResponse<AddProductResponse> = await sendRequest(
+        '/product',
+        'POST',
+        newProductReq
+      );
+      if (resProduct.status !== 201) {
         return setError(
           'Adding a product failed, check the product name (the name must not repeat)'
         );
       }
       newProduct = {
         ...newProductReq,
-        id: resProduct.id,
+        id: resProduct.data.product.id,
       };
       dispatch(addProductAction(newProduct));
       newItem = {
-        itemId: resProduct.id,
+        itemId: resProduct.data.product.id,
         count: Number(formState.inputs.count.value),
         weight: Number(formState.inputs.weight.value),
         listId: isRecipe ? undefined : id,
@@ -83,18 +90,22 @@ export const AddItem = ({ isRecipe }: Props) => {
       };
     }
 
-    const res: any = await sendRequest('/list/item', 'POST', newItem);
+    const res: ApiResponse<AddItemToListResponse> = await sendRequest(
+      '/list/item',
+      'POST',
+      newItem
+    );
 
-    if (!res.isSuccess) {
+    if (res.status !== 201) {
       return setError('Adding a product to the list failed.');
     }
 
-    const newItemToStore: GetItemInList = {
-      id: res.id,
+    const newItemToStore: ItemInListInterface = {
+      id: res.data.id,
       ...newItem,
       itemInBasket: false,
       recipeId: isRecipe ? id : undefined,
-      product: (product || newProduct) as GetProductResponse,
+      product: (product || newProduct) as ProductInterface,
     };
 
     isRecipe

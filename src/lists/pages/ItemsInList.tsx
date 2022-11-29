@@ -1,4 +1,4 @@
-import { ProductCategory } from 'interfaces';
+import { ApiResponse, GetListResponse, ProductCategory } from 'interfaces';
 import { useEffect } from 'react';
 import { ItemsList } from '../components/ItemInList/ItemsList';
 import { useParams } from 'react-router-dom';
@@ -22,11 +22,12 @@ export const ItemsInList = () => {
   const entries = Object.entries(ProductCategory);
   const category: string[] = [];
   const { list } = useSelector((store: RootState) => store.lists);
-
   useEffect(() => {
     (async () => {
-      const list = await sendRequest(`/list/user/${id}`);
-      dispatch(setItemsInList(list));
+      const res: ApiResponse<GetListResponse> = await sendRequest(
+        `/list/user/${id}`
+      );
+      dispatch(setItemsInList(res.data.list));
     })();
   }, [dispatch, id, sendRequest]);
 
@@ -60,7 +61,7 @@ export const ItemsInList = () => {
           <Text fontSize="4xl">Add product to list</Text>
         </Center>
         <AddItem />
-        <AddRecipeToList />\{/*render list product*/}
+        <AddRecipeToList />
         <Stack paddingTop="1.5rem" direction="row" spacing={20}>
           <Text fontSize="4xl">List {name}</Text>
           <Text
@@ -86,7 +87,6 @@ export const ItemsInList = () => {
             ))}
           </UnorderedList>
         </div>
-        {/*render recipe product*/}
         <ItemsInRecipesList
           listId={id as string}
           recipes={list.recipes}

@@ -19,6 +19,7 @@ import { EditPasswordForm } from './EditPasswordForm';
 import { useNavigate } from 'react-router-dom';
 import { ChangeAvatar } from './ChangeAvatar';
 import { useAuth } from '../../hooks/auth-hook';
+import { ApiResponse } from '../../../../../shopping-list-BE/src/interfaces/api';
 
 export function MenuHeader() {
   const [isEditPassword, setIsEditPassword] = useState(false);
@@ -29,8 +30,8 @@ export function MenuHeader() {
   const { logout, email, avatarImg } = useAuth();
 
   const logoutClick = async () => {
-    const data = await sendRequest('/auth/logout', 'POST');
-    if (data.isSuccess) {
+    const res: ApiResponse<unknown> = await sendRequest('/auth/logout', 'POST');
+    if (res.status === 200) {
       logout();
       nav('/');
     }

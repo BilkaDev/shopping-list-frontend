@@ -1,7 +1,12 @@
 import { FormEvent, useState } from 'react';
 import { ManageProduct } from './ManageProduct';
 import { useForm } from '../../common/hooks/form-hook';
-import { CreateProductRequest, GetProductResponse } from 'interfaces';
+import {
+  AddProductResponse,
+  ApiResponse,
+  CreateProductRequest,
+  ProductInterface,
+} from 'interfaces';
 import { useHttpClient } from '../../common/hooks/http-hook';
 import { useDispatch } from 'react-redux';
 import { addProductAction } from '../../common/Redux/actions/product';
@@ -25,8 +30,9 @@ export const AddProduct = () => {
     },
     false
   );
-  const { isLoading, error, sendRequest, clearError, setError } =
-    useHttpClient();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient({
+    400: 'Adding a product failed, check the product name (name must not repeat)',
+  });
   const dispatch = useDispatch();
 
   const createProduct = async (e: FormEvent) => {
@@ -35,18 +41,19 @@ export const AddProduct = () => {
       name: formState.inputs.name.value,
       category: Number(formState.inputs.category.value),
     };
-    const res = await sendRequest('/product', 'POST', newProduct);
-    if (!res.isSuccess) {
-      return setError(
-        'Adding a product failed, check the product name (name must not repeat)'
-      );
+    const res: ApiResponse<AddProductResponse> = await sendRequest(
+      '/product',
+      'POST',
+      newProduct
+    );
+    if (res.status === 201) {
+      const newProductWithId: ProductInterface = {
+        ...newProduct,
+        id: res.data.product.id,
+      };
+      setIsSuccess(true);
+      dispatch(addProductAction(newProductWithId));
     }
-    const newProductWithId: GetProductResponse = {
-      ...newProduct,
-      id: res.id,
-    };
-    setIsSuccess(true);
-    dispatch(addProductAction(newProductWithId));
   };
 
   if (isSuccess) {

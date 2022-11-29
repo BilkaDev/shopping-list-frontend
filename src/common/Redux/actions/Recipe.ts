@@ -1,13 +1,14 @@
 import {
   EditDescriptionRecipeRequest,
   EditRecipeRequest,
-  GetItemInList,
+  ItemInListInterface,
   RecipeInterface,
+  RecipeFilter,
   UpdateItemInListRequest,
 } from 'interfaces';
 import { RecipeAction } from '../action-types/recipe';
 
-export const setRecipesAction = (recipes: RecipeInterface[]) => ({
+export const setRecipesAction = (recipes: RecipeFilter[]) => ({
   type: RecipeAction.SET_RECIPES,
   payload: recipes,
 });
@@ -37,7 +38,7 @@ export const deleteItemInRecipeAction = (id: string, recipeId: string) => ({
   type: RecipeAction.DELETE_ITEM_IN_RECIPE,
   payload: { id, recipeId },
 });
-export const addItemToRecipeAction = (item: GetItemInList) => ({
+export const addItemToRecipeAction = (item: ItemInListInterface) => ({
   type: RecipeAction.ADD_ITEM_TO_RECIPE,
   payload: item,
 });

@@ -1,8 +1,4 @@
-import {
-  GetProductResponse,
-  ProductInterface,
-  UpdateProductRequest,
-} from 'interfaces';
+import { ProductInterface, UpdateProductRequest } from 'interfaces';
 import { ProductAction } from '../action-types/product';
 
 export const setProductsAction = (products: ProductInterface[]) => ({
@@ -10,7 +6,7 @@ export const setProductsAction = (products: ProductInterface[]) => ({
   payload: products,
 });
 
-export const addProductAction = (product: GetProductResponse) => ({
+export const addProductAction = (product: ProductInterface) => ({
   type: ProductAction.ADD_TO_PRODUCTS,
   payload: product,
 });

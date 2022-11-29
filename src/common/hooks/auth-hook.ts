@@ -6,6 +6,7 @@ import {
   login as loginAction,
   logout as logoutAction,
 } from '../Redux/actions/auth';
+import { ApiResponse, AuthLogin } from 'interfaces';
 
 let autoLogin = true;
 export const useAuth = () => {
@@ -26,9 +27,11 @@ export const useAuth = () => {
     (async () => {
       if (autoLogin) {
         autoLogin = !autoLogin;
-        const data = await sendRequest('/auth/auto-login');
-        if (data.isSuccess) {
-          return login(data.userId, data.email);
+        const res: ApiResponse<AuthLogin> = await sendRequest(
+          '/auth/auto-login'
+        );
+        if (res.status === 200) {
+          return login(res.data.user.userId, res.data.user.email);
         } else clearError();
       }
     })();

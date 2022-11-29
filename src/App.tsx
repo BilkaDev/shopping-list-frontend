@@ -17,25 +17,32 @@ import { ItemsInRecipe } from './recipes/pages/ItemsInRecipe';
 import { setRecipesAction } from './common/Redux/actions/Recipe';
 import { RecoverPassword } from './auth/pages/RecoverPassword';
 import { useAuth } from './common/hooks/auth-hook';
+import {
+  ApiResponse,
+  GetRecipesResponse,
+  ProductListResponse,
+} from 'interfaces';
 
 function App() {
   const { error, sendRequest, clearError } = useHttpClient();
   const dispatch = useDispatch();
   const { userId, isLoggedIn } = useAuth();
-  console.log(userId);
 
   useEffect(() => {
     if (!userId) return;
     (async () => {
-      const loadedRecipes = await sendRequest(`/recipe/${userId}`);
+      const loadedRecipes: ApiResponse<GetRecipesResponse> = await sendRequest(
+        `/recipe/${userId}`
+      );
       dispatch(
         setRecipesAction(
-          loadedRecipes?.isSuccess === false ? [] : loadedRecipes
+          loadedRecipes.status === 200 ? loadedRecipes.data.recipes : []
         )
       );
-      const loadedProducts = await sendRequest(`/product/`);
-      if (loadedProducts.isSuccess) {
-        dispatch(setProductsAction(loadedProducts.products));
+      const loadedProducts: ApiResponse<ProductListResponse> =
+        await sendRequest(`/product`);
+      if (loadedProducts.status === 200) {
+        dispatch(setProductsAction(loadedProducts.data.products));
       }
     })();
   }, [dispatch, userId, sendRequest]);

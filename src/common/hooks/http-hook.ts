@@ -12,6 +12,11 @@ import {
   RecoverPasswordRequest,
 } from 'interfaces';
 import { apiUrl } from '../../config/api';
+import {
+  defaultHttpErrorMap,
+  HttpError,
+  HttpErrorMap,
+} from '../utils/http-error';
 
 type headerType = {
   [key: string]: string;
@@ -31,11 +36,13 @@ export type ReqBody =
   | RecoverPasswordRequest
   | null;
 
-export const useHttpClient = () => {
+export const useHttpClient = (httpErrorMap?: HttpErrorMap) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<null | string>();
+  const clearError = useCallback(() => {
+    setError(null);
+  }, []);
 
-  let statusError = 500;
   const sendRequest = useCallback(
     async (
       url: string,
@@ -43,6 +50,7 @@ export const useHttpClient = () => {
       body: ReqBody = null,
       headers: headerType = { 'Content-Type': 'application/json' }
     ) => {
+      clearError();
       try {
         setIsLoading(true);
         const response = await fetch(`${apiUrl}${url}`, {
@@ -56,24 +64,28 @@ export const useHttpClient = () => {
         });
 
         const responseData = await response.json();
-        setIsLoading(false);
-        if (!responseData.isSuccess) {
-          setError(responseData.message);
-          return responseData;
+        if (responseData.status !== 200 && responseData.status !== 201) {
+          throw new HttpError(responseData.status);
         }
         return responseData;
-      } catch (e: any) {
-        setError(
-          statusError === 500 ? 'Sorry, please try again later' : e.message
-        );
+      } catch (e: unknown) {
+        if (httpErrorMap?.all) {
+          setError(httpErrorMap.all);
+          return { status: 500 };
+        }
+        if (e instanceof HttpError) {
+          const message =
+            httpErrorMap?.[e.statusCode] ?? defaultHttpErrorMap[e.statusCode];
+          setError(message ?? defaultHttpErrorMap['500']);
+          return { status: e.statusCode };
+        }
+        setError(defaultHttpErrorMap['500']);
+        return { status: 500 };
+      } finally {
         setIsLoading(false);
-        throw e;
       }
     },
-    [statusError]
+    [clearError, httpErrorMap]
   );
-  const clearError = useCallback(() => {
-    setError(null);
-  }, []);
   return { isLoading, error, sendRequest, setError, clearError };
 };

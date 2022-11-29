@@ -5,12 +5,12 @@ interface Props {
   children: ReactNode;
 }
 
-export function Section(props: Props) {
+export function Section({ children }: Props) {
   return (
     <Box>
       <Center>
         <VStack flex={1} align={'center'} maxWidth="1430px">
-          {props.children}
+          {children}
         </VStack>
       </Center>
     </Box>

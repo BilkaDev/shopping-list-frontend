@@ -1,7 +1,7 @@
 import {
   EditDescriptionRecipeRequest,
   EditRecipeRequest,
-  GetItemInList,
+  ItemInListInterface,
   RecipeInterface,
   UpdateItemInListRequest,
 } from 'interfaces';
@@ -59,7 +59,7 @@ interface EditItemInRecipe {
 
 interface AddItemToRecipe {
   type: RecipeAction.ADD_ITEM_TO_RECIPE;
-  payload: GetItemInList;
+  payload: ItemInListInterface;
 }
 
 const initialState: RecipesState = {

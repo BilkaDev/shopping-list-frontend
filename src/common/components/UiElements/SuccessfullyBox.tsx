@@ -5,8 +5,7 @@ interface Props {
   text: string;
 }
 
-export function SuccessfullyBox(props: Props) {
-  const { text, setIsSuccess } = props;
+export function SuccessfullyBox({ setIsSuccess, text }: Props) {
   return (
     <Box
       p={'1rem'}
