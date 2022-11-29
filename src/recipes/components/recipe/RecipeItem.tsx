@@ -8,7 +8,7 @@ import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpi
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { useHttpClient } from '../../../common/hooks/http-hook';
 import { deleteRecipeAction } from '../../../common/Redux/actions/Recipe';
-import { EditItemForm } from '../../../common/components/UiElements/EditItemForm';
+import { EditItemForm } from '../../../common/components/FormElements/EditItemForm';
 import { DeleteRecipeResponse } from 'interfaces';
 
 interface Props {
@@ -40,12 +40,7 @@ export const RecipeItem = ({ id, name }: Props) => {
         title={`Change recipe name: "${name}"`}
         onClose={() => setShowEditModal(false)}
       >
-        <EditItemForm
-          element="recipe"
-          itemId={id}
-          initialInputs={{ name }}
-          initialValid={false}
-        />
+        <EditItemForm element="recipe" itemId={id} initialInputs={{ name }} />
       </ModalChakra>
       {error && (
         <InfoModal

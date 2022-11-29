@@ -73,7 +73,7 @@ export const AddList = () => {
       {!isLoading && !error && (
         <form onSubmit={addListToLists}>
           <VStack spacing={4} align="flex-start">
-            <ManageList inputHandler={inputHandler} />
+            {/*<ManageList inputHandler={inputHandler} />*/}
             <Button
               type="submit"
               disabled={!formState.isValid}

@@ -11,7 +11,7 @@ import {
 } from '../../../common/Redux/actions/list';
 import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { ModalChakra } from '../../../common/components/UiElements/ModalChakra';
-import { EditItemForm } from '../../../common/components/UiElements/EditItemForm';
+import { EditItemForm } from '../../../common/components/FormElements/EditItemForm';
 
 interface Props {
   category: number;
@@ -80,7 +80,6 @@ export const ItemInList = ({ category, item, isRecipe }: Props) => {
             weight: item.weight,
             count: item.count,
           }}
-          initialValid={false}
         />
       </ModalChakra>
       <Tr>

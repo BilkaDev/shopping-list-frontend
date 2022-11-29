@@ -5,3 +5,9 @@ export interface SelectProps {
   children: ReactNode;
   register: UseFormRegisterReturn<string>;
 }
+export interface InfoModalProps {
+  isError?: boolean;
+  message: string;
+  title: string;
+  onClose: () => void;
+}

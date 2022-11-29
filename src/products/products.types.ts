@@ -13,7 +13,6 @@ export interface AddProductFormInputs {
 }
 
 export interface ManageProductFormProps {
-  initialValue?: { product: string; category: number };
   register: UseFormRegister<AddProductFormInputs>;
   errors: FieldErrors<AddProductFormInputs>;
 }

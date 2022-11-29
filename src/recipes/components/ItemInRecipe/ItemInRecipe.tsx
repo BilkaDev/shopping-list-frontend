@@ -6,7 +6,7 @@ import { useHttpClient } from '../../../common/hooks/http-hook';
 import { useDispatch } from 'react-redux';
 import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { ModalChakra } from '../../../common/components/UiElements/ModalChakra';
-import { EditItemForm } from '../../../common/components/UiElements/EditItemForm';
+import { EditItemForm } from '../../../common/components/FormElements/EditItemForm';
 import { deleteItemInRecipeAction } from '../../../common/Redux/actions/Recipe';
 
 interface Props {
@@ -60,7 +60,6 @@ export const ItemInRecipe = ({ category, item, recipeId }: Props) => {
             weight: item.weight,
             count: item.count,
           }}
-          initialValid={false}
         />
       </ModalChakra>
       <Tr>

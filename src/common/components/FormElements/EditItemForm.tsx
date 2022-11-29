@@ -1,8 +1,6 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
-
+import { useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHttpClient } from '../../hooks/http-hook';
-import { useForm } from '../../hooks/form-hook';
 import {
   CreateListRequest,
   UpdateProductRequest,
@@ -14,53 +12,36 @@ import { ManageList } from '../../../lists/components/List/ManageList';
 import { editProductAction } from '../../Redux/actions/product';
 import { ManageProductForm } from '../../../products/components/ManageProductForm';
 import { Button } from '@chakra-ui/react';
-import { InfoModal } from './InfoModal';
+import { InfoModal } from '../UiElements/InfoModal';
 import { ManageItemInList } from '../../../lists/components/ItemInList/ManageItemInList';
 import {
   editItemInRecipeAction,
   editRecipeAction,
 } from '../../Redux/actions/Recipe';
-
-interface Props {
-  element: string;
-  itemId: string;
-  recipeId?: string;
-  initialValid: boolean;
-  initialInputs: {
-    name: string;
-    category?: number;
-    weight?: number;
-    count?: number;
-  };
-}
+import * as Yup from 'yup';
+import { AddProductFormInputs } from '../../../products/products.types';
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
+import { useForm, UseFormRegister } from 'react-hook-form';
+import { EditItemFormInputs, EditItemFormProps } from './FormElementsTypes';
 
 export const EditItemForm = ({
   itemId,
   initialInputs,
   element,
-  initialValid,
   recipeId,
-}: Props) => {
+}: EditItemFormProps) => {
   const [isSuccess, setIsSuccess] = useState(false);
+  const dispatch = useDispatch();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient({
+    '400': "Ops. something went wrong.... check the name (can't be repeated)",
+  });
 
   const initialInputsForm = useMemo(
     () => ({
-      name: {
-        value: initialInputs.name,
-        isValid: true,
-      },
-      category: {
-        value: initialInputs?.category || 0,
-        isValid: true,
-      },
-      weight: {
-        value: initialInputs?.weight || 0,
-        isValid: true,
-      },
-      count: {
-        value: initialInputs?.count || 0,
-        isValid: true,
-      },
+      name: initialInputs.name,
+      category: initialInputs?.category || 0,
+      weight: initialInputs?.weight || 0,
+      count: initialInputs?.count || 0,
     }),
     [
       initialInputs?.category,
@@ -69,22 +50,34 @@ export const EditItemForm = ({
       initialInputs?.weight,
     ]
   );
-  const { formState, selectHandler, inputHandler, setFormData } = useForm(
-    initialInputsForm,
-    false
-  );
-  const { isLoading, error, sendRequest, clearError } = useHttpClient({
-    '400': "Ops. something went wrong.... check the name (can't be repeated)",
+  const EditItemFormSchema = Yup.object().shape({
+    name: Yup.string()
+      .required('Name is required!')
+      .min(2, 'Name is too short! minimum length is 2 characters!')
+      .max(100, 'Name is too long! Maximum length is 100 characters!')
+      .test('initial-value', 'is initial value', (v, c) => {
+        console.log(initialInputsForm.weight);
+        return (
+          v !== initialInputsForm.name ||
+          c.parent.weight !== initialInputsForm.weight ||
+          c.parent.count !== initialInputsForm.count ||
+          c.parent.category !== initialInputsForm.category
+        );
+      }),
+    count: Yup.number().min(0).max(1000, 'Maximum quantity 1000'),
+    weight: Yup.number().min(0).max(1000000, 'Maximum weight 1000000'),
   });
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    setFormData(initialInputsForm, initialValid);
-    return () => clearError();
-  }, [clearError, initialInputsForm, initialValid, setFormData]);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<EditItemFormInputs>({
+    defaultValues: initialInputsForm,
+    resolver: yupResolver(EditItemFormSchema),
+  });
 
-  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitHandler = async (values: EditItemFormInputs) => {
     let editItem:
       | CreateListRequest
       | UpdateProductRequest
@@ -96,14 +89,14 @@ export const EditItemForm = ({
     switch (element) {
       case 'list':
         editItem = {
-          listName: formState.inputs.name.value,
+          listName: values.name,
         };
         path = `/list/${itemId}`;
         dispatch(editListName(itemId, editItem as CreateListRequest));
         break;
       case 'recipe':
         editItem = {
-          name: formState.inputs.name.value,
+          name: values.name,
           id: itemId,
         };
         path = `/recipe/edit`;
@@ -112,26 +105,26 @@ export const EditItemForm = ({
       case 'product':
         path = `/product/${itemId}`;
         editItem = {
-          name: formState.inputs.name.value,
-          category: Number(formState.inputs.category.value),
+          name: values.name,
+          category: Number(values.category),
         };
         dispatch(editProductAction(itemId, editItem as UpdateProductRequest));
         break;
       case 'itemInList':
         path = `/list/item/${itemId}`;
         editItem = {
-          count: Number(formState.inputs.count.value),
-          weight: Number(formState.inputs.weight.value),
-          category: Number(formState.inputs.category.value),
+          count: Number(values.count),
+          weight: Number(values.weight),
+          category: Number(values.category),
         };
         dispatch(editItemInList(itemId, editItem as UpdateItemInListRequest));
         break;
       case 'itemInRecipe':
         path = `/list/item/${itemId}`;
         editItem = {
-          count: Number(formState.inputs.count.value),
-          weight: Number(formState.inputs.weight.value),
-          category: Number(formState.inputs.category.value),
+          count: Number(values.count),
+          weight: Number(values.weight),
+          category: Number(values.category),
         };
         dispatch(
           editItemInRecipeAction(
@@ -168,45 +161,23 @@ export const EditItemForm = ({
         />
       )}
       {!isLoading && !error && (
-        <form onSubmit={submitHandler}>
+        <form onSubmit={handleSubmit(submitHandler)}>
           {(element === 'list' || element === 'recipe') && (
-            <ManageList
-              inputHandler={inputHandler}
-              initialValue={{
-                name: initialInputs.name,
-              }}
-              initialValid={true}
+            <ManageList register={register} errors={errors} />
+          )}
+          {element === 'product' && initialInputs.category !== undefined && (
+            <ManageProductForm
+              register={
+                register as unknown as UseFormRegister<AddProductFormInputs>
+              }
+              errors={errors}
             />
           )}
-          {/*{element === 'product' && initialInputs.category !== undefined && (*/}
-          {/*  <ManageProductForm*/}
-          {/*    selectHandler={selectHandler}*/}
-          {/*    inputHandler={inputHandler}*/}
-          {/*    initialValue={{*/}
-          {/*      product: initialInputs.name,*/}
-          {/*      category: initialInputs.category,*/}
-          {/*    }}*/}
-          {/*    initialValid={true}*/}
-          {/*  />*/}
-          {/*)}*/}
           {(element === 'itemInList' || element === 'itemInRecipe') &&
             initialInputs.category !== undefined && (
-              <ManageItemInList
-                selectHandler={selectHandler}
-                inputHandler={inputHandler}
-                initialValue={{
-                  product: initialInputs.name,
-                  category: initialInputs.category,
-                  count: initialInputs?.count || 0,
-                  weight: initialInputs?.weight || 0,
-                }}
-              />
+              <ManageItemInList register={register} errors={errors} />
             )}
-          <Button
-            disabled={!formState.isValid}
-            type="submit"
-            colorScheme="blue"
-          >
+          <Button disabled={!isValid} type="submit" colorScheme="blue">
             Update!
           </Button>
         </form>

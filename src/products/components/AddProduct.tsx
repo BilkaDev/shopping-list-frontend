@@ -21,7 +21,7 @@ const AddProductSchema = Yup.object().shape({
   name: Yup.string()
     .required('Product name is required!')
     .min(2, 'Product name is too short! minimum length is 2 characters!')
-    .max(100, 'Password is too long! Maximum length is 100 characters!'),
+    .max(100, 'Product is too long! Maximum length is 100 characters!'),
 });
 
 export const AddProduct = () => {

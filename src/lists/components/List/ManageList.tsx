@@ -1,32 +1,21 @@
 import {
-  VALIDATOR_MAXLENGTH,
-  VALIDATOR_MINLENGTH,
-} from '../../../common/utils/validators';
-import { Input } from '../../../common/components/FormElements/Input';
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+} from '@chakra-ui/react';
+import { ManageListProps } from '../../lists.types';
 
-interface Props {
-  inputHandler: (id: string, value: string, isValid: boolean) => void;
-  initialValue?: { name: string };
-  initialValid?: boolean;
-}
-
-export const ManageList = ({
-  initialValid,
-  initialValue,
-  inputHandler,
-}: Props) => {
+export const ManageList = ({ register, errors }: ManageListProps) => {
   return (
     <>
-      <Input
-        label="Name"
-        id="name"
-        placeholder="List name"
-        errorText="List name is required (min. 2 characters max. 100)."
-        validators={[VALIDATOR_MINLENGTH(2), VALIDATOR_MAXLENGTH(100)]}
-        onInput={inputHandler}
-        initialValid={initialValid}
-        initialValue={initialValue?.name}
-      />
+      <FormControl isInvalid={!!errors.name}>
+        <FormLabel fontSize="1.6rem">Name:</FormLabel>
+        <Input {...register('name')} placeholder="List name" />
+        <FormErrorMessage>
+          {errors.name && errors.name.message}
+        </FormErrorMessage>
+      </FormControl>
     </>
   );
 };
