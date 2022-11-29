@@ -1,4 +1,3 @@
-import { useFormik } from 'formik';
 import {
   Button,
   FormControl,
@@ -11,13 +10,15 @@ import {
 } from '@chakra-ui/react';
 import { useHttpClient } from '../../common/hooks/http-hook';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
-import * as Yup from 'yup';
 import { Link as ReachLink } from 'react-router-dom';
 import { InfoModal } from '../../common/components/UiElements/InfoModal';
 import { useAuth } from '../../common/hooks/auth-hook';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
 import { AuthLogin } from 'interfaces';
 
-const LoginSchema = Yup.object().shape({
+const LoginSchema = Yup.object({
   password: Yup.string()
     .min(6, 'Password is too short!')
     .max(255, 'Password is too long!')
@@ -27,25 +28,32 @@ const LoginSchema = Yup.object().shape({
     .required('Required!'),
 });
 
+interface LoginFormInputs {
+  email: string;
+  password: string;
+}
+
 export const LoginForm = () => {
-  const { sendRequest, error, clearError, isLoading } = useHttpClient();
-  const auth = useAuth();
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validationSchema: LoginSchema,
-    onSubmit: async values => {
-      const data = await sendRequest<AuthLogin>('/auth/login', 'POST', {
-        email: values.email,
-        pwd: values.password,
-      });
-      if (data) {
-        auth.login(data.user.userId, data.user.email);
-      }
-    },
+  const { sendRequest, error, clearError, isLoading } = useHttpClient({
+    '400': 'Incorrect login credentials!',
   });
+  const auth = useAuth();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormInputs>({
+    resolver: yupResolver(LoginSchema),
+  });
+  async function onSubmit(values: LoginFormInputs) {
+    const data = await sendRequest<AuthLogin>('/auth/login', 'POST', {
+      email: values.email,
+      pwd: values.password,
+    });
+    if (data) {
+      auth.login(data.user.userId, data.user.email);
+    }
+  }
 
   return (
     <>
@@ -58,39 +66,32 @@ export const LoginForm = () => {
           title={'Failed!'}
         />
       )}
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <VStack spacing={4} align="flex-start">
-          <FormControl isInvalid={!!formik.errors.email}>
+          <FormControl isInvalid={!!errors.email}>
             <Input
-              id="email"
-              name="email"
-              type="email"
+              {...register('email')}
               variant="filled"
               placeholder="E-mail"
-              onChange={formik.handleChange}
-              value={formik.values.email}
               bgColor="#292A2B"
               color="#DADADA"
             />
-            {!!formik.errors.email && (
-              <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
-            )}
+            <FormErrorMessage>
+              {errors.email && errors.email.message}
+            </FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={!!formik.errors.password}>
+          <FormControl isInvalid={!!errors.password}>
             <Input
-              id="password"
-              name="password"
+              {...register('password')}
               type="password"
               placeholder="Password"
               variant="filled"
               bgColor="#292A2B"
               color="#DADADA"
-              onChange={formik.handleChange}
-              value={formik.values.password}
             />
-            {!!formik.errors.password && (
-              <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
-            )}
+            <FormErrorMessage>
+              {errors.password && errors.password.message}
+            </FormErrorMessage>
           </FormControl>
           <Stack spacing={10} width="100%" pt="10px">
             <Stack
