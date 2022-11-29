@@ -18,10 +18,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { AuthLogin } from 'interfaces';
 
-const LoginSchema = Yup.object({
+const LoginSchema = Yup.object().shape({
   password: Yup.string()
-    .min(6, 'Password is too short!')
-    .max(255, 'Password is too long!')
+    .min(6, 'Password is too short! minimum length is 6 characters!')
+    .max(255, 'Password is too long! Maximum length is 255 characters!')
     .required('Required!'),
   email: Yup.string()
     .email('Enter a valid e-mail address!')

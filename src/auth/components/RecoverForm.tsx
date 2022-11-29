@@ -16,7 +16,7 @@ import { useHttpClient } from '../../common/hooks/http-hook';
 import { useNavigate } from 'react-router-dom';
 import { RecoverPasswordResponse } from 'interfaces';
 
-const RecoverSchema = Yup.object({
+const RecoverSchema = Yup.object().shape({
   email: Yup.string()
     .email('Enter a valid e-mail address!')
     .required('Required!'),

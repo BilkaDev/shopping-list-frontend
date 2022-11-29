@@ -16,16 +16,16 @@ import { InfoModal } from '../UiElements/InfoModal';
 
 const EditSchema = Yup.object().shape({
   password: Yup.string()
-    .min(6, 'Password is too short!')
-    .max(255, 'Password is too long!')
+    .min(6, 'Password is too short! minimum length is 6 characters!')
+    .max(255, 'Password is too long! Maximum length is 255 characters!')
     .required('Required!'),
   'new-password': Yup.string()
-    .min(6, 'Password is too short!')
-    .max(255, 'Password is too long!')
+    .min(6, 'Password is too short! minimum length is 6 characters!')
+    .max(255, 'Password is too long! Maximum length is 255 characters!')
     .required('Required!'),
   'new-password-repeat': Yup.string()
-    .min(6, 'Password is too short!')
-    .max(255, 'Password is too long!')
+    .min(6, 'Password is too short! minimum length is 6 characters!')
+    .max(255, 'Password is too long! Maximum length is 255 characters!')
     .required('Required!')
     .oneOf([Yup.ref('new-password'), null], 'Passwords must match.'),
 });
