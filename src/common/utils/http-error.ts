@@ -13,7 +13,7 @@ export type HttpErrorMap = Partial<
 >;
 
 export const defaultHttpErrorMap: Record<KnownHttpErrorStatus, string> = {
-  400: 'Something went wrong. Check the data provided.',
-  404: 'Something went wrong. Not found item.',
-  500: 'Something went wrong. Please try again late.',
+  '400': 'Something went wrong. Check the data provided.',
+  '404': 'Something went wrong. Not found item.',
+  '500': 'Something went wrong. Please try again late.',
 };

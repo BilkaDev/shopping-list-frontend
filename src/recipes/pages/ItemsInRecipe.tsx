@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { AddItem } from '../../lists/components/ItemInList/AddItem';
 import { useParams } from 'react-router-dom';
-import { ApiResponse, GetRecipeResponse, ProductCategory } from 'interfaces';
+import { GetRecipeResponse, ProductCategory } from 'interfaces';
 import { setItemInRecipesAction } from '../../common/Redux/actions/Recipe';
 import { ItemsListRecipe } from '../components/ItemInRecipe/ItemsListRecipe';
 import { RootState } from '../../common/Redux/store';
@@ -31,18 +31,20 @@ export const ItemsInRecipe = () => {
   const recipe = recipes.filter(recipe => recipe.id === id)[0];
   const [showEditDescription, setShowEditDescription] = useState(false);
 
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient({
+    all: 'Something went wrong when loading recipes. Please try again later.',
+  });
   const dispatch = useDispatch();
   const entries = Object.entries(ProductCategory);
   const category = [];
   useEffect(() => {
     (async () => {
-      const res: ApiResponse<GetRecipeResponse> = await sendRequest(
-        `/recipe/user/${id}`
-      );
-      dispatch(setItemInRecipesAction(res.data.recipe));
+      if (recipe?.items) return;
+      const data = await sendRequest<GetRecipeResponse>(`/recipe/user/${id}`);
+      if (!data) return;
+      dispatch(setItemInRecipesAction(data.recipe));
     })();
-  }, [dispatch, id, sendRequest]);
+  }, [dispatch, sendRequest, id, recipe?.items]);
 
   for (const key of entries) {
     if (typeof key[1] === 'number') {

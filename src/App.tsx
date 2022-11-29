@@ -17,11 +17,7 @@ import { ItemsInRecipe } from './recipes/pages/ItemsInRecipe';
 import { setRecipesAction } from './common/Redux/actions/Recipe';
 import { RecoverPassword } from './auth/pages/RecoverPassword';
 import { useAuth } from './common/hooks/auth-hook';
-import {
-  ApiResponse,
-  GetRecipesResponse,
-  ProductListResponse,
-} from 'interfaces';
+import { GetRecipesResponse, ProductListResponse } from 'interfaces';
 
 function App() {
   const { error, sendRequest, clearError } = useHttpClient();
@@ -31,18 +27,17 @@ function App() {
   useEffect(() => {
     if (!userId) return;
     (async () => {
-      const loadedRecipes: ApiResponse<GetRecipesResponse> = await sendRequest(
+      const loadedRecipesData = await sendRequest<GetRecipesResponse>(
         `/recipe/${userId}`
       );
       dispatch(
-        setRecipesAction(
-          loadedRecipes.status === 200 ? loadedRecipes.data.recipes : []
-        )
+        setRecipesAction(loadedRecipesData ? loadedRecipesData.recipes : [])
       );
-      const loadedProducts: ApiResponse<ProductListResponse> =
-        await sendRequest(`/product`);
-      if (loadedProducts.status === 200) {
-        dispatch(setProductsAction(loadedProducts.data.products));
+      const loadedProductsData = await sendRequest<ProductListResponse>(
+        `/product`
+      );
+      if (loadedProductsData) {
+        dispatch(setProductsAction(loadedProductsData.products));
       }
     })();
   }, [dispatch, userId, sendRequest]);

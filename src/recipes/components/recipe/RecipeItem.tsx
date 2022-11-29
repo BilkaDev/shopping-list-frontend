@@ -9,7 +9,7 @@ import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { useHttpClient } from '../../../common/hooks/http-hook';
 import { deleteRecipeAction } from '../../../common/Redux/actions/Recipe';
 import { EditItemForm } from '../../../common/components/UiElements/EditItemForm';
-import { ApiResponse, DeleteRecipeResponse } from 'interfaces';
+import { DeleteRecipeResponse } from 'interfaces';
 
 interface Props {
   id: string;
@@ -19,14 +19,16 @@ interface Props {
 export const RecipeItem = ({ id, name }: Props) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const dispatch = useDispatch();
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient({
+    all: 'Something went wrong when deleting the recipe.',
+  });
 
   async function deleteHandler(id: string) {
-    const res: ApiResponse<DeleteRecipeResponse> = await sendRequest(
+    const data = await sendRequest<DeleteRecipeResponse>(
       `/recipe/${id}`,
       'DELETE'
     );
-    if (res.status === 200) {
+    if (data) {
       dispatch(deleteRecipeAction(id));
     }
   }

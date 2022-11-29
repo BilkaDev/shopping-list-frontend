@@ -1,7 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { ManageList } from './ManageList';
 import {
-  ApiResponse,
   CreateListRequest,
   CreateListResponse,
   ListInterface,
@@ -34,14 +33,14 @@ export const AddList = () => {
     const newList: CreateListRequest = {
       listName: formState.inputs.name.value,
     };
-    const res: ApiResponse<CreateListResponse> = await sendRequest(
+    const data = await sendRequest<CreateListResponse>(
       '/list',
       'POST',
       newList
     );
-    if (res.status === 201) {
+    if (data) {
       const newListWithId: ListInterface = {
-        id: res.data.id,
+        id: data.id,
         listName: newList.listName,
         items: [],
         recipes: [],

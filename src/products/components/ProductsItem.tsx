@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { useHttpClient } from '../../common/hooks/http-hook';
-import {
-  ApiResponse,
-  DeleteProductResponse,
-  ProductCategory,
-} from 'interfaces';
+import { DeleteProductResponse, ProductCategory } from 'interfaces';
 import { useDispatch } from 'react-redux';
 import { deleteProductAction } from '../../common/Redux/actions/product';
 import { Td, Tr } from '@chakra-ui/react';
@@ -22,15 +18,17 @@ interface Props {
 
 export const ProductsItem = ({ category, id, name }: Props) => {
   const [showEditModal, setShowEditModal] = useState(false);
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient({
+    all: 'Something went wrong when deleting the Product. Please try again later.',
+  });
   const dispatch = useDispatch();
 
   async function deleteProduct(id: string) {
-    const response: ApiResponse<DeleteProductResponse> = await sendRequest(
+    const data = await sendRequest<DeleteProductResponse>(
       `/product/${id}`,
       'DELETE'
     );
-    if (response.status === 200) {
+    if (data) {
       dispatch(deleteProductAction(id));
     }
   }

@@ -15,14 +15,16 @@ import { useDispatch } from 'react-redux';
 import { changeAvatar } from '../../Redux/actions/auth';
 import defaultIcon from '../../../assets/default-icon-profil.jpg';
 import { useAuth } from '../../hooks/auth-hook';
-import { AddAvatarResponse, ApiResponse } from 'interfaces';
+import { AddAvatarResponse } from 'interfaces';
 
 interface Props {
   onClose: () => void;
 }
 
 export const ChangeAvatar = ({ onClose }: Props) => {
-  const { sendRequest, error, clearError, isLoading } = useHttpClient();
+  const { sendRequest, error, clearError, isLoading } = useHttpClient({
+    all: 'Something went wrong when changing avatar. Please try again later.',
+  });
   const [image, setImage] = useState<File>();
   const [isValid, setIsValid] = useState(true);
   const dispatch = useDispatch();
@@ -58,13 +60,13 @@ export const ChangeAvatar = ({ onClose }: Props) => {
     if (image) {
       const formData = new FormData();
       formData.append('photo', image);
-      const res: ApiResponse<AddAvatarResponse> = await sendRequest(
+      const data = await sendRequest<AddAvatarResponse>(
         '/user/avatar',
         'POST',
         formData,
         {}
       );
-      if (res.status === 201) {
+      if (data) {
         dispatch(changeAvatar());
         setToastMessage({
           status: 'success',

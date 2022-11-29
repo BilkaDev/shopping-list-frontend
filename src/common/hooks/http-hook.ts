@@ -10,12 +10,14 @@ import {
   EditRecipeRequest,
   EditDescriptionRecipeRequest,
   RecoverPasswordRequest,
+  ApiResponse,
 } from 'interfaces';
 import { apiUrl } from '../../config/api';
 import {
   defaultHttpErrorMap,
   HttpError,
   HttpErrorMap,
+  KnownHttpErrorStatus,
 } from '../utils/http-error';
 
 type headerType = {
@@ -44,12 +46,12 @@ export const useHttpClient = (httpErrorMap?: HttpErrorMap) => {
   }, []);
 
   const sendRequest = useCallback(
-    async (
+    async <Type>(
       url: string,
       method = 'GET',
       body: ReqBody = null,
       headers: headerType = { 'Content-Type': 'application/json' }
-    ) => {
+    ): Promise<Type | undefined> => {
       clearError();
       try {
         setIsLoading(true);
@@ -63,24 +65,26 @@ export const useHttpClient = (httpErrorMap?: HttpErrorMap) => {
           credentials: 'include',
         });
 
-        const responseData = await response.json();
+        const responseData: ApiResponse<Type> = await response.json();
         if (responseData.status !== 200 && responseData.status !== 201) {
-          throw new HttpError(responseData.status);
+          throw new HttpError(
+            (responseData.status + '') as KnownHttpErrorStatus
+          );
         }
-        return responseData;
+        return responseData.data;
       } catch (e: unknown) {
         if (httpErrorMap?.all) {
           setError(httpErrorMap.all);
-          return { status: 500 };
+          return;
         }
         if (e instanceof HttpError) {
           const message =
             httpErrorMap?.[e.statusCode] ?? defaultHttpErrorMap[e.statusCode];
           setError(message ?? defaultHttpErrorMap['500']);
-          return { status: e.statusCode };
+          return;
         }
         setError(defaultHttpErrorMap['500']);
-        return { status: 500 };
+        return;
       } finally {
         setIsLoading(false);
       }
