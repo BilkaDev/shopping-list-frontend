@@ -46,7 +46,7 @@ export const ManageItemInList = ({
         min="0"
         max="1000000"
       />
-      <SelectProductCategory onInput={selectHandler} initialValue={category} />
+      {/*<SelectProductCategory onInput={selectHandler} initialValue={category} />*/}
     </>
   );
 };

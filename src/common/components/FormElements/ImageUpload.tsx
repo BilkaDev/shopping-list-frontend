@@ -1,19 +1,13 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Box, Button, Img, VStack } from '@chakra-ui/react';
-
-interface Props {
-  setImage: (image: File) => void;
-  setIsValid: (value: boolean) => void;
-  defaultImage: string;
-  image: string;
-}
+import { ImageUploadProps } from './FormElementsTypes';
 
 export const ImageUpload = ({
   setImage,
   setIsValid,
   defaultImage,
   image,
-}: Props) => {
+}: ImageUploadProps) => {
   const [file, setFile] = useState<Blob | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | ArrayBuffer | null>();
 

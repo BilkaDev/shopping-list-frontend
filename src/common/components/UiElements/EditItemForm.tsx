@@ -12,7 +12,7 @@ import {
 import { editItemInList, editListName } from '../../Redux/actions/list';
 import { ManageList } from '../../../lists/components/List/ManageList';
 import { editProductAction } from '../../Redux/actions/product';
-import { ManageProduct } from '../../../products/components/ManageProduct';
+import { ManageProductForm } from '../../../products/components/ManageProductForm';
 import { Button } from '@chakra-ui/react';
 import { InfoModal } from './InfoModal';
 import { ManageItemInList } from '../../../lists/components/ItemInList/ManageItemInList';
@@ -178,17 +178,17 @@ export const EditItemForm = ({
               initialValid={true}
             />
           )}
-          {element === 'product' && initialInputs.category !== undefined && (
-            <ManageProduct
-              selectHandler={selectHandler}
-              inputHandler={inputHandler}
-              initialValue={{
-                product: initialInputs.name,
-                category: initialInputs.category,
-              }}
-              initialValid={true}
-            />
-          )}
+          {/*{element === 'product' && initialInputs.category !== undefined && (*/}
+          {/*  <ManageProductForm*/}
+          {/*    selectHandler={selectHandler}*/}
+          {/*    inputHandler={inputHandler}*/}
+          {/*    initialValue={{*/}
+          {/*      product: initialInputs.name,*/}
+          {/*      category: initialInputs.category,*/}
+          {/*    }}*/}
+          {/*    initialValid={true}*/}
+          {/*  />*/}
+          {/*)}*/}
           {(element === 'itemInList' || element === 'itemInRecipe') &&
             initialInputs.category !== undefined && (
               <ManageItemInList

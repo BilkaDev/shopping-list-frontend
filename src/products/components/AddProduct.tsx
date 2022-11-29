@@ -1,6 +1,4 @@
-import { FormEvent, useState } from 'react';
-import { ManageProduct } from './ManageProduct';
-import { useForm } from '../../common/hooks/form-hook';
+import { useState } from 'react';
 import {
   AddProductResponse,
   CreateProductRequest,
@@ -13,33 +11,39 @@ import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinne
 import { InfoModal } from '../../common/components/UiElements/InfoModal';
 import { Button, VStack } from '@chakra-ui/react';
 import { SuccessfullyBox } from '../../common/components/UiElements/SuccessfullyBox';
+import * as Yup from 'yup';
+import { ManageProductForm } from './ManageProductForm';
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
+import { useForm } from 'react-hook-form';
+import { AddProductFormInputs } from '../products.types';
+
+const AddProductSchema = Yup.object().shape({
+  name: Yup.string()
+    .required('Product name is required!')
+    .min(2, 'Product name is too short! minimum length is 2 characters!')
+    .max(100, 'Password is too long! Maximum length is 100 characters!'),
+});
 
 export const AddProduct = () => {
   const [isSuccess, setIsSuccess] = useState(false);
-  const { formState, selectHandler, inputHandler } = useForm(
-    {
-      name: {
-        value: '',
-        isValid: false,
-      },
-      category: {
-        value: 0,
-        isValid: true,
-      },
-    },
-    false
-  );
   const { isLoading, error, sendRequest, clearError } = useHttpClient({
     '400':
       'Adding a product failed, check the product name (name must not repeat)',
   });
   const dispatch = useDispatch();
 
-  const createProduct = async (e: FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<AddProductFormInputs>({
+    resolver: yupResolver(AddProductSchema),
+  });
+
+  const createProduct = async (values: AddProductFormInputs) => {
     const newProduct: CreateProductRequest = {
-      name: formState.inputs.name.value,
-      category: Number(formState.inputs.category.value),
+      name: values.name,
+      category: values.category,
     };
     const data = await sendRequest<AddProductResponse>(
       '/product',
@@ -77,15 +81,12 @@ export const AddProduct = () => {
       )}
       {isLoading && <LoadingSpinner />}
       {!isLoading && !error && (
-        <form onSubmit={createProduct}>
+        <form onSubmit={handleSubmit(createProduct)}>
           <VStack spacing={4} align="flex-start">
-            <ManageProduct
-              selectHandler={selectHandler}
-              inputHandler={inputHandler}
-            />
+            <ManageProductForm register={register} errors={errors} />
             <Button
               type="submit"
-              disabled={!formState.isValid}
+              disabled={!isValid}
               colorScheme="gray"
               color="var(--dark)"
             >

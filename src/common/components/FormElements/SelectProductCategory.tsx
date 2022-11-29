@@ -1,17 +1,10 @@
-import { useEffect, useState } from 'react';
 import { ProductCategory } from 'interfaces';
 import { Select } from '../UiElements/Select';
+import { SelectProductCategoryProps } from './FormElementsTypes';
 
-interface Props {
-  onInput: (id: string, value: number, isValid: boolean) => void;
-  initialValue?: number;
-}
-
-export const SelectProductCategory = ({ initialValue, onInput }: Props) => {
-  const [selectCategory, setSelectCategory] = useState<ProductCategory>(
-    initialValue || 0
-  );
-
+export const SelectProductCategory = ({
+  register,
+}: SelectProductCategoryProps) => {
   const entries = Object.entries(ProductCategory);
   const category = [];
   for (const key of entries) {
@@ -25,19 +18,10 @@ export const SelectProductCategory = ({ initialValue, onInput }: Props) => {
     }
   }
 
-  useEffect(() => {
-    onInput('category', selectCategory, true);
-  }, [onInput, selectCategory]);
-
   return (
     <label>
       <p>Category:</p>
-      <Select
-        value={selectCategory}
-        setValue={v => setSelectCategory(Number(v))}
-      >
-        {category}
-      </Select>
+      <Select register={register}>{category}</Select>
     </label>
   );
 };

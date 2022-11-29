@@ -13,12 +13,7 @@ interface Props {
   onSelectHandler: (id: string, value: number, isValid: boolean) => void;
 }
 
-export const SearchProduct = ({
-  name,
-  onSelectHandler,
-  product,
-  setProduct,
-}: Props) => {
+export const SearchProduct = ({ name, product, setProduct }: Props) => {
   const [suggestions, setSuggestions] = useState<ProductInterface[]>([]);
   const { listProducts } = useSelector((store: RootState) => store.products);
 
@@ -110,9 +105,7 @@ export const SearchProduct = ({
           </List>
         </Box>
       )}
-      {name.length > 1 && !product && (
-        <SelectProductCategory onInput={onSelectHandler} initialValue={0} />
-      )}
+      {/*<SelectProductCategory />*/}
     </Stack>
   );
 };
