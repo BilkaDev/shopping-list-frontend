@@ -71,6 +71,7 @@ export const LoginForm = () => {
           <FormControl isInvalid={!!errors.email}>
             <Input
               {...register('email')}
+              type="email"
               variant="filled"
               placeholder="E-mail"
               bgColor="#292A2B"
