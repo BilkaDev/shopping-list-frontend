@@ -12,6 +12,7 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { InputForm } from '../../../common/components/UiElements/InputForm';
+import { AddRecipeFormInputs } from 'src/recipes/recipes.types';
 
 const AddRecipeSchema = Yup.object().shape({
   name: Yup.string()
@@ -20,17 +21,13 @@ const AddRecipeSchema = Yup.object().shape({
     .max(100, 'Recipe is too long! Maximum length is 100 characters!'),
 });
 
-interface AddRecipeInterface {
-  name: string;
-}
-
 export const AddRecipe = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<AddRecipeInterface>({
+  } = useForm<AddRecipeFormInputs>({
     resolver: yupResolver(AddRecipeSchema),
   });
 
@@ -40,7 +37,7 @@ export const AddRecipe = () => {
   const dispatch = useDispatch();
   const { userId } = useAuth();
 
-  const addRecipe = async (values: AddRecipeInterface) => {
+  const addRecipe = async (values: AddRecipeFormInputs) => {
     const newRecipe: AddRecipeRequest = {
       name: values.name,
       userId,

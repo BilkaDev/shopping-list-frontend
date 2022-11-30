@@ -9,20 +9,14 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { RecipeInterface } from 'interfaces';
 import { ItemInRecipe } from './ItemInRecipe';
-
-interface Props {
-  categoryName: string;
-  categoryId: number;
-  recipe: RecipeInterface;
-}
+import { ItemsListRecipeProps } from '../../recipes.types';
 
 export const ItemsListRecipe = ({
   categoryName,
   categoryId,
   recipe,
-}: Props) => {
+}: ItemsListRecipeProps) => {
   return (
     <ListItem>
       <Center>

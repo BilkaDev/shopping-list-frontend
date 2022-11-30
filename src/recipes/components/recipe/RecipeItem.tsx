@@ -10,13 +10,9 @@ import { useHttpClient } from '../../../common/hooks/http-hook';
 import { deleteRecipeAction } from '../../../common/Redux/actions/Recipe';
 import { EditItemForm } from '../../../common/components/FormElements/EditItemForm';
 import { DeleteRecipeResponse } from 'interfaces';
+import { RecipeItemProps } from 'src/recipes/recipes.types';
 
-interface Props {
-  id: string;
-  name: string;
-}
-
-export const RecipeItem = ({ id, name }: Props) => {
+export const RecipeItem = ({ id, name }: RecipeItemProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const dispatch = useDispatch();
   const { isLoading, error, sendRequest, clearError } = useHttpClient({

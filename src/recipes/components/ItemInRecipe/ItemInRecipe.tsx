@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DeleteItemInListResponse, ItemInListInterface } from 'interfaces';
+import { DeleteItemInListResponse } from 'interfaces';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Td, Tr } from '@chakra-ui/react';
 import { useHttpClient } from '../../../common/hooks/http-hook';
@@ -8,14 +8,13 @@ import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { ModalChakra } from '../../../common/components/UiElements/ModalChakra';
 import { EditItemForm } from '../../../common/components/FormElements/EditItemForm';
 import { deleteItemInRecipeAction } from '../../../common/Redux/actions/Recipe';
+import { ItemInRecipeProps } from '../../recipes.types';
 
-interface Props {
-  category: number;
-  item: ItemInListInterface;
-  recipeId: string;
-}
-
-export const ItemInRecipe = ({ category, item, recipeId }: Props) => {
+export const ItemInRecipe = ({
+  category,
+  item,
+  recipeId,
+}: ItemInRecipeProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const dispatch = useDispatch();
   const { error, sendRequest, clearError } = useHttpClient({

@@ -7,12 +7,12 @@ export interface ProductsItemsProps {
   id: string;
 }
 
-export interface AddProductFormInputs {
-  name: string;
-  category: number;
-}
-
 export interface ManageProductFormProps {
   register: UseFormRegister<AddProductFormInputs>;
   errors: FieldErrors<AddProductFormInputs>;
+}
+
+export interface AddProductFormInputs {
+  name: string;
+  category: number;
 }
