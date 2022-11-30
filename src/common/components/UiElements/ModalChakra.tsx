@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import {
   Button,
   Modal,
@@ -10,15 +9,14 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import ReactDOM from 'react-dom';
+import { ModalChakraProps } from './UiElements.types';
 
-interface Props {
-  onClose: () => void;
-  isOpen: boolean;
-  children: ReactNode;
-  title: string;
-}
-
-export function ModalChakra({ children, isOpen, onClose, title }: Props) {
+export function ModalChakra({
+  children,
+  isOpen,
+  onClose,
+  title,
+}: ModalChakraProps) {
   const content = (
     <Modal onClose={onClose} isOpen={isOpen} isCentered>
       <ModalOverlay />

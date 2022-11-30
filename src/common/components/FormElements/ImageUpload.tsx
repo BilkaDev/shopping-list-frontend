@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Box, Button, Img, VStack } from '@chakra-ui/react';
-import { ImageUploadProps } from './FormElementsTypes';
+import { ImageUploadProps } from './FormElements.types';
 
 export const ImageUpload = ({
   setImage,

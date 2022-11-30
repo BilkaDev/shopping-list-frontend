@@ -1,7 +1,7 @@
 import { FormControl, FormLabel } from '@chakra-ui/react';
 import { ProductCategory } from 'interfaces';
 import { Select } from '../UiElements/Select';
-import { SelectProductCategoryProps } from './FormElementsTypes';
+import { SelectProductCategoryProps } from './FormElements.types';
 
 export const SelectProductCategory = ({
   register,

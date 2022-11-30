@@ -14,7 +14,7 @@ import { SuccessfullyBox } from '../../../common/components/UiElements/Successfu
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
-import { AddListFormInterface } from '../../lists.types';
+import { AddListFormInputs } from '../../lists.types';
 import { InputForm } from '../../../common/components/UiElements/InputForm';
 
 const AddListSchema = Yup.object().shape({
@@ -30,7 +30,7 @@ export const AddList = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<AddListFormInterface>({
+  } = useForm<AddListFormInputs>({
     resolver: yupResolver(AddListSchema),
   });
 
@@ -39,7 +39,7 @@ export const AddList = () => {
   });
   const dispatch = useDispatch();
 
-  const addListToLists = async (values: AddListFormInterface) => {
+  const addListToLists = async (values: AddListFormInputs) => {
     const newList: CreateListRequest = {
       listName: values.name,
     };

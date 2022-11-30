@@ -1,19 +1,18 @@
 import { Stack, Text, UnorderedList } from '@chakra-ui/react';
-import { DeleteRecipeFromListResponse, RecipeInterface } from 'interfaces';
+import { DeleteRecipeFromListResponse } from 'interfaces';
 import { ItemsList } from '../ItemInList/ItemsList';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { useDispatch } from 'react-redux';
 import { deleteRecipeFromList } from '../../../common/Redux/actions/list';
 import { useHttpClient } from '../../../common/hooks/http-hook';
 import { InfoModal } from '../../../common/components/UiElements/InfoModal';
+import { ItemsInRecipesListProps } from '../../lists.types';
 
-interface Props {
-  recipes: RecipeInterface[];
-  category: string[];
-  listId: string;
-}
-
-export function ItemsInRecipesList({ recipes, category, listId }: Props) {
+export function ItemsInRecipesList({
+  recipes,
+  category,
+  listId,
+}: ItemsInRecipesListProps) {
   const dispatch = useDispatch();
   const { error, sendRequest, clearError } = useHttpClient({
     all: 'Something went wrong when deleting the recipe. Please try again later.',

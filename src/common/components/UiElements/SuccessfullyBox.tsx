@@ -1,11 +1,7 @@
 import { Box, Button, Text } from '@chakra-ui/react';
+import { SuccessfullyBoxProps } from './UiElements.types';
 
-interface Props {
-  setIsSuccess: (v: boolean) => void;
-  text: string;
-}
-
-export function SuccessfullyBox({ setIsSuccess, text }: Props) {
+export function SuccessfullyBox({ setIsSuccess, text }: SuccessfullyBoxProps) {
   return (
     <Box
       p={'1rem'}

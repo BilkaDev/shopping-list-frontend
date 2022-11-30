@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { DeleteItemInListResponse, ItemInListInterface } from 'interfaces';
+import { DeleteItemInListResponse } from 'interfaces';
 import { DeleteIcon, EditIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import { Td, Tr, Center } from '@chakra-ui/react';
 import { useHttpClient } from '../../../common/hooks/http-hook';
@@ -12,14 +12,9 @@ import {
 import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { ModalChakra } from '../../../common/components/UiElements/ModalChakra';
 import { EditItemForm } from '../../../common/components/FormElements/EditItemForm';
+import { ItemInListProps } from 'src/lists/lists.types';
 
-interface Props {
-  category: number;
-  item: ItemInListInterface;
-  isRecipe?: boolean;
-}
-
-export const ItemInList = ({ category, item, isRecipe }: Props) => {
+export const ItemInList = ({ category, item, isRecipe }: ItemInListProps) => {
   const [inBasket, setInBasket] = useState(item.itemInBasket);
   const [showEditModal, setShowEditModal] = useState(false);
   const dispatch = useDispatch();

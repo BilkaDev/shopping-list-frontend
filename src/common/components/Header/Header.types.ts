@@ -3,3 +3,7 @@ export interface EditPasswordFormInputs {
   newPassword: string;
   newPasswordRepeat: string;
 }
+
+export interface ChangeAvatarProps {
+  onClose: () => void;
+}

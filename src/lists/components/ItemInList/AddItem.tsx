@@ -22,7 +22,7 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { InputForm } from '../../../common/components/UiElements/InputForm';
-import { AddItemFormInterface, AddItemProps } from '../../lists.types';
+import { AddItemFormInputs, AddItemProps } from '../../lists.types';
 
 const AddItemSchema = Yup.object().shape({
   name: Yup.string()
@@ -41,7 +41,7 @@ export const AddItem = ({ isRecipe }: AddItemProps) => {
     watch,
     reset,
     formState: { errors, isValid },
-  } = useForm<AddItemFormInterface>({
+  } = useForm<AddItemFormInputs>({
     defaultValues: {
       count: 0,
       weight: 0,
@@ -53,7 +53,7 @@ export const AddItem = ({ isRecipe }: AddItemProps) => {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  const addItemToListRequest = async (values: AddItemFormInterface) => {
+  const addItemToListRequest = async (values: AddItemFormInputs) => {
     let newProduct: ProductInterface | undefined = undefined;
     let newItem: CreateItemInListRequest | undefined = undefined;
     if (!product) {

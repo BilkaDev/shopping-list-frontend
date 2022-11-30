@@ -1,5 +1,4 @@
 import { ItemInList } from './ItemInList';
-import { ListInterface, RecipeInterface } from 'interfaces';
 import {
   Center,
   ListItem,
@@ -11,20 +10,14 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-
-interface Props {
-  categoryName: string;
-  categoryId: number;
-  list: ListInterface | RecipeInterface;
-  isRecipe?: boolean;
-}
+import { ItemsListProps } from '../../lists.types';
 
 export const ItemsList = ({
   categoryName,
   categoryId,
   list,
   isRecipe,
-}: Props) => {
+}: ItemsListProps) => {
   return (
     <ListItem>
       <Center>

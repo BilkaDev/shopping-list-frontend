@@ -5,7 +5,7 @@ import { RootState } from '../../../common/Redux/store';
 import { SelectProductCategory } from '../../../common/components/FormElements/SelectProductCategory';
 import { Box, List, ListIcon, ListItem, Stack, Text } from '@chakra-ui/layout';
 import { CheckCircleIcon } from '@chakra-ui/icons';
-import { SearchProductProps } from '../../../common/components/FormElements/FormElementsTypes';
+import { SearchProductProps } from '../../../common/components/FormElements/FormElements.types';
 
 export const SearchProduct = ({
   name,

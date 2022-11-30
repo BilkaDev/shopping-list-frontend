@@ -21,7 +21,7 @@ import * as Yup from 'yup';
 import { AddProductFormInputs } from '../../../products/products.types';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { useForm, UseFormRegister } from 'react-hook-form';
-import { EditItemFormInputs, EditItemFormProps } from './FormElementsTypes';
+import { EditItemFormInputs, EditItemFormProps } from './FormElements.types';
 import { InputForm } from '../UiElements/InputForm';
 
 export const EditItemForm = ({

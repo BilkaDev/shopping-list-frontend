@@ -10,13 +10,9 @@ import { ModalChakra } from '../../../common/components/UiElements/ModalChakra';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { EditItemForm } from '../../../common/components/FormElements/EditItemForm';
 import { DeleteItemInListResponse } from '../../../../../shopping-list-BE/src/interfaces/list';
+import { ListItemProps } from '../../lists.types';
 
-interface Props {
-  id: string;
-  name: string;
-}
-
-export const ListItem = ({ id, name }: Props) => {
+export const ListItem = ({ id, name }: ListItemProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const dispatch = useDispatch();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
