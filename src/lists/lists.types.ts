@@ -5,10 +5,9 @@ import {
 } from 'react-hook-form';
 import { EditItemFormInputs } from '../common/components/FormElements/FormElementsTypes';
 
-export interface ManageListProps {
+export interface ManageNameProps {
   register: UseFormRegisterReturn<'name'>;
   placeholder?: string;
-  autoCompleteOff?: boolean;
   errors: FieldErrors<EditItemFormInputs>;
 }
 

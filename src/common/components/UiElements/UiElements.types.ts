@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { UseFormRegisterReturn } from 'react-hook-form';
+import { FieldErrors, UseFormRegisterReturn } from 'react-hook-form';
 
 export interface SelectProps {
   children: ReactNode;
@@ -10,4 +10,12 @@ export interface InfoModalProps {
   message: string;
   title: string;
   onClose: () => void;
+}
+export interface InputFormProps {
+  register: UseFormRegisterReturn<string>;
+  label?: string;
+  placeholder?: string;
+  type?: string;
+  autoCompleteOff?: boolean;
+  errors: FieldErrors<{ [key: string]: string }>;
 }
