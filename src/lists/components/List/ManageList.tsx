@@ -11,7 +11,13 @@ export const ManageList = ({ register, errors }: ManageListProps) => {
     <>
       <FormControl isInvalid={!!errors.name}>
         <FormLabel fontSize="1.6rem">Name:</FormLabel>
-        <Input {...register('name')} placeholder="List name" />
+        <Input
+          {...register}
+          placeholder="List name"
+          variant="filled"
+          bgColor="#292A2B"
+          color="#DADADA"
+        />
         <FormErrorMessage>
           {errors.name && errors.name.message}
         </FormErrorMessage>

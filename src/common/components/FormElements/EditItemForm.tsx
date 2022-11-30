@@ -163,7 +163,7 @@ export const EditItemForm = ({
       {!isLoading && !error && (
         <form onSubmit={handleSubmit(submitHandler)}>
           {(element === 'list' || element === 'recipe') && (
-            <ManageList register={register} errors={errors} />
+            <ManageList register={register('name')} errors={errors} />
           )}
           {element === 'product' && initialInputs.category !== undefined && (
             <ManageProductForm
