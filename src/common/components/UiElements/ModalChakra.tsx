@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import ReactDOM from 'react-dom';
 import { ModalChakraProps } from './UiElements.types';
+import { useMemo } from 'react';
 
 export function ModalChakra({
   children,
@@ -17,20 +18,23 @@ export function ModalChakra({
   onClose,
   title,
 }: ModalChakraProps) {
-  const content = (
-    <Modal onClose={onClose} isOpen={isOpen} isCentered>
-      <ModalOverlay />
-      <ModalContent bgColor="var(--light-dark)" color="var(--white)">
-        <ModalHeader>{title}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>{children}</ModalBody>
-        <ModalFooter>
-          <Button colorScheme="red" onClick={onClose}>
-            Exit
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+  const content = useMemo(
+    () => (
+      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+        <ModalOverlay />
+        <ModalContent bgColor="var(--light-dark)" color="var(--white)">
+          <ModalHeader>{title}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>{children}</ModalBody>
+          <ModalFooter>
+            <Button colorScheme="red" onClick={onClose}>
+              Exit
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    ),
+    [children, isOpen, onClose, title]
   );
 
   return ReactDOM.createPortal(
