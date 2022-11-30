@@ -15,7 +15,7 @@ import { ListItemProps } from '../../lists.types';
 export const ListItem = ({ id, name }: ListItemProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const dispatch = useDispatch();
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const { isLoading, sendRequest, error, clearError } = useHttpClient();
 
   async function deleteHandler(id: string) {
     const data = await sendRequest<DeleteItemInListResponse>(

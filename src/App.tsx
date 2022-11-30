@@ -20,7 +20,7 @@ import { useAuth } from './common/hooks/auth-hook';
 import { GetRecipesResponse, ProductListResponse } from 'interfaces';
 
 function App() {
-  const { error, sendRequest, clearError } = useHttpClient();
+  const { sendRequest, error, clearError } = useHttpClient();
   const dispatch = useDispatch();
   const { userId, isLoggedIn } = useAuth();
 

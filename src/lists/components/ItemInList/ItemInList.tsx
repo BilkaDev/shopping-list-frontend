@@ -18,7 +18,7 @@ export const ItemInList = ({ category, item, isRecipe }: ItemInListProps) => {
   const [inBasket, setInBasket] = useState(item.itemInBasket);
   const [showEditModal, setShowEditModal] = useState(false);
   const dispatch = useDispatch();
-  const { error, sendRequest, clearError } = useHttpClient({
+  const { sendRequest, error, clearError } = useHttpClient({
     all: 'Something went wrong when deleting the item. Please try again later.',
   });
   useEffect(() => {

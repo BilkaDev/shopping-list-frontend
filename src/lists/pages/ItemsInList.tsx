@@ -16,7 +16,7 @@ import { AddRecipeToList } from '../components/ItemsInRecipesList/AddRecipeToLis
 import { ItemsInRecipesList } from '../components/ItemsInRecipesList/ItemsInRecipesList';
 
 export const ItemsInList = () => {
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const { isLoading, sendRequest, error, clearError } = useHttpClient();
   const { id, name } = useParams();
   const dispatch = useDispatch();
   const entries = Object.entries(ProductCategory);

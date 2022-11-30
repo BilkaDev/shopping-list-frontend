@@ -11,7 +11,7 @@ import { useAuth } from '../../common/hooks/auth-hook';
 import { GetListsResponse } from '../../../../shopping-list-BE/src/interfaces/list';
 
 export const Lists = () => {
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const { isLoading, sendRequest, error, clearError } = useHttpClient();
   const { userId } = useAuth();
   const dispatch = useDispatch();
 

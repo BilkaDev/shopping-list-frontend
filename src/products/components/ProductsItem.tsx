@@ -13,7 +13,7 @@ import { ProductsItemsProps } from '../products.types';
 
 export const ProductsItem = ({ category, id, name }: ProductsItemsProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
-  const { isLoading, error, sendRequest, clearError } = useHttpClient({
+  const { isLoading, sendRequest, error, clearError } = useHttpClient({
     all: 'Something went wrong when deleting the Product. Please try again later.',
   });
   const dispatch = useDispatch();

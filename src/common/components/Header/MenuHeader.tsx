@@ -23,7 +23,7 @@ import { useAuth } from '../../hooks/auth-hook';
 export function MenuHeader() {
   const [isEditPassword, setIsEditPassword] = useState(false);
   const [isChangeAvatar, setIsChangeAvatar] = useState(false);
-  const { sendRequest, error, clearError, isLoading } = useHttpClient();
+  const { isLoading, sendRequest, error, clearError } = useHttpClient();
   const nav = useNavigate();
 
   const { logout, email, avatarImg } = useAuth();
