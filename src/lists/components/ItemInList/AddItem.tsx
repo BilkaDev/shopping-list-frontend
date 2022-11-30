@@ -34,7 +34,6 @@ const AddItemSchema = Yup.object().shape({
 });
 
 export const AddItem = ({ isRecipe }: AddItemProps) => {
-  const [isSuccess, setIsSuccess] = useState(false);
   const {
     register,
     handleSubmit,
@@ -49,7 +48,8 @@ export const AddItem = ({ isRecipe }: AddItemProps) => {
     resolver: yupResolver(AddItemSchema),
   });
   const [product, setProduct] = useState<ProductInterface>();
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const { isLoading, isSuccess, setIsSuccess, sendRequest, error, clearError } =
+    useHttpClient();
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -112,7 +112,6 @@ export const AddItem = ({ isRecipe }: AddItemProps) => {
     isRecipe
       ? dispatch(addItemToRecipeAction(newItemToStore))
       : dispatch(addItemToList(newItemToStore));
-    setIsSuccess(true);
     reset();
   };
 

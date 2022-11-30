@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   CreateListRequest,
   CreateListResponse,
@@ -25,7 +24,6 @@ const AddListSchema = Yup.object().shape({
 });
 
 export const AddList = () => {
-  const [isSuccess, setIsSuccess] = useState(false);
   const {
     register,
     handleSubmit,
@@ -34,9 +32,10 @@ export const AddList = () => {
     resolver: yupResolver(AddListSchema),
   });
 
-  const { isLoading, error, sendRequest, clearError } = useHttpClient({
-    400: 'Adding the list failed, check the recipe name (the name must not repeat)',
-  });
+  const { isLoading, isSuccess, setIsSuccess, sendRequest, error, clearError } =
+    useHttpClient({
+      400: 'Adding the list failed, check the recipe name (the name must not repeat)',
+    });
   const dispatch = useDispatch();
 
   const addListToLists = async (values: AddListFormInputs) => {
@@ -56,7 +55,6 @@ export const AddList = () => {
         recipes: [],
       };
       dispatch(addList(newListWithId));
-      setIsSuccess(true);
     }
   };
 

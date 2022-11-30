@@ -42,6 +42,7 @@ export type ReqBody =
 
 export const useHttpClient = (httpErrorMap?: HttpErrorMap) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<null | string>();
   const clearError = useCallback(() => {
     setError(null);
@@ -73,6 +74,7 @@ export const useHttpClient = (httpErrorMap?: HttpErrorMap) => {
             (responseData.status + '') as KnownHttpErrorStatus
           );
         }
+        setIsSuccess(true);
         return responseData.data;
       } catch (e: unknown) {
         if (httpErrorMap?.all) {
@@ -93,5 +95,13 @@ export const useHttpClient = (httpErrorMap?: HttpErrorMap) => {
     },
     [clearError, httpErrorMap]
   );
-  return { isLoading, error, sendRequest, setError, clearError };
+  return {
+    isLoading,
+    isSuccess,
+    sendRequest,
+    setIsSuccess,
+    error,
+    setError,
+    clearError,
+  };
 };

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Button, Stack, VStack } from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -18,10 +17,10 @@ const RecoverSchema = Yup.object().shape({
 });
 
 export function RecoverForm() {
-  const { sendRequest, error, clearError, isLoading } = useHttpClient({
-    all: 'Something went wrong when recover password. Please try again later!',
-  });
-  const [isSuccess, setIsSuccess] = useState(false);
+  const { sendRequest, isLoading, isSuccess, setIsSuccess, error, clearError } =
+    useHttpClient({
+      all: 'Something went wrong when recover password. Please try again later!',
+    });
   const nav = useNavigate();
 
   const {
@@ -33,16 +32,9 @@ export function RecoverForm() {
   });
 
   async function onSubmit(values: RecoverFormInputs) {
-    const data = await sendRequest<RecoverPasswordResponse>(
-      '/user/recover',
-      'POST',
-      {
-        email: values.email,
-      }
-    );
-    if (data) {
-      setIsSuccess(true);
-    }
+    await sendRequest<RecoverPasswordResponse>('/user/recover', 'POST', {
+      email: values.email,
+    });
   }
   const closeSuccessModalHandler = () => {
     setIsSuccess(false);

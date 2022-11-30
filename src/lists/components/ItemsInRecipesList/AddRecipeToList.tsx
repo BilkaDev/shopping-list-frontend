@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Button, HStack, Text } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../common/Redux/store';
@@ -14,10 +13,10 @@ import { useForm } from 'react-hook-form';
 export function AddRecipeToList() {
   const { recipes } = useSelector((store: RootState) => store.recipes);
   const { register, handleSubmit } = useForm();
-  const [isSuccess, setIsSuccess] = useState(false);
-  const { error, sendRequest, clearError } = useHttpClient({
-    all: 'Adding recipe failed. Please try again later',
-  });
+  const { isSuccess, setIsSuccess, sendRequest, error, clearError } =
+    useHttpClient({
+      all: 'Adding recipe failed. Please try again later',
+    });
   const dispatch = useDispatch();
 
   const { id: listId } = useParams();
@@ -37,7 +36,6 @@ export function AddRecipeToList() {
       );
       if (data) {
         dispatch(addRecipeToList(recipeData.recipe));
-        setIsSuccess(true);
       }
     }
   }

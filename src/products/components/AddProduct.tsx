@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   AddProductResponse,
   CreateProductRequest,
@@ -25,11 +24,11 @@ const AddProductSchema = Yup.object().shape({
 });
 
 export const AddProduct = () => {
-  const [isSuccess, setIsSuccess] = useState(false);
-  const { isLoading, error, sendRequest, clearError } = useHttpClient({
-    '400':
-      'Adding a product failed, check the product name (name must not repeat)',
-  });
+  const { isLoading, isSuccess, setIsSuccess, sendRequest, error, clearError } =
+    useHttpClient({
+      '400':
+        'Adding a product failed, check the product name (name must not repeat)',
+    });
   const dispatch = useDispatch();
 
   const {
@@ -55,7 +54,6 @@ export const AddProduct = () => {
         ...newProduct,
         id: data.product.id,
       };
-      setIsSuccess(true);
       dispatch(addProductAction(newProductWithId));
     }
   };

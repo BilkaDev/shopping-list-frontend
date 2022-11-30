@@ -3,7 +3,6 @@ import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpi
 import { useHttpClient } from '../../../common/hooks/http-hook';
 import { Button, VStack } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
-import { useState } from 'react';
 import { SuccessfullyBox } from '../../../common/components/UiElements/SuccessfullyBox';
 import { AddRecipeRequest, CreateRecipeResponse } from 'interfaces';
 import { addRecipeAction } from '../../../common/Redux/actions/Recipe';
@@ -22,7 +21,6 @@ const AddRecipeSchema = Yup.object().shape({
 });
 
 export const AddRecipe = () => {
-  const [isSuccess, setIsSuccess] = useState(false);
   const {
     register,
     handleSubmit,
@@ -31,9 +29,10 @@ export const AddRecipe = () => {
     resolver: yupResolver(AddRecipeSchema),
   });
 
-  const { isLoading, error, sendRequest, clearError } = useHttpClient({
-    400: 'Adding the recipe failed, check the recipe name (the name must not repeat)',
-  });
+  const { isLoading, isSuccess, setIsSuccess, sendRequest, error, clearError } =
+    useHttpClient({
+      400: 'Adding the recipe failed, check the recipe name (the name must not repeat)',
+    });
   const dispatch = useDispatch();
   const { userId } = useAuth();
 
@@ -58,7 +57,6 @@ export const AddRecipe = () => {
           items: [],
         })
       );
-      setIsSuccess(true);
     }
   };
 

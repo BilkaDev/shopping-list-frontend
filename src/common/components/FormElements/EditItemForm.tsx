@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHttpClient } from '../../hooks/http-hook';
 import {
@@ -30,11 +30,11 @@ export const EditItemForm = ({
   element,
   recipeId,
 }: EditItemFormProps) => {
-  const [isSuccess, setIsSuccess] = useState(false);
   const dispatch = useDispatch();
-  const { isLoading, error, sendRequest, clearError } = useHttpClient({
-    '400': "Ops. something went wrong.... check the name (can't be repeated)",
-  });
+  const { isLoading, isSuccess, sendRequest, error, clearError } =
+    useHttpClient({
+      '400': "Ops. something went wrong.... check the name (can't be repeated)",
+    });
 
   const initialInputsForm = useMemo(
     () => ({
@@ -56,7 +56,6 @@ export const EditItemForm = ({
       .min(2, 'Name is too short! minimum length is 2 characters!')
       .max(100, 'Name is too long! Maximum length is 100 characters!')
       .test('initial-value', 'is initial value', (v, c) => {
-        console.log(initialInputsForm.weight);
         return (
           v !== initialInputsForm.name ||
           c.parent.weight !== initialInputsForm.weight ||
@@ -137,10 +136,7 @@ export const EditItemForm = ({
       default:
         return;
     }
-    const data = await sendRequest(path, 'PATCH', editItem);
-    if (data) {
-      setIsSuccess(true);
-    }
+    await sendRequest(path, 'PATCH', editItem);
   };
   if (isSuccess) {
     return (
