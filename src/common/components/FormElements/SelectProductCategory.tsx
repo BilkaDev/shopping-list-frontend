@@ -1,3 +1,4 @@
+import { FormControl, FormLabel } from '@chakra-ui/react';
 import { ProductCategory } from 'interfaces';
 import { Select } from '../UiElements/Select';
 import { SelectProductCategoryProps } from './FormElementsTypes';
@@ -19,9 +20,9 @@ export const SelectProductCategory = ({
   }
 
   return (
-    <label>
-      <p>Category:</p>
+    <FormControl>
+      <FormLabel fontSize="1.6rem">Category:</FormLabel>
       <Select register={register}>{category}</Select>
-    </label>
+    </FormControl>
   );
 };
