@@ -8,6 +8,7 @@ import { EditItemFormInputs } from '../common/components/FormElements/FormElemen
 export interface ManageListProps {
   errors: FieldErrors<EditItemFormInputs>;
   register: UseFormRegisterReturn<'name'>;
+  placeholder?: string;
 }
 
 export interface ManageItemInListProps {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ManageList } from './ManageList';
+import { ManageNameForm } from '../../../common/components/FormElements/ManageNameForm';
 import {
   CreateListRequest,
   CreateListResponse,
@@ -81,9 +81,9 @@ export const AddList = () => {
       )}
       {isLoading && <LoadingSpinner />}
       {!isLoading && !error && (
-        <form onSubmit={handleSubmit(data => addListToLists(data))}>
+        <form onSubmit={handleSubmit(addListToLists)}>
           <VStack spacing={4} align="flex-start">
-            <ManageList register={register('name')} errors={errors} />
+            <ManageNameForm register={register('name')} errors={errors} />
             <Button
               type="submit"
               disabled={!isValid}

@@ -8,7 +8,7 @@ import {
   EditRecipeRequest,
 } from 'interfaces';
 import { editItemInList, editListName } from '../../Redux/actions/list';
-import { ManageList } from '../../../lists/components/List/ManageList';
+import { ManageNameForm } from './ManageNameForm';
 import { editProductAction } from '../../Redux/actions/product';
 import { ManageProductForm } from '../../../products/components/ManageProductForm';
 import { Button } from '@chakra-ui/react';
@@ -163,7 +163,7 @@ export const EditItemForm = ({
       {!isLoading && !error && (
         <form onSubmit={handleSubmit(submitHandler)}>
           {(element === 'list' || element === 'recipe') && (
-            <ManageList register={register('name')} errors={errors} />
+            <ManageNameForm register={register('name')} errors={errors} />
           )}
           {element === 'product' && initialInputs.category !== undefined && (
             <ManageProductForm
