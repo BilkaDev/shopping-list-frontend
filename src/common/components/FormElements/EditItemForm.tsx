@@ -8,7 +8,6 @@ import {
   EditRecipeRequest,
 } from 'interfaces';
 import { editItemInList, editListName } from '../../Redux/actions/list';
-import { ManageNameForm } from './ManageNameForm';
 import { editProductAction } from '../../Redux/actions/product';
 import { ManageProductForm } from '../../../products/components/ManageProductForm';
 import { Button } from '@chakra-ui/react';
@@ -23,6 +22,7 @@ import { AddProductFormInputs } from '../../../products/products.types';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { useForm, UseFormRegister } from 'react-hook-form';
 import { EditItemFormInputs, EditItemFormProps } from './FormElementsTypes';
+import { InputForm } from '../UiElements/InputForm';
 
 export const EditItemForm = ({
   itemId,
@@ -163,7 +163,12 @@ export const EditItemForm = ({
       {!isLoading && !error && (
         <form onSubmit={handleSubmit(submitHandler)}>
           {(element === 'list' || element === 'recipe') && (
-            <ManageNameForm register={register('name')} errors={errors} />
+            <InputForm
+              register={register('name')}
+              label="Name:"
+              placeholder="List name"
+              errors={errors}
+            />
           )}
           {element === 'product' && initialInputs.category !== undefined && (
             <ManageProductForm

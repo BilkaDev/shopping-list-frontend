@@ -21,8 +21,7 @@ import { addItemToRecipeAction } from '../../../common/Redux/actions/Recipe';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
-import { ManageNameForm } from '../../../common/components/FormElements/ManageNameForm';
-import { InputForm } from '../../../common/components/FormElements/InputForm';
+import { InputForm } from '../../../common/components/UiElements/InputForm';
 import { AddItemFormInterface, AddItemProps } from '../../lists.types';
 
 const AddItemSchema = Yup.object().shape({
@@ -145,10 +144,11 @@ export const AddItem = ({ isRecipe }: AddItemProps) => {
       {!isLoading && !error && (
         <form onSubmit={handleSubmit(addItemToListRequest)}>
           <VStack spacing={4} align="flex-start">
-            <ManageNameForm
+            <InputForm
               register={register('name')}
-              placeholder="Product name"
+              label="Name:"
               autoCompleteOff
+              placeholder="Product name"
               errors={errors}
             />
             {watch('name')?.length > 1 && (

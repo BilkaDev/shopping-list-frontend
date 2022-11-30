@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { ManageNameForm } from '../../../common/components/FormElements/ManageNameForm';
 import {
   CreateListRequest,
   CreateListResponse,
@@ -16,6 +15,7 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { AddListFormInterface } from '../../lists.types';
+import { InputForm } from '../../../common/components/UiElements/InputForm';
 
 const AddListSchema = Yup.object().shape({
   name: Yup.string()
@@ -83,7 +83,12 @@ export const AddList = () => {
       {!isLoading && !error && (
         <form onSubmit={handleSubmit(addListToLists)}>
           <VStack spacing={4} align="flex-start">
-            <ManageNameForm register={register('name')} errors={errors} />
+            <InputForm
+              register={register('name')}
+              label="Name:"
+              placeholder="List name"
+              errors={errors}
+            />
             <Button
               type="submit"
               disabled={!isValid}
