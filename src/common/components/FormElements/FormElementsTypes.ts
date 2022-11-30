@@ -1,3 +1,4 @@
+import { ProductInterface } from 'interfaces';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 export interface SelectProductCategoryProps {
@@ -23,6 +24,14 @@ export interface EditItemFormProps {
     count?: number;
   };
 }
+
+export interface SearchProductProps {
+  name: string;
+  product: ProductInterface | undefined;
+  register: UseFormRegisterReturn<'category'>;
+  setProduct: (product: ProductInterface | undefined) => void;
+}
+
 export interface EditItemFormInputs {
   name: string;
   category: number;

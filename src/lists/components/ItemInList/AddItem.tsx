@@ -1,11 +1,4 @@
-import { FormEvent, useState } from 'react';
-import { Input } from '../../../common/components/FormElements/Input';
-import {
-  VALIDATOR_MAX,
-  VALIDATOR_MAXLENGTH,
-  VALIDATOR_MINLENGTH,
-} from '../../../common/utils/validators';
-import { useForm } from '../../../common/hooks/form-hook';
+import { useState } from 'react';
 import { useHttpClient } from '../../../common/hooks/http-hook';
 import { useDispatch } from 'react-redux';
 import { SearchProduct } from './SearchProduct';
@@ -25,35 +18,49 @@ import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
 import { SuccessfullyBox } from '../../../common/components/UiElements/SuccessfullyBox';
 import { addItemToRecipeAction } from '../../../common/Redux/actions/Recipe';
+import * as Yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
+import { ManageNameForm } from '../../../common/components/FormElements/ManageNameForm';
+import { InputForm } from '../../../common/components/FormElements/InputForm';
+import { AddItemFormInterface, AddItemProps } from '../../lists.types';
 
-interface Props {
-  isRecipe?: boolean;
-}
+const AddItemSchema = Yup.object().shape({
+  name: Yup.string()
+    .required('Product name is required!')
+    .min(2, 'Product name is too short! minimum length is 2 characters!')
+    .max(100, 'Product is too long! Maximum length is 100 characters!'),
+  count: Yup.number().min(0).max(1000, 'Maximum quantity 1000'),
+  weight: Yup.number().min(0).max(1000000, 'Maximum weight 1000000'),
+});
 
-export const AddItem = ({ isRecipe }: Props) => {
+export const AddItem = ({ isRecipe }: AddItemProps) => {
   const [isSuccess, setIsSuccess] = useState(false);
-  const { formState, inputHandler, setFormData, selectHandler } = useForm(
-    {
-      name: { isValid: false, value: '' },
-      count: { isValid: false, value: 0 },
-      weight: { isValid: false, value: 0 },
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors, isValid },
+  } = useForm<AddItemFormInterface>({
+    defaultValues: {
+      count: 0,
+      weight: 0,
     },
-    false
-  );
+    resolver: yupResolver(AddItemSchema),
+  });
   const [product, setProduct] = useState<ProductInterface>();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  const addItemToListRequest = async (e: FormEvent) => {
-    e.preventDefault();
-
+  const addItemToListRequest = async (values: AddItemFormInterface) => {
     let newProduct: ProductInterface | undefined = undefined;
     let newItem: CreateItemInListRequest | undefined = undefined;
     if (!product) {
       const newProductReq: CreateProductRequest = {
-        name: formState.inputs.name.value,
-        category: Number(formState.inputs.category.value),
+        name: values.name,
+        category: Number(values.category),
       };
       const dataProduct = await sendRequest<AddProductResponse>(
         '/product',
@@ -70,16 +77,16 @@ export const AddItem = ({ isRecipe }: Props) => {
       dispatch(addProductAction(newProduct));
       newItem = {
         itemId: dataProduct.product.id,
-        count: Number(formState.inputs.count.value),
-        weight: Number(formState.inputs.weight.value),
+        count: Number(values.count),
+        weight: Number(values.weight),
         listId: isRecipe ? undefined : id,
         recipeId: isRecipe ? id : undefined,
       };
     } else {
       newItem = {
         itemId: product.id,
-        count: Number(formState.inputs.count.value),
-        weight: Number(formState.inputs.weight.value),
+        count: Number(values.count),
+        weight: Number(values.weight),
         listId: isRecipe ? undefined : id,
         recipeId: isRecipe ? id : undefined,
       };
@@ -107,19 +114,11 @@ export const AddItem = ({ isRecipe }: Props) => {
       ? dispatch(addItemToRecipeAction(newItemToStore))
       : dispatch(addItemToList(newItemToStore));
     setIsSuccess(true);
-    inputHandler('name', '', false);
+    reset();
   };
 
   function exitErrorHandler() {
-    setFormData(
-      {
-        name: { isValid: false, value: '' },
-        productId: { isValid: true, value: '' },
-        count: { isValid: false, value: 0 },
-        weight: { isValid: false, value: 0 },
-      },
-      false
-    );
+    reset();
     clearError();
   }
 
@@ -144,54 +143,39 @@ export const AddItem = ({ isRecipe }: Props) => {
       )}
       {isLoading && <LoadingSpinner />}
       {!isLoading && !error && (
-        <form onSubmit={addItemToListRequest}>
+        <form onSubmit={handleSubmit(addItemToListRequest)}>
           <VStack spacing={4} align="flex-start">
-            <Input
-              label="Name"
-              id="name"
+            <ManageNameForm
+              register={register('name')}
               placeholder="Product name"
-              errorText="Product name is required (min. 2 characters max. 100)."
-              validators={[VALIDATOR_MINLENGTH(2), VALIDATOR_MAXLENGTH(100)]}
-              onInput={inputHandler}
               autoCompleteOff
+              errors={errors}
             />
-            {formState.inputs.name.value.length > 1 && (
+            {watch('name')?.length > 1 && (
               <SearchProduct
                 product={product}
                 setProduct={setProduct}
-                onSelectHandler={selectHandler}
-                name={formState.inputs.name.value}
+                register={register('category')}
+                name={watch('name')}
               />
             )}
-            <Input
-              label="Count"
-              id="count"
-              placeholder="Count:"
-              errorText="Maximum quantity 1000"
-              validators={[VALIDATOR_MAX(1000)]}
-              initialValue={'0'}
-              initialValid={true}
-              onInput={inputHandler}
+            <InputForm
+              register={register('count')}
+              label="Count:"
+              placeholder="Count"
               type="number"
-              min="0"
-              max="1000"
+              errors={errors}
             />
-            <Input
-              label="Weight"
-              id="weight"
-              placeholder="Weight in grams"
-              errorText="Maximum weight 1000000"
-              validators={[VALIDATOR_MAX(1000000)]}
-              onInput={inputHandler}
-              initialValid={true}
-              initialValue={'0'}
+            <InputForm
+              register={register('weight')}
+              label="Weight:"
+              placeholder="Weight"
               type="number"
-              min="0"
-              max="1000000"
+              errors={errors}
             />
             <Button
               type="submit"
-              disabled={!formState.isValid}
+              disabled={!isValid}
               colorScheme="gray"
               color="var(--dark)"
             >

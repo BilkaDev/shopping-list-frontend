@@ -9,6 +9,7 @@ import { ManageListProps } from '../../../lists/lists.types';
 export const ManageNameForm = ({
   register,
   placeholder,
+  autoCompleteOff,
   errors,
 }: ManageListProps) => {
   return (
@@ -18,6 +19,7 @@ export const ManageNameForm = ({
         <Input
           {...register}
           placeholder={placeholder ?? 'List name'}
+          autoComplete={autoCompleteOff ? 'off' : 'on'}
           variant="filled"
           bgColor="#292A2B"
           color="#DADADA"

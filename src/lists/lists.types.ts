@@ -6,9 +6,10 @@ import {
 import { EditItemFormInputs } from '../common/components/FormElements/FormElementsTypes';
 
 export interface ManageListProps {
-  errors: FieldErrors<EditItemFormInputs>;
   register: UseFormRegisterReturn<'name'>;
   placeholder?: string;
+  autoCompleteOff?: boolean;
+  errors: FieldErrors<EditItemFormInputs>;
 }
 
 export interface ManageItemInListProps {
@@ -16,6 +17,16 @@ export interface ManageItemInListProps {
   errors: FieldErrors<EditItemFormInputs>;
 }
 
+export interface AddItemProps {
+  isRecipe?: boolean;
+}
+
 export interface AddListFormInterface {
   name: string;
+}
+export interface AddItemFormInterface {
+  name: string;
+  count: number;
+  weight: number;
+  category: number;
 }
