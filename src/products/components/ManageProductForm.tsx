@@ -1,6 +1,6 @@
 import { SelectProductCategory } from '../../common/components/FormElements/SelectProductCategory';
 import { ManageProductFormProps } from '../products.types';
-import { ManageNameForm } from '../../common/components/FormElements/ManageNameForm';
+import { InputForm } from '../../common/components/UiElements/InputForm';
 
 export const ManageProductForm = ({
   register,
@@ -8,8 +8,9 @@ export const ManageProductForm = ({
 }: ManageProductFormProps) => {
   return (
     <>
-      <ManageNameForm
+      <InputForm
         register={register('name')}
+        label="Name:"
         placeholder="Product name"
         errors={errors}
       />

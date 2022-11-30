@@ -11,7 +11,7 @@ import { useAuth } from '../../../common/hooks/auth-hook';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
-import { ManageNameForm } from '../../../common/components/FormElements/ManageNameForm';
+import { InputForm } from '../../../common/components/UiElements/InputForm';
 
 const AddRecipeSchema = Yup.object().shape({
   name: Yup.string()
@@ -88,8 +88,9 @@ export const AddRecipe = () => {
       {!isLoading && !error && (
         <form onSubmit={handleSubmit(addRecipe)}>
           <VStack spacing={4} align="flex-start">
-            <ManageNameForm
+            <InputForm
               register={register('name')}
+              label="Name:"
               placeholder="Recipe name"
               errors={errors}
             />

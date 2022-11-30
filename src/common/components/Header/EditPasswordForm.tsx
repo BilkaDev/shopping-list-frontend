@@ -1,13 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  Input,
-  Stack,
-  useToast,
-  VStack,
-} from '@chakra-ui/react';
+import { Button, Stack, useToast, VStack } from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { useHttpClient } from '../../hooks/http-hook';
 import { LoadingSpinner } from '../UiElements/LoadingSpinner';
@@ -15,6 +7,8 @@ import { InfoModal } from '../UiElements/InfoModal';
 import { ChangePasswordResponse } from 'interfaces';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
+import { EditPasswordFormInputs } from './Header.types';
+import { InputForm } from '../UiElements/InputForm';
 
 const ChangePasswordSchema = Yup.object().shape({
   password: Yup.string()
@@ -31,12 +25,6 @@ const ChangePasswordSchema = Yup.object().shape({
     .required('Required!')
     .oneOf([Yup.ref('newPassword'), null], 'Passwords must match.'),
 });
-
-interface EditPasswordFormInputs {
-  password: string;
-  newPassword: string;
-  newPasswordRepeat: string;
-}
 
 export const EditPasswordForm = () => {
   const { sendRequest, error, clearError, isLoading } = useHttpClient();
@@ -104,45 +92,24 @@ export const EditPasswordForm = () => {
       )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <VStack spacing={4} align="flex-start">
-          <FormControl isInvalid={!!errors.password}>
-            <Input
-              {...register('password')}
-              type="password"
-              placeholder="Password"
-              variant="filled"
-              bgColor="#292A2B"
-              color="#DADADA"
-            />
-            <FormErrorMessage>
-              {errors.password && errors.password.message}
-            </FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={!!errors.newPassword}>
-            <Input
-              {...register('newPassword')}
-              type="password"
-              placeholder="New password"
-              variant="filled"
-              bgColor="#292A2B"
-              color="#DADADA"
-            />
-            <FormErrorMessage>
-              {errors.newPassword && errors.newPassword.message}
-            </FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={!!errors.newPasswordRepeat}>
-            <Input
-              {...register('newPasswordRepeat')}
-              type="password"
-              placeholder="Repeat new password"
-              variant="filled"
-              bgColor="#292A2B"
-              color="#DADADA"
-            />
-            <FormErrorMessage>
-              {errors.newPasswordRepeat && errors.newPasswordRepeat.message}
-            </FormErrorMessage>
-          </FormControl>
+          <InputForm
+            register={register('password')}
+            type="password"
+            placeholder="Password"
+            errors={errors}
+          />
+          <InputForm
+            register={register('newPassword')}
+            type="password"
+            placeholder="New password"
+            errors={errors}
+          />
+          <InputForm
+            register={register('newPasswordRepeat')}
+            type="password"
+            placeholder="Repeat new password"
+            errors={errors}
+          />
           <Stack spacing={10} width="100%" pt="10px">
             <Stack direction={{ base: 'column', sm: 'row' }} align={'center'}>
               <Button type="submit" colorScheme="blue">

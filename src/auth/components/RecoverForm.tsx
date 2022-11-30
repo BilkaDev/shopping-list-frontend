@@ -1,12 +1,5 @@
 import { useState } from 'react';
-import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  Input,
-  Stack,
-  VStack,
-} from '@chakra-ui/react';
+import { Button, Stack, VStack } from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
@@ -15,16 +8,14 @@ import { InfoModal } from '../../common/components/UiElements/InfoModal';
 import { useHttpClient } from '../../common/hooks/http-hook';
 import { useNavigate } from 'react-router-dom';
 import { RecoverPasswordResponse } from 'interfaces';
+import { RecoverFormInputs } from '../auth.types';
+import { InputForm } from '../../common/components/UiElements/InputForm';
 
 const RecoverSchema = Yup.object().shape({
   email: Yup.string()
     .email('Enter a valid e-mail address!')
     .required('Required!'),
 });
-
-interface RecoverFormInputs {
-  email: string;
-}
 
 export function RecoverForm() {
   const { sendRequest, error, clearError, isLoading } = useHttpClient({
@@ -78,19 +69,12 @@ export function RecoverForm() {
       )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <VStack spacing={4} align="flex-start">
-          <FormControl isInvalid={!!errors.email}>
-            <Input
-              {...register('email')}
-              type="email"
-              variant="filled"
-              placeholder="E-mail"
-              bgColor="#292A2B"
-              color="#DADADA"
-            />
-            <FormErrorMessage>
-              {errors.email && errors.email.message}
-            </FormErrorMessage>
-          </FormControl>
+          <InputForm
+            register={register('email')}
+            type="email"
+            placeholder="E-mail"
+            errors={errors}
+          />
           <Stack spacing={10} width="100%" pt="20px">
             <Stack direction={{ base: 'column', sm: 'row' }} justify={'center'}>
               <Button type="submit" colorScheme="blue">
