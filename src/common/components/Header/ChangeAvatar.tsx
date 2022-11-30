@@ -19,7 +19,7 @@ import { AddAvatarResponse } from 'interfaces';
 import { ChangeAvatarProps } from './Header.types';
 
 export const ChangeAvatar = ({ onClose }: ChangeAvatarProps) => {
-  const { sendRequest, error, clearError, isLoading } = useHttpClient({
+  const { isLoading, sendRequest, error, clearError } = useHttpClient({
     all: 'Something went wrong when changing avatar. Please try again later.',
   });
   const [image, setImage] = useState<File>();
@@ -80,10 +80,10 @@ export const ChangeAvatar = ({ onClose }: ChangeAvatarProps) => {
       {isLoading && <LoadingSpinner />}
       {error && (
         <InfoModal
-          isError
           message={error}
           onClose={clearError}
           title={'Failed!'}
+          isError
         />
       )}
       <form onSubmit={submitHandler}>

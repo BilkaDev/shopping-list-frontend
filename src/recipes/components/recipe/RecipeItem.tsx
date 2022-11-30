@@ -41,9 +41,9 @@ export const RecipeItem = ({ id, name }: RecipeItemProps) => {
       {error && (
         <InfoModal
           message={error}
-          isError
           onClose={clearError}
           title={'Failed!'}
+          isError
         />
       )}
       {isLoading && <LoadingSpinner />}

@@ -150,10 +150,10 @@ export const EditItemForm = ({
     <>
       {error && (
         <InfoModal
-          isError
           message={error}
           onClose={clearError}
           title={'Failed!'}
+          isError
         />
       )}
       {!isLoading && !error && (

@@ -48,10 +48,10 @@ export const LoginForm = () => {
       {isLoading && <LoadingSpinner />}
       {error && (
         <InfoModal
-          isError
           message={error}
           onClose={clearError}
           title={'Failed!'}
+          isError
         />
       )}
       <form onSubmit={handleSubmit(onSubmit)}>

@@ -54,9 +54,9 @@ export function AddRecipeToList() {
       {error && (
         <InfoModal
           message={error}
-          isError
           onClose={clearError}
           title={'Failed!'}
+          isError
         />
       )}
       <Text>Add recipes to list:</Text>

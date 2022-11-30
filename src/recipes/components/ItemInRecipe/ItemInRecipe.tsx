@@ -39,9 +39,9 @@ export const ItemInRecipe = ({
       {error && (
         <InfoModal
           message={error}
-          isError
           onClose={clearError}
           title={'Failed!'}
+          isError
         />
       )}
       <ModalChakra

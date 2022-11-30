@@ -70,9 +70,9 @@ function App() {
         {error && (
           <InfoModal
             message={error}
-            isError
             onClose={clearError}
             title={'Failed!'}
+            isError
           />
         )}
         <Routes>{routes}</Routes>

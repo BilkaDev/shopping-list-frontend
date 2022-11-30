@@ -134,9 +134,9 @@ export const AddItem = ({ isRecipe }: AddItemProps) => {
       {error && (
         <InfoModal
           message={error}
-          isError
           onClose={exitErrorHandler}
           title={'Failed!'}
+          isError
         />
       )}
       {isLoading && <LoadingSpinner />}

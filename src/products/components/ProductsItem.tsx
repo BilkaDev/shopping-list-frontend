@@ -37,9 +37,9 @@ export const ProductsItem = ({ category, id, name }: ProductsItemsProps) => {
       {error && (
         <InfoModal
           message={error}
-          isError
           onClose={clearError}
           title={'Failed!'}
+          isError
         />
       )}
       {isLoading && <LoadingSpinner />}

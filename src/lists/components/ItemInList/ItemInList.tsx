@@ -56,9 +56,9 @@ export const ItemInList = ({ category, item, isRecipe }: ItemInListProps) => {
       {error && (
         <InfoModal
           message={error}
-          isError
           onClose={clearError}
           title={'Failed!'}
+          isError
         />
       )}
       <ModalChakra

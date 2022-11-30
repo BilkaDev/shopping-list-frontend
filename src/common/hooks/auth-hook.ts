@@ -13,7 +13,7 @@ export const useAuth = () => {
   const { userId, avatarImg, email, isLoggedIn } = useSelector(
     (store: RootState) => store.auth
   );
-  const { sendRequest, error, clearError, isLoading } = useHttpClient();
+  const { isLoading, sendRequest, error, clearError } = useHttpClient();
   const dispatch = useDispatch();
 
   const login = useCallback(

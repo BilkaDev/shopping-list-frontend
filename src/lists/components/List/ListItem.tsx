@@ -39,9 +39,9 @@ export const ListItem = ({ id, name }: ListItemProps) => {
       {error && (
         <InfoModal
           message={error}
-          isError
           onClose={clearError}
           title={'Failed!'}
+          isError
         />
       )}
       {isLoading && <LoadingSpinner />}

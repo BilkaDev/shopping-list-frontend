@@ -46,10 +46,10 @@ export function RecoverForm() {
       {isLoading && <LoadingSpinner />}
       {error && (
         <InfoModal
-          isError
           message={error}
           onClose={clearError}
           title={'Failed!'}
+          isError
         />
       )}
       {isSuccess && (

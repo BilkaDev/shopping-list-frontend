@@ -7,10 +7,10 @@ export interface SelectProps {
 }
 
 export interface InfoModalProps {
-  isError?: boolean;
   message: string;
   title: string;
   onClose: () => void;
+  isError?: boolean;
 }
 
 export interface SuccessfullyBoxProps {

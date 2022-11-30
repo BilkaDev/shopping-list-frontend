@@ -41,10 +41,10 @@ export function MenuHeader() {
       {isLoading && <LoadingSpinner />}
       {error && (
         <InfoModal
-          isError
           message={error}
           onClose={clearError}
           title={'Failed!'}
+          isError
         />
       )}
       <ModalChakra

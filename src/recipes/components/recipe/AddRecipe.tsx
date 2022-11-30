@@ -74,9 +74,9 @@ export const AddRecipe = () => {
       {error && (
         <InfoModal
           message={error}
-          isError
           onClose={clearError}
           title={'Failed!'}
+          isError
         />
       )}
       {isLoading && <LoadingSpinner />}
