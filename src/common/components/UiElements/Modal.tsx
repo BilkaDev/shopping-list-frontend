@@ -1,20 +1,8 @@
-import { CSSProperties, ReactNode, useMemo } from 'react';
+import { useMemo } from 'react';
 import ReactDOM from 'react-dom';
-import './Modal.css';
 import { Backdrop } from './Backdrop';
-
-interface Props {
-  className?: string;
-  headerClass?: string;
-  footerClass?: string;
-  header: string;
-  footer?: JSX.Element;
-  contentClass?: string;
-  onCancel: () => void;
-  style?: CSSProperties;
-  children: ReactNode;
-  show: boolean;
-}
+import { ModalOverlayProps } from './UiElements.types';
+import './Modal.css';
 
 const ModalOverlay = ({
   children,
@@ -25,7 +13,7 @@ const ModalOverlay = ({
   header,
   headerClass,
   style,
-}: Props) => {
+}: ModalOverlayProps) => {
   const content = (
     <div className={`Modal ${className}`} style={style}>
       <header className={`Modal__header ${headerClass}`}>
@@ -41,7 +29,7 @@ const ModalOverlay = ({
   );
 };
 
-export const Modal = (props: Props) => {
+export const Modal = (props: ModalOverlayProps) => {
   return (
     <>
       {props.show && <Backdrop onClick={props.onCancel} />}

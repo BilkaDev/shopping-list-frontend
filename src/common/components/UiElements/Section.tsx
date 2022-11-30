@@ -1,11 +1,7 @@
-import { ReactNode } from 'react';
 import { Box, Center, VStack } from '@chakra-ui/react';
+import { SectionProps } from './UiElements.types';
 
-interface Props {
-  children: ReactNode;
-}
-
-export function Section({ children }: Props) {
+export function Section({ children }: SectionProps) {
   return (
     <Box>
       <Center>

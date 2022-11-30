@@ -5,20 +5,14 @@ import { RootState } from '../../../common/Redux/store';
 import { SelectProductCategory } from '../../../common/components/FormElements/SelectProductCategory';
 import { Box, List, ListIcon, ListItem, Stack, Text } from '@chakra-ui/layout';
 import { CheckCircleIcon } from '@chakra-ui/icons';
-
-interface Props {
-  name: string;
-  product: ProductInterface | undefined;
-  setProduct: (product: ProductInterface | undefined) => void;
-  onSelectHandler: (id: string, value: number, isValid: boolean) => void;
-}
+import { SearchProductProps } from '../../../common/components/FormElements/FormElements.types';
 
 export const SearchProduct = ({
   name,
-  onSelectHandler,
+  register,
   product,
   setProduct,
-}: Props) => {
+}: SearchProductProps) => {
   const [suggestions, setSuggestions] = useState<ProductInterface[]>([]);
   const { listProducts } = useSelector((store: RootState) => store.products);
 
@@ -110,9 +104,7 @@ export const SearchProduct = ({
           </List>
         </Box>
       )}
-      {name.length > 1 && !product && (
-        <SelectProductCategory onInput={onSelectHandler} initialValue={0} />
-      )}
+      <SelectProductCategory register={register} />
     </Stack>
   );
 };

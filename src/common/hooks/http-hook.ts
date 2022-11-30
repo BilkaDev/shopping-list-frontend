@@ -11,6 +11,7 @@ import {
   EditDescriptionRecipeRequest,
   RecoverPasswordRequest,
   ApiResponse,
+  ChangePasswordRequest,
 } from 'interfaces';
 import { apiUrl } from '../../config/api';
 import {
@@ -36,6 +37,7 @@ export type ReqBody =
   | EditRecipeRequest
   | EditDescriptionRecipeRequest
   | RecoverPasswordRequest
+  | ChangePasswordRequest
   | null;
 
 export const useHttpClient = (httpErrorMap?: HttpErrorMap) => {

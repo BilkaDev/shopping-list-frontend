@@ -8,15 +8,10 @@ import { ModalChakra } from '../../common/components/UiElements/ModalChakra';
 import { InfoModal } from '../../common/components/UiElements/InfoModal';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import { EditItemForm } from '../../common/components/UiElements/EditItemForm';
+import { EditItemForm } from '../../common/components/FormElements/EditItemForm';
+import { ProductsItemsProps } from '../products.types';
 
-interface Props {
-  name: string;
-  category: ProductCategory;
-  id: string;
-}
-
-export const ProductsItem = ({ category, id, name }: Props) => {
+export const ProductsItem = ({ category, id, name }: ProductsItemsProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const { isLoading, error, sendRequest, clearError } = useHttpClient({
     all: 'Something went wrong when deleting the Product. Please try again later.',
@@ -60,7 +55,6 @@ export const ProductsItem = ({ category, id, name }: Props) => {
             name,
             category,
           }}
-          initialValid={false}
         />
       </ModalChakra>
       <Tr>

@@ -16,12 +16,9 @@ import { changeAvatar } from '../../Redux/actions/auth';
 import defaultIcon from '../../../assets/default-icon-profil.jpg';
 import { useAuth } from '../../hooks/auth-hook';
 import { AddAvatarResponse } from 'interfaces';
+import { ChangeAvatarProps } from './Header.types';
 
-interface Props {
-  onClose: () => void;
-}
-
-export const ChangeAvatar = ({ onClose }: Props) => {
+export const ChangeAvatar = ({ onClose }: ChangeAvatarProps) => {
   const { sendRequest, error, clearError, isLoading } = useHttpClient({
     all: 'Something went wrong when changing avatar. Please try again later.',
   });

@@ -8,15 +8,11 @@ import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
 import { ModalChakra } from '../../../common/components/UiElements/ModalChakra';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import { EditItemForm } from '../../../common/components/UiElements/EditItemForm';
+import { EditItemForm } from '../../../common/components/FormElements/EditItemForm';
 import { DeleteItemInListResponse } from '../../../../../shopping-list-BE/src/interfaces/list';
+import { ListItemProps } from '../../lists.types';
 
-interface Props {
-  id: string;
-  name: string;
-}
-
-export const ListItem = ({ id, name }: Props) => {
+export const ListItem = ({ id, name }: ListItemProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const dispatch = useDispatch();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -38,12 +34,7 @@ export const ListItem = ({ id, name }: Props) => {
         title={`Change list name: "${name}"`}
         onClose={() => setShowEditModal(false)}
       >
-        <EditItemForm
-          element="list"
-          itemId={id}
-          initialInputs={{ name }}
-          initialValid={false}
-        />
+        <EditItemForm element="list" itemId={id} initialInputs={{ name }} />
       </ModalChakra>
       {error && (
         <InfoModal

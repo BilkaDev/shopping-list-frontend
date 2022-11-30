@@ -9,15 +9,14 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import ReactDOM from 'react-dom';
+import { InfoModalProps } from './UiElements.types';
 
-interface Props {
-  isError?: boolean;
-  message: string;
-  title: string;
-  onClose: () => void;
-}
-
-export const InfoModal = ({ title, message, onClose, isError }: Props) => {
+export const InfoModal = ({
+  title,
+  message,
+  onClose,
+  isError,
+}: InfoModalProps) => {
   const content = (
     <Modal onClose={onClose} isOpen={true} isCentered>
       <ModalOverlay />

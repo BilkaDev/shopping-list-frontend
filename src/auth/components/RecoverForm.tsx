@@ -1,19 +1,15 @@
 import { useState } from 'react';
-import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  Input,
-  Stack,
-  VStack,
-} from '@chakra-ui/react';
+import { Button, Stack, VStack } from '@chakra-ui/react';
 import * as Yup from 'yup';
-import { useFormik } from 'formik';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
 import { InfoModal } from '../../common/components/UiElements/InfoModal';
 import { useHttpClient } from '../../common/hooks/http-hook';
 import { useNavigate } from 'react-router-dom';
 import { RecoverPasswordResponse } from 'interfaces';
+import { RecoverFormInputs } from '../auth.types';
+import { InputForm } from '../../common/components/UiElements/InputForm';
 
 const RecoverSchema = Yup.object().shape({
   email: Yup.string()
@@ -28,25 +24,26 @@ export function RecoverForm() {
   const [isSuccess, setIsSuccess] = useState(false);
   const nav = useNavigate();
 
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-    },
-    validationSchema: RecoverSchema,
-    onSubmit: async values => {
-      const data = await sendRequest<RecoverPasswordResponse>(
-        '/user/recover',
-        'POST',
-        {
-          email: values.email,
-        }
-      );
-      if (data) {
-        setIsSuccess(true);
-      }
-    },
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RecoverFormInputs>({
+    resolver: yupResolver(RecoverSchema),
   });
 
+  async function onSubmit(values: RecoverFormInputs) {
+    const data = await sendRequest<RecoverPasswordResponse>(
+      '/user/recover',
+      'POST',
+      {
+        email: values.email,
+      }
+    );
+    if (data) {
+      setIsSuccess(true);
+    }
+  }
   const closeSuccessModalHandler = () => {
     setIsSuccess(false);
     nav('/');
@@ -70,24 +67,14 @@ export function RecoverForm() {
           title={'Success!'}
         />
       )}
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <VStack spacing={4} align="flex-start">
-          <FormControl isInvalid={!!formik.errors.email}>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              variant="filled"
-              placeholder="E-mail"
-              onChange={formik.handleChange}
-              value={formik.values.email}
-              bgColor="#292A2B"
-              color="#DADADA"
-            />
-            {!!formik.errors.email && (
-              <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
-            )}
-          </FormControl>
+          <InputForm
+            register={register('email')}
+            type="email"
+            placeholder="E-mail"
+            errors={errors}
+          />
           <Stack spacing={10} width="100%" pt="20px">
             <Stack direction={{ base: 'column', sm: 'row' }} justify={'center'}>
               <Button type="submit" colorScheme="blue">

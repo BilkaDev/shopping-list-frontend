@@ -9,10 +9,11 @@ import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { SuccessfullyBox } from '../../../common/components/UiElements/SuccessfullyBox';
 import { addRecipeToList } from '../../../common/Redux/actions/list';
 import { AddRecipeToListResponse, GetRecipeResponse } from 'interfaces';
+import { useForm } from 'react-hook-form';
 
 export function AddRecipeToList() {
   const { recipes } = useSelector((store: RootState) => store.recipes);
-  const [selectValue, setSelectValue] = useState(recipes[0]?.id);
+  const { register, handleSubmit } = useForm();
   const [isSuccess, setIsSuccess] = useState(false);
   const { error, sendRequest, clearError } = useHttpClient({
     all: 'Adding recipe failed. Please try again later',
@@ -25,15 +26,14 @@ export function AddRecipeToList() {
     return <p> no recipes to select</p>;
   }
 
-  async function addToListHandler() {
+  async function addToListHandler(recipeId: string) {
     const recipeData = await sendRequest<GetRecipeResponse>(
-      `/recipe/user/${selectValue}`
+      `/recipe/user/${recipeId}`
     );
     if (recipeData) {
       const data = await sendRequest<AddRecipeToListResponse>(
         `/list/add-recipe/${listId}/${recipeData.recipe.id}`,
-        'POST',
-        null
+        'POST'
       );
       if (data) {
         dispatch(addRecipeToList(recipeData.recipe));
@@ -62,7 +62,7 @@ export function AddRecipeToList() {
         />
       )}
       <Text>Add recipes to list:</Text>
-      <Select value={selectValue} setValue={setSelectValue}>
+      <Select register={register('id')}>
         {recipes.map(recipe => (
           <option key={recipe.id} value={recipe.id}>
             {recipe.name}
@@ -74,7 +74,7 @@ export function AddRecipeToList() {
         colorScheme="gray"
         padding="1rem 2rem"
         color="var(--dark)"
-        onClick={addToListHandler}
+        onClick={handleSubmit(data => addToListHandler(data.id))}
       >
         Add to list
       </Button>

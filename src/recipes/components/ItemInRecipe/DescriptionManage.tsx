@@ -6,15 +6,14 @@ import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpi
 import { useDispatch } from 'react-redux';
 import { editDescriptionRecipeAction } from '../../../common/Redux/actions/Recipe';
 import { EditDescriptionRecipeRequest } from 'interfaces';
+import { DescriptionManageProps } from 'src/recipes/recipes.types';
 
-interface Props {
-  show: boolean;
-  onClose: any;
-  description?: string;
-  id: string;
-}
-
-export function DescriptionManage({ show, id, onClose, description }: Props) {
+export function DescriptionManage({
+  show,
+  id,
+  onClose,
+  description,
+}: DescriptionManageProps) {
   const [descriptionInput, setDescriptionInput] = useState(description ?? '');
   const { isLoading, error, sendRequest, clearError } = useHttpClient({
     all: 'Adding description to the recipe failed.',
