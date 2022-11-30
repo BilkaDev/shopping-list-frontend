@@ -6,8 +6,6 @@ import { Route, Routes } from 'react-router-dom';
 import { Products } from './products/pages/Products';
 import { Lists } from './lists/pages/Lists';
 import { ItemsInList } from './lists/pages/ItemsInList';
-import { useDispatch } from 'react-redux';
-import { setProductsAction } from './common/Redux/actions/product';
 import { useHttpClient } from './common/hooks/http-hook';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Auth } from './auth/pages/Auth';
@@ -18,10 +16,13 @@ import { setRecipesAction } from './common/Redux/actions/Recipe';
 import { RecoverPassword } from './auth/pages/RecoverPassword';
 import { useAuth } from './common/hooks/auth-hook';
 import { GetRecipesResponse, ProductListResponse } from 'interfaces';
+import { loadProductsThunk } from './common/Redux/thunks/products';
+import { setProductsAction } from './common/Redux/actions/product';
+import { useAppDispatch } from './common/Redux/store';
 
 function App() {
   const { sendRequest, error, clearError } = useHttpClient();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { userId, isLoggedIn } = useAuth();
 
   useEffect(() => {
@@ -30,9 +31,11 @@ function App() {
       const loadedRecipesData = await sendRequest<GetRecipesResponse>(
         `/recipe/${userId}`
       );
+
       dispatch(
         setRecipesAction(loadedRecipesData ? loadedRecipesData.recipes : [])
       );
+      dispatch(loadProductsThunk(sendRequest));
       const loadedProductsData = await sendRequest<ProductListResponse>(
         `/product`
       );

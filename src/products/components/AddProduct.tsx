@@ -1,11 +1,4 @@
-import {
-  AddProductResponse,
-  CreateProductRequest,
-  ProductInterface,
-} from 'interfaces';
 import { useHttpClient } from '../../common/hooks/http-hook';
-import { useDispatch } from 'react-redux';
-import { addProductAction } from '../../common/Redux/actions/product';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
 import { InfoModal } from '../../common/components/UiElements/InfoModal';
 import { Button, VStack } from '@chakra-ui/react';
@@ -15,6 +8,8 @@ import { ManageProductForm } from './ManageProductForm';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { useForm } from 'react-hook-form';
 import { AddProductFormInputs } from '../products.types';
+import { useAppDispatch } from '../../common/Redux/store';
+import { AddProductsThunk } from '../../common/Redux/thunks/products';
 
 const AddProductSchema = Yup.object().shape({
   name: Yup.string()
@@ -29,33 +24,28 @@ export const AddProduct = () => {
       '400':
         'Adding a product failed, check the product name (name must not repeat)',
     });
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid },
   } = useForm<AddProductFormInputs>({
     resolver: yupResolver(AddProductSchema),
   });
 
-  const createProduct = async (values: AddProductFormInputs) => {
-    const newProduct: CreateProductRequest = {
-      name: values.name,
-      category: values.category,
-    };
-    const data = await sendRequest<AddProductResponse>(
-      '/product',
-      'POST',
-      newProduct
+  const createProduct = (values: AddProductFormInputs) => {
+    dispatch(
+      AddProductsThunk(
+        {
+          name: values.name,
+          category: values.category,
+        },
+        sendRequest
+      )
     );
-    if (data) {
-      const newProductWithId: ProductInterface = {
-        ...newProduct,
-        id: data.product.id,
-      };
-      dispatch(addProductAction(newProductWithId));
-    }
+    reset();
   };
 
   if (isSuccess) {

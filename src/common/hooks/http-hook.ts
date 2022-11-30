@@ -21,7 +21,7 @@ import {
   KnownHttpErrorStatus,
 } from '../utils/http-error';
 
-type headerType = {
+type HeaderType = {
   [key: string]: string;
 };
 
@@ -40,6 +40,13 @@ export type ReqBody =
   | ChangePasswordRequest
   | null;
 
+export type SendRequestType = <Type>(
+  url: string,
+  method?: string,
+  body?: ReqBody,
+  headers?: HeaderType
+) => Promise<Type | undefined>;
+
 export const useHttpClient = (httpErrorMap?: HttpErrorMap) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -48,12 +55,12 @@ export const useHttpClient = (httpErrorMap?: HttpErrorMap) => {
     setError(null);
   }, []);
 
-  const sendRequest = useCallback(
+  const sendRequest: SendRequestType = useCallback(
     async <Type>(
       url: string,
       method = 'GET',
       body: ReqBody = null,
-      headers: headerType = { 'Content-Type': 'application/json' }
+      headers: HeaderType = { 'Content-Type': 'application/json' }
     ): Promise<Type | undefined> => {
       clearError();
       try {
