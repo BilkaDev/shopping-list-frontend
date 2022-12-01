@@ -9,7 +9,7 @@ import {
 } from 'interfaces';
 
 export type FetchTypes<T = void> = ThunkAction<
-  Promise<T>,
+  T,
   RootState,
   unknown,
   AnyAction

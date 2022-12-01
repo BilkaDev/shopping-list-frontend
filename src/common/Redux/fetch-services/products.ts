@@ -26,7 +26,7 @@ export const addProductFetch =
   (
     product: CreateProductRequest,
     sendRequest: SendRequestType
-  ): FetchTypes<ProductInterface | undefined> =>
+  ): FetchTypes<Promise<ProductInterface | undefined>> =>
   async dispatch => {
     const data = await sendRequest<AddProductResponse>(
       '/product',
