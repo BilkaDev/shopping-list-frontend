@@ -1,11 +1,19 @@
 import { SendRequestType } from '../../hooks/http-hook';
 import { EditItemType, FetchTypes } from './fetch.types';
 import { editProductAction } from '../actions/product';
-import { editItemInList, editListName } from '../actions/list';
-import { editItemInRecipeAction, editRecipeAction } from '../actions/Recipe';
+import { addItemToList, editItemInList, editListName } from '../actions/list';
 import {
+  addItemToRecipeAction,
+  editItemInRecipeAction,
+  editRecipeAction,
+} from '../actions/Recipe';
+import {
+  AddItemToListResponse,
+  CreateItemInListRequest,
   CreateListRequest,
   EditRecipeRequest,
+  ItemInListInterface,
+  ProductInterface,
   UpdateItemInListRequest,
   UpdateProductRequest,
 } from 'interfaces';
@@ -51,4 +59,29 @@ export const editItemFetch =
           return;
       }
     }
+  };
+
+export const addItemToStoreFetch =
+  (
+    item: CreateItemInListRequest,
+    product: ProductInterface,
+    sendRequest: SendRequestType,
+    isRecipe = false
+  ): FetchTypes =>
+  async dispatch => {
+    const data = await sendRequest<AddItemToListResponse>(
+      '/list/item',
+      'POST',
+      item
+    );
+    if (!data) return;
+    const newItemToStore: ItemInListInterface = {
+      id: data.id,
+      ...item,
+      itemInBasket: false,
+      product: product,
+    };
+    isRecipe
+      ? dispatch(addItemToRecipeAction(newItemToStore))
+      : dispatch(addItemToList(newItemToStore));
   };

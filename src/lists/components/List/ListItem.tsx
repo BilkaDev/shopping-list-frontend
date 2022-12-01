@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useHttpClient } from '../../../common/hooks/http-hook';
-import { deleteList } from '../../../common/Redux/actions/list';
 import { Link } from 'react-router-dom';
 import { Tr, Td } from '@chakra-ui/react';
 import { InfoModal } from '../../../common/components/UiElements/InfoModal';
@@ -9,22 +7,17 @@ import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpi
 import { ModalChakra } from '../../../common/components/UiElements/ModalChakra';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { EditItemForm } from '../../../common/components/FormElements/EditItemForm';
-import { DeleteItemInListResponse } from '../../../../../shopping-list-BE/src/interfaces/list';
 import { ListItemProps } from '../../lists.types';
+import { useAppDispatch } from '../../../common/Redux/store';
+import { deleteListFetch } from '../../../common/Redux/fetch-services/list';
 
 export const ListItem = ({ id, name }: ListItemProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { isLoading, sendRequest, error, clearError } = useHttpClient();
 
   async function deleteHandler(id: string) {
-    const data = await sendRequest<DeleteItemInListResponse>(
-      `/list/${id}`,
-      'DELETE'
-    );
-    if (data) {
-      dispatch(deleteList(id));
-    }
+    dispatch(deleteListFetch(id, sendRequest));
   }
 
   return (

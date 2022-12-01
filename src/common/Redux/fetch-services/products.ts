@@ -23,7 +23,10 @@ export const loadProductsFetch =
   };
 
 export const addProductFetch =
-  (product: CreateProductRequest, sendRequest: SendRequestType): FetchTypes =>
+  (
+    product: CreateProductRequest,
+    sendRequest: SendRequestType
+  ): FetchTypes<ProductInterface | undefined> =>
   async dispatch => {
     const data = await sendRequest<AddProductResponse>(
       '/product',
@@ -36,6 +39,7 @@ export const addProductFetch =
         id: data.product.id,
       };
       dispatch(addProductAction(newProductWithId));
+      return newProductWithId;
     }
   };
 

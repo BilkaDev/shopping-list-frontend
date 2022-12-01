@@ -8,7 +8,12 @@ import {
   UpdateProductRequest,
 } from 'interfaces';
 
-export type FetchTypes = ThunkAction<void, RootState, unknown, AnyAction>;
+export type FetchTypes<T = void> = ThunkAction<
+  Promise<T>,
+  RootState,
+  unknown,
+  AnyAction
+>;
 
 export type EditItemType =
   | CreateListRequest
