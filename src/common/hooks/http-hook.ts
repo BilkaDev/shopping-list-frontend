@@ -53,6 +53,8 @@ export const useHttpClient = (httpErrorMap?: HttpErrorMap) => {
   const [error, setError] = useState<null | string>();
   const clearError = useCallback(() => {
     setError(null);
+    setIsLoading(true);
+    setIsSuccess(false);
   }, []);
 
   const sendRequest: SendRequestType = useCallback(
@@ -64,7 +66,6 @@ export const useHttpClient = (httpErrorMap?: HttpErrorMap) => {
     ): Promise<Type | undefined> => {
       clearError();
       try {
-        setIsLoading(true);
         const response = await fetch(`${apiUrl}${url}`, {
           method,
           headers: headers,
