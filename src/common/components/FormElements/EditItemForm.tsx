@@ -1,28 +1,18 @@
 import { useMemo } from 'react';
-import { useDispatch } from 'react-redux';
 import { useHttpClient } from '../../hooks/http-hook';
-import {
-  CreateListRequest,
-  UpdateProductRequest,
-  UpdateItemInListRequest,
-  EditRecipeRequest,
-} from 'interfaces';
-import { editItemInList, editListName } from '../../Redux/actions/list';
-import { editProductAction } from '../../Redux/actions/product';
 import { ManageProductForm } from '../../../products/components/ManageProductForm';
 import { Button } from '@chakra-ui/react';
 import { InfoModal } from '../UiElements/InfoModal';
 import { ManageItemInList } from '../../../lists/components/ItemInList/ManageItemInList';
-import {
-  editItemInRecipeAction,
-  editRecipeAction,
-} from '../../Redux/actions/Recipe';
 import * as Yup from 'yup';
 import { AddProductFormInputs } from '../../../products/products.types';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { useForm, UseFormRegister } from 'react-hook-form';
 import { EditItemFormInputs, EditItemFormProps } from './FormElements.types';
 import { InputForm } from '../UiElements/InputForm';
+import { useAppDispatch } from '../../Redux/store';
+import { editItemFetch } from '../../Redux/fetch-services/common';
+import { EditItemType } from '../../Redux/fetch-services/fetch.types';
 
 export const EditItemForm = ({
   itemId,
@@ -30,7 +20,7 @@ export const EditItemForm = ({
   element,
   recipeId,
 }: EditItemFormProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { isLoading, isSuccess, sendRequest, error, clearError } =
     useHttpClient({
       '400': "Ops. something went wrong.... check the name (can't be repeated)",
@@ -77,12 +67,7 @@ export const EditItemForm = ({
   });
 
   const submitHandler = async (values: EditItemFormInputs) => {
-    let editItem:
-      | CreateListRequest
-      | UpdateProductRequest
-      | UpdateItemInListRequest
-      | EditRecipeRequest
-      | undefined = undefined;
+    let editItem: EditItemType;
     let path = '';
 
     switch (element) {
@@ -91,7 +76,6 @@ export const EditItemForm = ({
           listName: values.name,
         };
         path = `/list/${itemId}`;
-        dispatch(editListName(itemId, editItem as CreateListRequest));
         break;
       case 'recipe':
         editItem = {
@@ -99,7 +83,6 @@ export const EditItemForm = ({
           id: itemId,
         };
         path = `/recipe/edit`;
-        dispatch(editRecipeAction(editItem as EditRecipeRequest));
         break;
       case 'product':
         path = `/product/${itemId}`;
@@ -107,7 +90,6 @@ export const EditItemForm = ({
           name: values.name,
           category: Number(values.category),
         };
-        dispatch(editProductAction(itemId, editItem as UpdateProductRequest));
         break;
       case 'itemInList':
         path = `/list/item/${itemId}`;
@@ -116,27 +98,19 @@ export const EditItemForm = ({
           weight: Number(values.weight),
           category: Number(values.category),
         };
-        dispatch(editItemInList(itemId, editItem as UpdateItemInListRequest));
         break;
       case 'itemInRecipe':
-        path = `/list/item/${itemId}`;
+        path = `/list/item/${itemId}?Recipe`;
         editItem = {
           count: Number(values.count),
           weight: Number(values.weight),
           category: Number(values.category),
         };
-        dispatch(
-          editItemInRecipeAction(
-            itemId,
-            recipeId as string,
-            editItem as UpdateItemInListRequest
-          )
-        );
         break;
       default:
         return;
     }
-    await sendRequest(path, 'PATCH', editItem);
+    dispatch(editItemFetch(itemId, path, editItem, sendRequest, recipeId));
   };
   if (isSuccess) {
     return (

@@ -16,7 +16,7 @@ import { setRecipesAction } from './common/Redux/actions/Recipe';
 import { RecoverPassword } from './auth/pages/RecoverPassword';
 import { useAuth } from './common/hooks/auth-hook';
 import { GetRecipesResponse, ProductListResponse } from 'interfaces';
-import { loadProductsThunk } from './common/Redux/thunks/products';
+import { loadProductsFetch } from './common/Redux/fetch-services/products';
 import { setProductsAction } from './common/Redux/actions/product';
 import { useAppDispatch } from './common/Redux/store';
 
@@ -35,7 +35,7 @@ function App() {
       dispatch(
         setRecipesAction(loadedRecipesData ? loadedRecipesData.recipes : [])
       );
-      dispatch(loadProductsThunk(sendRequest));
+      dispatch(loadProductsFetch(sendRequest));
       const loadedProductsData = await sendRequest<ProductListResponse>(
         `/product`
       );

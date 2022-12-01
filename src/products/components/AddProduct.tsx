@@ -9,7 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { useForm } from 'react-hook-form';
 import { AddProductFormInputs } from '../products.types';
 import { useAppDispatch } from '../../common/Redux/store';
-import { AddProductsThunk } from '../../common/Redux/thunks/products';
+import { addProductFetch } from '../../common/Redux/fetch-services/products';
 
 const AddProductSchema = Yup.object().shape({
   name: Yup.string()
@@ -37,7 +37,7 @@ export const AddProduct = () => {
 
   const createProduct = (values: AddProductFormInputs) => {
     dispatch(
-      AddProductsThunk(
+      addProductFetch(
         {
           name: values.name,
           category: values.category,
