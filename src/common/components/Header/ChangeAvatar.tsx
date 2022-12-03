@@ -11,12 +11,11 @@ import { useHttpClient } from '../../hooks/http-hook';
 import { LoadingSpinner } from '../UiElements/LoadingSpinner';
 import { InfoModal } from '../UiElements/InfoModal';
 import { ImageUpload } from '../FormElements/ImageUpload';
-import { useDispatch } from 'react-redux';
-import { changeAvatar } from '../../Redux/actions/auth';
 import defaultIcon from '../../../assets/default-icon-profil.jpg';
 import { useAuth } from '../../hooks/auth-hook';
-import { AddAvatarResponse } from 'interfaces';
 import { ChangeAvatarProps } from './Header.types';
+import { changeAvatarFetch } from '../../Redux/fetch-services/auth';
+import { useAppDispatch } from '../../Redux/store';
 
 export const ChangeAvatar = ({ onClose }: ChangeAvatarProps) => {
   const { isLoading, sendRequest, error, clearError } = useHttpClient({
@@ -24,7 +23,7 @@ export const ChangeAvatar = ({ onClose }: ChangeAvatarProps) => {
   });
   const [image, setImage] = useState<File>();
   const [isValid, setIsValid] = useState(true);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { avatarImg } = useAuth();
 
   const [toastMessage, setToastMessage] = useState<{
@@ -57,14 +56,8 @@ export const ChangeAvatar = ({ onClose }: ChangeAvatarProps) => {
     if (image) {
       const formData = new FormData();
       formData.append('photo', image);
-      const data = await sendRequest<AddAvatarResponse>(
-        '/user/avatar',
-        'POST',
-        formData,
-        {}
-      );
+      const data = await dispatch(changeAvatarFetch(formData, sendRequest));
       if (data) {
-        dispatch(changeAvatar());
         setToastMessage({
           status: 'success',
           title: 'Success!',

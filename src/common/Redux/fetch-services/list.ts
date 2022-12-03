@@ -1,10 +1,20 @@
 import { SendRequestType } from '../../hooks/http-hook';
 import { FetchTypes } from './fetch.types';
-import { addList, deleteList, setLists } from '../actions/list';
+import {
+  addItemToBasket,
+  addList,
+  clearBasket,
+  deleteList,
+  removeItemFromBasket,
+  removeItemFromList,
+  setItemsInList,
+  setLists,
+} from '../actions/list';
 import {
   CreateListRequest,
   CreateListResponse,
   DeleteItemInListResponse,
+  GetListResponse,
   GetListsResponse,
   ListInterface,
 } from 'interfaces';
@@ -41,4 +51,44 @@ export const deleteListFetch =
     if (data) {
       dispatch(deleteList(id));
     }
+  };
+
+export const loadItemsInListFetch =
+  (listId: string, sendRequest: SendRequestType): FetchTypes =>
+  async dispatch => {
+    const data = await sendRequest<GetListResponse>(`/list/user/${listId}`);
+    if (data) dispatch(setItemsInList(data.list));
+  };
+
+export const removeItemFromListFetch =
+  (itemId: string, sendRequest: SendRequestType): FetchTypes =>
+  async dispatch => {
+    const data = await sendRequest<DeleteItemInListResponse>(
+      `/list/item/${itemId}`,
+      'DELETE'
+    );
+    if (data) {
+      dispatch(removeItemFromList(itemId));
+    }
+  };
+
+export const addToBasketFetch =
+  (itemId: string, sendRequest: SendRequestType): FetchTypes =>
+  async dispatch => {
+    dispatch(addItemToBasket(itemId));
+    await sendRequest(`/list/item/ad-to-basket/${itemId}`, 'PATCH');
+  };
+
+export const removeFromBasketFetch =
+  (itemId: string, sendRequest: SendRequestType): FetchTypes =>
+  async dispatch => {
+    dispatch(removeItemFromBasket(itemId));
+    await sendRequest(`/list/item/remove-from-basket/${itemId}`, 'PATCH');
+  };
+
+export const clearBasketFetch =
+  (itemId: string, sendRequest: SendRequestType): FetchTypes =>
+  async dispatch => {
+    await sendRequest(`/list/clear-basket/${itemId}`, 'PATCH');
+    dispatch(clearBasket(itemId));
   };
