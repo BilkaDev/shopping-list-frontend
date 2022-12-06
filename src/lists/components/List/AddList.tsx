@@ -1,11 +1,4 @@
-import {
-  CreateListRequest,
-  CreateListResponse,
-  ListInterface,
-} from 'interfaces';
 import { useHttpClient } from '../../../common/hooks/http-hook';
-import { useDispatch } from 'react-redux';
-import { addList } from '../../../common/Redux/actions/list';
 import { Button, VStack } from '@chakra-ui/react';
 import { InfoModal } from '../../../common/components/UiElements/modals/InfoModal';
 import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
@@ -15,6 +8,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { AddListFormInputs } from '../../lists.types';
 import { InputForm } from '../../../common/components/UiElements/InputForm';
+import { useAppDispatch } from '../../../common/Redux/store';
+import { addListFetch } from '../../../common/Redux/fetch-services/list';
 
 const AddListSchema = Yup.object().shape({
   name: Yup.string()
@@ -27,6 +22,7 @@ export const AddList = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid },
   } = useForm<AddListFormInputs>({
     resolver: yupResolver(AddListSchema),
@@ -36,26 +32,14 @@ export const AddList = () => {
     useHttpClient({
       400: 'Adding the list failed, check the recipe name (the name must not repeat)',
     });
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const addListToLists = async (values: AddListFormInputs) => {
-    const newList: CreateListRequest = {
+    const list = {
       listName: values.name,
     };
-    const data = await sendRequest<CreateListResponse>(
-      '/list',
-      'POST',
-      newList
-    );
-    if (data) {
-      const newListWithId: ListInterface = {
-        id: data.id,
-        listName: newList.listName,
-        items: [],
-        recipes: [],
-      };
-      dispatch(addList(newListWithId));
-    }
+    dispatch(addListFetch(list, sendRequest));
+    reset();
   };
 
   if (isSuccess) {

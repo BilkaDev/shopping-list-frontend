@@ -3,7 +3,7 @@ import { useHttpClient } from '../../common/hooks/http-hook';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
 import { Link as ReachLink } from 'react-router-dom';
 import { InfoModal } from '../../common/components/UiElements/modals/InfoModal';
-import { useAuth } from '../../common/hooks/auth-hook';
+import { useAuthSelector } from '../../common/hooks/auth-hook';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
@@ -25,7 +25,7 @@ export const LoginForm = () => {
   const { sendRequest, error, clearError, isLoading } = useHttpClient({
     '400': 'Incorrect login credentials!',
   });
-  const auth = useAuth();
+  const auth = useAuthSelector();
   const {
     register,
     handleSubmit,

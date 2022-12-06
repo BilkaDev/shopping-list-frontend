@@ -1,26 +1,22 @@
 import { useEffect } from 'react';
 import { ListsList } from '../components/List/ListsList';
 import { useHttpClient } from '../../common/hooks/http-hook';
-import { useDispatch } from 'react-redux';
-import { setLists } from '../../common/Redux/actions/list';
 import { AddList } from '../components/List/AddList';
 import { Section } from '../../common/components/UiElements/Section';
 import { InfoModal } from '../../common/components/UiElements/modals/InfoModal';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
-import { useAuth } from '../../common/hooks/auth-hook';
-import { GetListsResponse } from '../../../../shopping-list-BE/src/interfaces/list';
+import { useAuthSelector } from '../../common/hooks/auth-hook';
+import { loadListFetch } from '../../common/Redux/fetch-services/list';
+import { useAppDispatch } from '../../common/Redux/store';
 
 export const Lists = () => {
   const { isLoading, sendRequest, error, clearError } = useHttpClient();
-  const { userId } = useAuth();
-  const dispatch = useDispatch();
+  const { userId } = useAuthSelector();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     (async () => {
-      if (!userId) return;
-      const data = await sendRequest<GetListsResponse>(`/list/${userId}`);
-
-      dispatch(setLists(data ? data.lists : []));
+      dispatch(loadListFetch(userId, sendRequest));
     })();
   }, [dispatch, sendRequest, userId]);
 

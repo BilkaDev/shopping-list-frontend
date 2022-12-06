@@ -1,11 +1,11 @@
 import { ProductInterface } from 'interfaces';
 import { ProductAction } from '../action-types/product';
 
-interface ProductState {
+export interface ProductState {
   listProducts: ProductInterface[];
 }
 
-interface SetProducts {
+export interface SetProducts {
   type: ProductAction.SET_PRODUCTS;
   payload: ProductInterface[];
 }
@@ -25,7 +25,7 @@ const initialState: ProductState = {
   listProducts: [],
 };
 
-type Action = SetProducts | AddProduct | DeleteProduct | EditProduct;
+export type Action = SetProducts | AddProduct | DeleteProduct | EditProduct;
 
 export const productReducer = (state = initialState, action: Action) => {
   switch (action.type) {

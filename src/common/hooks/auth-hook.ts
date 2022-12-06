@@ -9,7 +9,7 @@ import {
 import { AuthLogin } from 'interfaces';
 
 let autoLogin = true;
-export const useAuth = () => {
+export const useAuthSelector = () => {
   const { userId, avatarImg, email, isLoggedIn } = useSelector(
     (store: RootState) => store.auth
   );

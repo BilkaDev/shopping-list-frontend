@@ -1,12 +1,11 @@
-import { GetListResponse, ProductCategory } from 'interfaces';
+import { ProductCategory } from 'interfaces';
 import { useEffect } from 'react';
 import { ItemsList } from '../components/ItemInList/ItemsList';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { clearBasket, setItemsInList } from '../../common/Redux/actions/list';
+import { useSelector } from 'react-redux';
 import { useHttpClient } from '../../common/hooks/http-hook';
 import { AddItem } from '../components/ItemInList/AddItem';
-import { RootState } from '../../common/Redux/store';
+import { RootState, useAppDispatch } from '../../common/Redux/store';
 import { InfoModal } from '../../common/components/UiElements/modals/InfoModal';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
 import { Section } from '../../common/components/UiElements/Section';
@@ -14,19 +13,21 @@ import { Center, Stack, Text, UnorderedList } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 import { AddRecipeToList } from '../components/ItemsInRecipesList/AddRecipeToList';
 import { ItemsInRecipesList } from '../components/ItemsInRecipesList/ItemsInRecipesList';
+import {
+  clearBasketFetch,
+  loadItemsInListFetch,
+} from '../../common/Redux/fetch-services/list';
 
 export const ItemsInList = () => {
   const { isLoading, sendRequest, error, clearError } = useHttpClient();
   const { id, name } = useParams();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const entries = Object.entries(ProductCategory);
   const category: string[] = [];
   const { list } = useSelector((store: RootState) => store.lists);
   useEffect(() => {
-    (async () => {
-      const data = await sendRequest<GetListResponse>(`/list/user/${id}`);
-      if (data) dispatch(setItemsInList(data.list));
-    })();
+    if (!id) return;
+    dispatch(loadItemsInListFetch(id, sendRequest));
   }, [dispatch, id, sendRequest]);
 
   for (const key of entries) {
@@ -36,11 +37,8 @@ export const ItemsInList = () => {
   }
 
   async function clearBasketHandler() {
-    if (id === undefined) {
-      return;
-    }
-    await sendRequest(`/list/clear-basket/${id}`, 'PATCH');
-    dispatch(clearBasket(id));
+    if (id === undefined) return;
+    dispatch(clearBasketFetch(id, sendRequest));
   }
 
   return (

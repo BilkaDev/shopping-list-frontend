@@ -1,28 +1,24 @@
 import { useState } from 'react';
 import { useHttpClient } from '../../../common/hooks/http-hook';
-import { useDispatch } from 'react-redux';
 import { SearchProduct } from './SearchProduct';
 import { useParams } from 'react-router-dom';
 import {
   CreateProductRequest,
   CreateItemInListRequest,
-  AddItemToListResponse,
-  AddProductResponse,
   ProductInterface,
-  ItemInListInterface,
 } from 'interfaces';
-import { addProductAction } from '../../../common/Redux/actions/product';
-import { addItemToList } from '../../../common/Redux/actions/list';
 import { Button, VStack } from '@chakra-ui/react';
 import { InfoModal } from '../../../common/components/UiElements/modals/InfoModal';
 import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
 import { SuccessfullyBox } from '../../../common/components/UiElements/SuccessfullyBox';
-import { addItemToRecipeAction } from '../../../common/Redux/actions/Recipe';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { InputForm } from '../../../common/components/UiElements/InputForm';
 import { AddItemFormInputs, AddItemProps } from '../../lists.types';
+import { useAppDispatch } from '../../../common/Redux/store';
+import { addProductFetch } from '../../../common/Redux/fetch-services/products';
+import { addItemToStoreFetch } from '../../../common/Redux/fetch-services/common';
 
 const AddItemSchema = Yup.object().shape({
   name: Yup.string()
@@ -50,68 +46,31 @@ export const AddItem = ({ isRecipe }: AddItemProps) => {
   const [product, setProduct] = useState<ProductInterface>();
   const { isLoading, isSuccess, setIsSuccess, sendRequest, error, clearError } =
     useHttpClient();
-  const dispatch = useDispatch();
-  const { id } = useParams();
+  const dispatch = useAppDispatch();
+  const { id: listId } = useParams();
 
   const addItemToListRequest = async (values: AddItemFormInputs) => {
-    let newProduct: ProductInterface | undefined = undefined;
-    let newItem: CreateItemInListRequest | undefined = undefined;
-    if (!product) {
+    let newProduct: ProductInterface | undefined = product;
+    const newItem: CreateItemInListRequest = {
+      itemId: product?.id ?? '',
+      count: Number(values.count),
+      weight: Number(values.weight),
+      listId: isRecipe ? undefined : listId,
+      recipeId: isRecipe ? listId : undefined,
+    };
+    if (!newProduct) {
       const newProductReq: CreateProductRequest = {
         name: values.name,
         category: Number(values.category),
       };
-      const dataProduct = await sendRequest<AddProductResponse>(
-        '/product',
-        'POST',
-        newProductReq
+      const dataProduct = await dispatch(
+        addProductFetch(newProductReq, sendRequest)
       );
-      if (!dataProduct) {
-        return;
-      }
-      newProduct = {
-        ...newProductReq,
-        id: dataProduct.product.id,
-      };
-      dispatch(addProductAction(newProduct));
-      newItem = {
-        itemId: dataProduct.product.id,
-        count: Number(values.count),
-        weight: Number(values.weight),
-        listId: isRecipe ? undefined : id,
-        recipeId: isRecipe ? id : undefined,
-      };
-    } else {
-      newItem = {
-        itemId: product.id,
-        count: Number(values.count),
-        weight: Number(values.weight),
-        listId: isRecipe ? undefined : id,
-        recipeId: isRecipe ? id : undefined,
-      };
+      if (!dataProduct) return;
+      newItem.itemId = dataProduct.id;
+      newProduct = dataProduct;
     }
-
-    const data = await sendRequest<AddItemToListResponse>(
-      '/list/item',
-      'POST',
-      newItem
-    );
-
-    if (!data) {
-      return;
-    }
-
-    const newItemToStore: ItemInListInterface = {
-      id: data.id,
-      ...newItem,
-      itemInBasket: false,
-      recipeId: isRecipe ? id : undefined,
-      product: (product || newProduct) as ProductInterface,
-    };
-
-    isRecipe
-      ? dispatch(addItemToRecipeAction(newItemToStore))
-      : dispatch(addItemToList(newItemToStore));
+    dispatch(addItemToStoreFetch(newItem, newProduct, sendRequest, isRecipe));
     reset();
   };
 

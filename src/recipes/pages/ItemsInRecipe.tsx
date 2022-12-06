@@ -15,15 +15,15 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useHttpClient } from '../../common/hooks/http-hook';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { AddItem } from '../../lists/components/ItemInList/AddItem';
 import { useParams } from 'react-router-dom';
-import { GetRecipeResponse, ProductCategory } from 'interfaces';
-import { setItemInRecipesAction } from '../../common/Redux/actions/Recipe';
+import { ProductCategory } from 'interfaces';
 import { ItemsListRecipe } from '../components/ItemInRecipe/ItemsListRecipe';
-import { RootState } from '../../common/Redux/store';
+import { RootState, useAppDispatch } from '../../common/Redux/store';
 import { DescriptionManage } from '../components/ItemInRecipe/DescriptionManage';
+import { loadItemsInRecipeFetch } from '../../common/Redux/fetch-services/recipes';
 
 export const ItemsInRecipe = () => {
   const { id, name } = useParams();
@@ -34,23 +34,20 @@ export const ItemsInRecipe = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient({
     all: 'Something went wrong when loading recipes. Please try again later.',
   });
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const entries = Object.entries(ProductCategory);
   const category = [];
   useEffect(() => {
-    (async () => {
-      if (recipe?.items) return;
-      const data = await sendRequest<GetRecipeResponse>(`/recipe/user/${id}`);
-      if (!data) return;
-      dispatch(setItemInRecipesAction(data.recipe));
-    })();
-  }, [dispatch, sendRequest, id, recipe?.items]);
+    if (recipe?.items || !id) return;
+    dispatch(loadItemsInRecipeFetch(id, sendRequest));
+  }, [dispatch, id, recipe?.items, sendRequest]);
 
   for (const key of entries) {
     if (typeof key[1] === 'number') {
       category.push(key[0]);
     }
   }
+  if (!recipe) return null;
 
   return (
     <>
@@ -81,7 +78,7 @@ export const ItemsInRecipe = () => {
             </AccordionButton>
             <AccordionPanel pb={4}>
               <DescriptionManage
-                show={!recipe?.description || showEditDescription}
+                show={!recipe.description || showEditDescription}
                 onClose={() => setShowEditDescription(false)}
                 id={id as string}
                 description={recipe.description}

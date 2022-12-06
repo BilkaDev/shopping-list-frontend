@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
-import { DeleteItemInListResponse } from 'interfaces';
 import { DeleteIcon, EditIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import { Td, Tr, Center } from '@chakra-ui/react';
 import { useHttpClient } from '../../../common/hooks/http-hook';
-import { useDispatch } from 'react-redux';
 import {
   addItemToBasket,
   removeItemFromBasket,
@@ -13,11 +11,17 @@ import { InfoModal } from '../../../common/components/UiElements/modals/InfoModa
 import { ModalChakra } from '../../../common/components/UiElements/modals/ModalChakra';
 import { EditItemForm } from '../../../common/components/FormElements/EditItemForm';
 import { ItemInListProps } from 'src/lists/lists.types';
+import { useAppDispatch } from '../../../common/Redux/store';
+import {
+  addToBasketFetch,
+  removeFromBasketFetch,
+  removeItemFromListFetch,
+} from '../../../common/Redux/fetch-services/list';
 
 export const ItemInList = ({ category, item, isRecipe }: ItemInListProps) => {
   const [inBasket, setInBasket] = useState(item.itemInBasket);
   const [showEditModal, setShowEditModal] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { sendRequest, error, clearError } = useHttpClient({
     all: 'Something went wrong when deleting the item. Please try again later.',
   });
@@ -31,24 +35,16 @@ export const ItemInList = ({ category, item, isRecipe }: ItemInListProps) => {
 
   const addToBasket = async () => {
     setInBasket(true);
-    dispatch(addItemToBasket(item.id));
-    await sendRequest(`/list/item/ad-to-basket/${item.id}`, 'PATCH');
+    dispatch(addToBasketFetch(item.id, sendRequest));
   };
 
   const removeFromBasket = async () => {
     setInBasket(false);
-    dispatch(removeItemFromBasket(item.id));
-    await sendRequest(`/list/item/remove-from-basket/${item.id}`, 'PATCH');
+    dispatch(removeFromBasketFetch(item.id, sendRequest));
   };
 
   const deleteItemHandler = async () => {
-    const data = await sendRequest<DeleteItemInListResponse>(
-      `/list/item/${item.id}`,
-      'DELETE'
-    );
-    if (data) {
-      dispatch(removeItemFromList(item.id));
-    }
+    dispatch(removeItemFromListFetch(item.id, sendRequest));
   };
 
   return (

@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useHttpClient } from '../../common/hooks/http-hook';
-import { DeleteProductResponse, ProductCategory } from 'interfaces';
-import { useDispatch } from 'react-redux';
-import { deleteProductAction } from '../../common/Redux/actions/product';
+import { ProductCategory } from 'interfaces';
 import { Td, Tr } from '@chakra-ui/react';
 import { ModalChakra } from '../../common/components/UiElements/modals/ModalChakra';
 import { InfoModal } from '../../common/components/UiElements/modals/InfoModal';
@@ -10,22 +8,18 @@ import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinne
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { EditItemForm } from '../../common/components/FormElements/EditItemForm';
 import { ProductsItemsProps } from '../products.types';
+import { useAppDispatch } from '../../common/Redux/store';
+import { deleteProductFetch } from '../../common/Redux/fetch-services/products';
 
 export const ProductsItem = ({ category, id, name }: ProductsItemsProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const { isLoading, sendRequest, error, clearError } = useHttpClient({
     all: 'Something went wrong when deleting the Product. Please try again later.',
   });
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   async function deleteProduct(id: string) {
-    const data = await sendRequest<DeleteProductResponse>(
-      `/product/${id}`,
-      'DELETE'
-    );
-    if (data) {
-      dispatch(deleteProductAction(id));
-    }
+    dispatch(deleteProductFetch(id, sendRequest));
   }
 
   function editProduct() {
