@@ -6,6 +6,7 @@ import {
   addRecipeToList,
   clearBasket,
   deleteList,
+  deleteRecipeFromList,
   removeItemFromBasket,
   removeItemFromList,
   setItemsInList,
@@ -16,6 +17,7 @@ import {
   CreateListRequest,
   CreateListResponse,
   DeleteItemInListResponse,
+  DeleteRecipeFromListResponse,
   GetListResponse,
   GetListsResponse,
   GetRecipeResponse,
@@ -114,5 +116,21 @@ export const addRecipeToListFetch =
       if (data) {
         dispatch(addRecipeToList(recipeData.recipe));
       }
+    }
+  };
+
+export const removeRecipeForListFetch =
+  (
+    listId: string,
+    recipeId: string,
+    sendRequest: SendRequestType
+  ): FetchTypes =>
+  async dispatch => {
+    const data = await sendRequest<DeleteRecipeFromListResponse>(
+      `/list/delete-recipe/${listId}/${recipeId}`,
+      'DELETE'
+    );
+    if (data) {
+      dispatch(deleteRecipeFromList(recipeId));
     }
   };

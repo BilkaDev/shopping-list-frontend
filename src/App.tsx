@@ -17,7 +17,6 @@ import { useAuthSelector } from './common/hooks/auth-hook';
 import { loadProductsFetch } from './common/Redux/fetch-services/products';
 import { useAppDispatch } from './common/Redux/store';
 import { loadRecipesFetch } from './common/Redux/fetch-services/recipes';
-import { GetRecipesResponse, ProductListResponse } from 'interfaces';
 import { NAV_LINK } from './common/components/Navigation/Navigation.types';
 
 function App() {
