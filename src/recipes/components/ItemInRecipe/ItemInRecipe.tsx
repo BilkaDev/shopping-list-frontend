@@ -1,14 +1,13 @@
 import { useState } from 'react';
-import { DeleteItemInListResponse } from 'interfaces';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Td, Tr } from '@chakra-ui/react';
 import { useHttpClient } from '../../../common/hooks/http-hook';
-import { useDispatch } from 'react-redux';
 import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { ModalChakra } from '../../../common/components/UiElements/ModalChakra';
 import { EditItemForm } from '../../../common/components/FormElements/EditItemForm';
-import { deleteItemInRecipeAction } from '../../../common/Redux/actions/Recipe';
 import { ItemInRecipeProps } from '../../recipes.types';
+import { removeItemFromRecipeFetch } from '../../../common/Redux/fetch-services/recipes';
+import { useAppDispatch } from '../../../common/Redux/store';
 
 export const ItemInRecipe = ({
   category,
@@ -16,7 +15,7 @@ export const ItemInRecipe = ({
   recipeId,
 }: ItemInRecipeProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { error, sendRequest, clearError } = useHttpClient({
     all: 'Something went wrong when deleting the recipe. Please try again later.',
   });
@@ -25,13 +24,7 @@ export const ItemInRecipe = ({
   }
 
   const deleteItemHandler = async () => {
-    const data = await sendRequest<DeleteItemInListResponse>(
-      `/list/item/${item.id}`,
-      'DELETE'
-    );
-    if (data) {
-      dispatch(deleteItemInRecipeAction(item.id, recipeId));
-    }
+    dispatch(removeItemFromRecipeFetch(item.id, recipeId, sendRequest));
   };
 
   return (

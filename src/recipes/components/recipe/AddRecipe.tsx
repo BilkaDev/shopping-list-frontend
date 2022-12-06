@@ -2,16 +2,16 @@ import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
 import { useHttpClient } from '../../../common/hooks/http-hook';
 import { Button, VStack } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
 import { SuccessfullyBox } from '../../../common/components/UiElements/SuccessfullyBox';
-import { AddRecipeRequest, CreateRecipeResponse } from 'interfaces';
-import { addRecipeAction } from '../../../common/Redux/actions/Recipe';
-import { useAuth } from '../../../common/hooks/auth-hook';
+import { AddRecipeRequest } from 'interfaces';
+import { useAuthSelector } from '../../../common/hooks/auth-hook';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { InputForm } from '../../../common/components/UiElements/InputForm';
 import { AddRecipeFormInputs } from 'src/recipes/recipes.types';
+import { useAppDispatch } from '../../../common/Redux/store';
+import { addRecipeFetch } from '../../../common/Redux/fetch-services/recipes';
 
 const AddRecipeSchema = Yup.object().shape({
   name: Yup.string()
@@ -33,31 +33,17 @@ export const AddRecipe = () => {
     useHttpClient({
       400: 'Adding the recipe failed, check the recipe name (the name must not repeat)',
     });
-  const dispatch = useDispatch();
-  const { userId } = useAuth();
+  const dispatch = useAppDispatch();
+  const { userId } = useAuthSelector();
 
-  const addRecipe = async (values: AddRecipeFormInputs) => {
-    const newRecipe: AddRecipeRequest = {
+  const addRecipe = (values: AddRecipeFormInputs) => {
+    const recipe: AddRecipeRequest = {
       name: values.name,
       userId,
       description: '',
       items: [],
     };
-    const data = await sendRequest<CreateRecipeResponse>(
-      '/recipe',
-      'POST',
-      newRecipe
-    );
-    if (data) {
-      dispatch(
-        addRecipeAction({
-          id: data.id,
-          name: newRecipe.name,
-          description: '',
-          items: [],
-        })
-      );
-    }
+    dispatch(addRecipeFetch(recipe, sendRequest));
   };
 
   if (isSuccess) {

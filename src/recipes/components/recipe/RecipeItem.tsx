@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { ModalChakra } from '../../../common/components/UiElements/ModalChakra';
@@ -7,26 +6,20 @@ import { Td, Tr } from '@chakra-ui/react';
 import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { useHttpClient } from '../../../common/hooks/http-hook';
-import { deleteRecipeAction } from '../../../common/Redux/actions/Recipe';
 import { EditItemForm } from '../../../common/components/FormElements/EditItemForm';
-import { DeleteRecipeResponse } from 'interfaces';
 import { RecipeItemProps } from 'src/recipes/recipes.types';
+import { removeRecipeFetch } from '../../../common/Redux/fetch-services/recipes';
+import { useAppDispatch } from '../../../common/Redux/store';
 
 export const RecipeItem = ({ id, name }: RecipeItemProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { isLoading, error, sendRequest, clearError } = useHttpClient({
     all: 'Something went wrong when deleting the recipe.',
   });
 
-  async function deleteHandler(id: string) {
-    const data = await sendRequest<DeleteRecipeResponse>(
-      `/recipe/${id}`,
-      'DELETE'
-    );
-    if (data) {
-      dispatch(deleteRecipeAction(id));
-    }
+  function deleteHandler(id: string) {
+    dispatch(removeRecipeFetch(id, sendRequest));
   }
 
   return (

@@ -18,7 +18,7 @@ import { ModalChakra } from '../UiElements/ModalChakra';
 import { EditPasswordForm } from './EditPasswordForm';
 import { useNavigate } from 'react-router-dom';
 import { ChangeAvatar } from './ChangeAvatar';
-import { useAuth } from '../../hooks/auth-hook';
+import { useAuthSelector } from '../../hooks/auth-hook';
 
 export function MenuHeader() {
   const [isEditPassword, setIsEditPassword] = useState(false);
@@ -26,7 +26,7 @@ export function MenuHeader() {
   const { isLoading, sendRequest, error, clearError } = useHttpClient();
   const nav = useNavigate();
 
-  const { logout, email, avatarImg } = useAuth();
+  const { logout, email, avatarImg } = useAuthSelector();
 
   const logoutClick = async () => {
     const data = await sendRequest('/auth/logout', 'POST');

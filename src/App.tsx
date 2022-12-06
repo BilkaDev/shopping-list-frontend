@@ -6,40 +6,27 @@ import { Route, Routes } from 'react-router-dom';
 import { Products } from './products/pages/Products';
 import { Lists } from './lists/pages/Lists';
 import { ItemsInList } from './lists/pages/ItemsInList';
-import { useDispatch } from 'react-redux';
-import { setProductsAction } from './common/Redux/actions/product';
 import { useHttpClient } from './common/hooks/http-hook';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Auth } from './auth/pages/Auth';
 import { InfoModal } from './common/components/UiElements/InfoModal';
 import { Recipes } from './recipes/pages/Recipes';
 import { ItemsInRecipe } from './recipes/pages/ItemsInRecipe';
-import { setRecipesAction } from './common/Redux/actions/Recipe';
 import { RecoverPassword } from './auth/pages/RecoverPassword';
-import { useAuth } from './common/hooks/auth-hook';
-import { GetRecipesResponse, ProductListResponse } from 'interfaces';
+import { useAuthSelector } from './common/hooks/auth-hook';
+import { loadProductsFetch } from './common/Redux/fetch-services/products';
+import { useAppDispatch } from './common/Redux/store';
+import { loadRecipesFetch } from './common/Redux/fetch-services/recipes';
 
 function App() {
   const { sendRequest, error, clearError } = useHttpClient();
-  const dispatch = useDispatch();
-  const { userId, isLoggedIn } = useAuth();
+  const dispatch = useAppDispatch();
+  const { userId, isLoggedIn } = useAuthSelector();
 
   useEffect(() => {
     if (!userId) return;
-    (async () => {
-      const loadedRecipesData = await sendRequest<GetRecipesResponse>(
-        `/recipe/${userId}`
-      );
-      dispatch(
-        setRecipesAction(loadedRecipesData ? loadedRecipesData.recipes : [])
-      );
-      const loadedProductsData = await sendRequest<ProductListResponse>(
-        `/product`
-      );
-      if (loadedProductsData) {
-        dispatch(setProductsAction(loadedProductsData.products));
-      }
-    })();
+    dispatch(loadRecipesFetch(userId, sendRequest));
+    dispatch(loadProductsFetch(sendRequest));
   }, [dispatch, userId, sendRequest]);
 
   let routes;
