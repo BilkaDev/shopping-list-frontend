@@ -18,6 +18,7 @@ import { setRecipesAction } from './common/Redux/actions/Recipe';
 import { RecoverPassword } from './auth/pages/RecoverPassword';
 import { useAuth } from './common/hooks/auth-hook';
 import { GetRecipesResponse, ProductListResponse } from 'interfaces';
+import { NAV_LINK } from './common/components/Navigation/Navigation.types';
 
 function App() {
   const { sendRequest, error, clearError } = useHttpClient();
@@ -47,19 +48,19 @@ function App() {
   if (!isLoggedIn) {
     routes = (
       <>
-        <Route path="/" element={<Auth />} />
-        <Route path="/recover-password" element={<RecoverPassword />} />
+        <Route path={NAV_LINK.home} element={<Auth />} />
+        <Route path={NAV_LINK.recoverPassword} element={<RecoverPassword />} />
       </>
     );
   } else {
     routes = (
       <>
-        <Route path="/" element={<NavLinks />} />
-        <Route path="/product" element={<Products />} />
-        <Route path="/list" element={<Lists />} />
-        <Route path="/list/:id/:name" element={<ItemsInList />} />
-        <Route path="/recipe" element={<Recipes />} />
-        <Route path="/recipe/:id/:name" element={<ItemsInRecipe />} />
+        <Route path={NAV_LINK.home} element={<NavLinks />} />
+        <Route path={NAV_LINK.product} element={<Products />} />
+        <Route path={NAV_LINK.list} element={<Lists />} />
+        <Route path={NAV_LINK.itemsInList} element={<ItemsInList />} />
+        <Route path={NAV_LINK.recipe} element={<Recipes />} />
+        <Route path={NAV_LINK.itemsInRecipe} element={<ItemsInRecipe />} />
       </>
     );
   }
