@@ -12,7 +12,7 @@ import { LoadingSpinner } from '../UiElements/LoadingSpinner';
 import { InfoModal } from '../UiElements/InfoModal';
 import { ImageUpload } from '../FormElements/ImageUpload';
 import defaultIcon from '../../../assets/default-icon-profil.jpg';
-import { useAuth } from '../../hooks/auth-hook';
+import { useAuthSelector } from '../../hooks/auth-hook';
 import { ChangeAvatarProps } from './Header.types';
 import { changeAvatarFetch } from '../../Redux/fetch-services/auth';
 import { useAppDispatch } from '../../Redux/store';
@@ -24,7 +24,7 @@ export const ChangeAvatar = ({ onClose }: ChangeAvatarProps) => {
   const [image, setImage] = useState<File>();
   const [isValid, setIsValid] = useState(true);
   const dispatch = useAppDispatch();
-  const { avatarImg } = useAuth();
+  const { avatarImg } = useAuthSelector();
 
   const [toastMessage, setToastMessage] = useState<{
     title: string;

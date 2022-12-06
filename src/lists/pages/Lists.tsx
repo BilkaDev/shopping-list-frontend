@@ -5,13 +5,13 @@ import { AddList } from '../components/List/AddList';
 import { Section } from '../../common/components/UiElements/Section';
 import { InfoModal } from '../../common/components/UiElements/InfoModal';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
-import { useAuth } from '../../common/hooks/auth-hook';
+import { useAuthSelector } from '../../common/hooks/auth-hook';
 import { loadListFetch } from '../../common/Redux/fetch-services/list';
 import { useAppDispatch } from '../../common/Redux/store';
 
 export const Lists = () => {
   const { isLoading, sendRequest, error, clearError } = useHttpClient();
-  const { userId } = useAuth();
+  const { userId } = useAuthSelector();
   const dispatch = useAppDispatch();
 
   useEffect(() => {

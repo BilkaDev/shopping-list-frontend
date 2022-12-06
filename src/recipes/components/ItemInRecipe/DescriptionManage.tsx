@@ -3,10 +3,9 @@ import { Button, Textarea, VStack } from '@chakra-ui/react';
 import { useHttpClient } from '../../../common/hooks/http-hook';
 import { InfoModal } from '../../../common/components/UiElements/InfoModal';
 import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
-import { useDispatch } from 'react-redux';
-import { editDescriptionRecipeAction } from '../../../common/Redux/actions/Recipe';
-import { EditDescriptionRecipeRequest } from 'interfaces';
 import { DescriptionManageProps } from 'src/recipes/recipes.types';
+import { changeDescriptionRecipeFetch } from '../../../common/Redux/fetch-services/recipes';
+import { useAppDispatch } from '../../../common/Redux/store';
 
 export function DescriptionManage({
   show,
@@ -18,24 +17,12 @@ export function DescriptionManage({
   const { isLoading, error, sendRequest, clearError } = useHttpClient({
     all: 'Adding description to the recipe failed.',
   });
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
-    const data = await sendRequest<EditDescriptionRecipeRequest>(
-      '/recipe/edit-description',
-      'PATCH',
-      {
-        description: descriptionInput,
-        id,
-      }
-    );
-    if (data) {
-      dispatch(
-        editDescriptionRecipeAction({ description: descriptionInput, id })
-      );
-      onClose();
-    }
+    dispatch(changeDescriptionRecipeFetch(id, descriptionInput, sendRequest));
+    onClose();
   };
 
   return (

@@ -3,6 +3,7 @@ import { FetchTypes } from './fetch.types';
 import {
   addItemToBasket,
   addList,
+  addRecipeToList,
   clearBasket,
   deleteList,
   removeItemFromBasket,
@@ -11,11 +12,13 @@ import {
   setLists,
 } from '../actions/list';
 import {
+  AddRecipeToListResponse,
   CreateListRequest,
   CreateListResponse,
   DeleteItemInListResponse,
   GetListResponse,
   GetListsResponse,
+  GetRecipeResponse,
   ListInterface,
 } from 'interfaces';
 
@@ -91,4 +94,25 @@ export const clearBasketFetch =
   async dispatch => {
     await sendRequest(`/list/clear-basket/${itemId}`, 'PATCH');
     dispatch(clearBasket(itemId));
+  };
+
+export const addRecipeToListFetch =
+  (
+    listId: string,
+    recipeId: string,
+    sendRequest: SendRequestType
+  ): FetchTypes =>
+  async dispatch => {
+    const recipeData = await sendRequest<GetRecipeResponse>(
+      `/recipe/user/${recipeId}`
+    );
+    if (recipeData) {
+      const data = await sendRequest<AddRecipeToListResponse>(
+        `/list/add-recipe/${listId}/${recipeData.recipe.id}`,
+        'POST'
+      );
+      if (data) {
+        dispatch(addRecipeToList(recipeData.recipe));
+      }
+    }
   };
