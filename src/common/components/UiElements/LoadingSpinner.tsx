@@ -1,5 +1,6 @@
 import { Box, Center, Spinner } from '@chakra-ui/react';
-import ReactDOM from 'react-dom';
+import { Portal } from './modals/Portal';
+import { PORTAL_IDS } from './UiElements.types';
 
 export const LoadingSpinner = () => {
   const content = (
@@ -31,8 +32,5 @@ export const LoadingSpinner = () => {
       </Center>
     </Box>
   );
-  return ReactDOM.createPortal(
-    content,
-    document.getElementById('loading-spinner-hook') as HTMLElement
-  );
+  return <Portal portalId={PORTAL_IDS.loadingSpinnerHook}>{content}</Portal>;
 };

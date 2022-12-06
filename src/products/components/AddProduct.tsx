@@ -7,7 +7,7 @@ import { useHttpClient } from '../../common/hooks/http-hook';
 import { useDispatch } from 'react-redux';
 import { addProductAction } from '../../common/Redux/actions/product';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
-import { InfoModal } from '../../common/components/UiElements/InfoModal';
+import { InfoModal } from '../../common/components/UiElements/modals/InfoModal';
 import { Button, VStack } from '@chakra-ui/react';
 import { SuccessfullyBox } from '../../common/components/UiElements/SuccessfullyBox';
 import * as Yup from 'yup';

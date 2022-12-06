@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import ReactDOM from 'react-dom';
 import { Backdrop } from './Backdrop';
-import { ModalOverlayProps } from './UiElements.types';
+import { ModalOverlayProps, PORTAL_IDS } from '../UiElements.types';
 import './Modal.css';
+import { Portal } from './Portal';
 
 const ModalOverlay = ({
   children,
@@ -23,10 +23,8 @@ const ModalOverlay = ({
       <footer className={`Modal__footer ${footerClass}`}>{footer}</footer>
     </div>
   );
-  return ReactDOM.createPortal(
-    content,
-    document.getElementById('modal-hook') as HTMLElement
-  );
+
+  return <Portal portalId={PORTAL_IDS.modalHook}>{content}</Portal>;
 };
 
 export const Modal = (props: ModalOverlayProps) => {

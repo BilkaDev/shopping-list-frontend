@@ -13,8 +13,8 @@ import {
 import defaultIcon from '../../../assets/default-icon-profil.jpg';
 import { useHttpClient } from '../../hooks/http-hook';
 import { LoadingSpinner } from '../UiElements/LoadingSpinner';
-import { InfoModal } from '../UiElements/InfoModal';
-import { ModalChakra } from '../UiElements/ModalChakra';
+import { InfoModal } from '../UiElements/modals/InfoModal';
+import { ModalChakra } from '../UiElements/modals/ModalChakra';
 import { EditPasswordForm } from './EditPasswordForm';
 import { useNavigate } from 'react-router-dom';
 import { ChangeAvatar } from './ChangeAvatar';

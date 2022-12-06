@@ -9,8 +9,8 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { useMemo } from 'react';
-import ReactDOM from 'react-dom';
-import { InfoModalProps } from './UiElements.types';
+import { InfoModalProps, PORTAL_IDS } from '../UiElements.types';
+import { Portal } from './Portal';
 
 export const InfoModal = ({
   title,
@@ -58,8 +58,5 @@ export const InfoModal = ({
     [isError, message, onClose, title]
   );
 
-  return ReactDOM.createPortal(
-    content,
-    document.getElementById('modal-hook') as HTMLElement
-  );
+  return <Portal portalId={PORTAL_IDS.modalHook}>{content}</Portal>;
 };

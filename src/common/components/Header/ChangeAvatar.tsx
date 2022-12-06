@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { useHttpClient } from '../../hooks/http-hook';
 import { LoadingSpinner } from '../UiElements/LoadingSpinner';
-import { InfoModal } from '../UiElements/InfoModal';
+import { InfoModal } from '../UiElements/modals/InfoModal';
 import { ImageUpload } from '../FormElements/ImageUpload';
 import { useDispatch } from 'react-redux';
 import { changeAvatar } from '../../Redux/actions/auth';

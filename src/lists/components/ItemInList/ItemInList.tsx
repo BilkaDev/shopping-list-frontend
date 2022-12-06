@@ -9,8 +9,8 @@ import {
   removeItemFromBasket,
   removeItemFromList,
 } from '../../../common/Redux/actions/list';
-import { InfoModal } from '../../../common/components/UiElements/InfoModal';
-import { ModalChakra } from '../../../common/components/UiElements/ModalChakra';
+import { InfoModal } from '../../../common/components/UiElements/modals/InfoModal';
+import { ModalChakra } from '../../../common/components/UiElements/modals/ModalChakra';
 import { EditItemForm } from '../../../common/components/FormElements/EditItemForm';
 import { ItemInListProps } from 'src/lists/lists.types';
 

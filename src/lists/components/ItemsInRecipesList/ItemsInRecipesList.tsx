@@ -5,7 +5,7 @@ import { DeleteIcon } from '@chakra-ui/icons';
 import { useDispatch } from 'react-redux';
 import { deleteRecipeFromList } from '../../../common/Redux/actions/list';
 import { useHttpClient } from '../../../common/hooks/http-hook';
-import { InfoModal } from '../../../common/components/UiElements/InfoModal';
+import { InfoModal } from '../../../common/components/UiElements/modals/InfoModal';
 import { ItemsInRecipesListProps } from '../../lists.types';
 
 export function ItemsInRecipesList({

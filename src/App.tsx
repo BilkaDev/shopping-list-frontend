@@ -11,7 +11,7 @@ import { setProductsAction } from './common/Redux/actions/product';
 import { useHttpClient } from './common/hooks/http-hook';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Auth } from './auth/pages/Auth';
-import { InfoModal } from './common/components/UiElements/InfoModal';
+import { InfoModal } from './common/components/UiElements/modals/InfoModal';
 import { Recipes } from './recipes/pages/Recipes';
 import { ItemsInRecipe } from './recipes/pages/ItemsInRecipe';
 import { setRecipesAction } from './common/Redux/actions/Recipe';

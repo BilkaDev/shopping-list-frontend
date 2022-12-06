@@ -2,7 +2,7 @@ import { Button, Link, Stack, Text, VStack } from '@chakra-ui/react';
 import { useHttpClient } from '../../common/hooks/http-hook';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
 import { Link as ReachLink } from 'react-router-dom';
-import { InfoModal } from '../../common/components/UiElements/InfoModal';
+import { InfoModal } from '../../common/components/UiElements/modals/InfoModal';
 import { useAuth } from '../../common/hooks/auth-hook';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';

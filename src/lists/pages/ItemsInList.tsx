@@ -7,7 +7,7 @@ import { clearBasket, setItemsInList } from '../../common/Redux/actions/list';
 import { useHttpClient } from '../../common/hooks/http-hook';
 import { AddItem } from '../components/ItemInList/AddItem';
 import { RootState } from '../../common/Redux/store';
-import { InfoModal } from '../../common/components/UiElements/InfoModal';
+import { InfoModal } from '../../common/components/UiElements/modals/InfoModal';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
 import { Section } from '../../common/components/UiElements/Section';
 import { Center, Stack, Text, UnorderedList } from '@chakra-ui/react';

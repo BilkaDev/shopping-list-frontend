@@ -14,7 +14,7 @@ import {
 import { addProductAction } from '../../../common/Redux/actions/product';
 import { addItemToList } from '../../../common/Redux/actions/list';
 import { Button, VStack } from '@chakra-ui/react';
-import { InfoModal } from '../../../common/components/UiElements/InfoModal';
+import { InfoModal } from '../../../common/components/UiElements/modals/InfoModal';
 import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
 import { SuccessfullyBox } from '../../../common/components/UiElements/SuccessfullyBox';
 import { addItemToRecipeAction } from '../../../common/Redux/actions/Recipe';

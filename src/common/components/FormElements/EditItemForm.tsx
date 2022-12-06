@@ -11,7 +11,7 @@ import { editItemInList, editListName } from '../../Redux/actions/list';
 import { editProductAction } from '../../Redux/actions/product';
 import { ManageProductForm } from '../../../products/components/ManageProductForm';
 import { Button } from '@chakra-ui/react';
-import { InfoModal } from '../UiElements/InfoModal';
+import { InfoModal } from '../UiElements/modals/InfoModal';
 import { ManageItemInList } from '../../../lists/components/ItemInList/ManageItemInList';
 import {
   editItemInRecipeAction,

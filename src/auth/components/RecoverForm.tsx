@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
-import { InfoModal } from '../../common/components/UiElements/InfoModal';
+import { InfoModal } from '../../common/components/UiElements/modals/InfoModal';
 import { useHttpClient } from '../../common/hooks/http-hook';
 import { useNavigate } from 'react-router-dom';
 import { RecoverPasswordResponse } from 'interfaces';
