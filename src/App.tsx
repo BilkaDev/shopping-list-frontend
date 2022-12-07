@@ -7,7 +7,6 @@ import { Products } from './products/pages/Products';
 import { Lists } from './lists/pages/Lists';
 import { ItemsInList } from './lists/pages/ItemsInList';
 import { useHttpClient } from './common/hooks/http-hook';
-import { ChakraProvider } from '@chakra-ui/react';
 import { Auth } from './auth/pages/Auth';
 import { InfoModal } from './common/components/UiElements/modals/InfoModal';
 import { Recipes } from './recipes/pages/Recipes';
@@ -52,7 +51,7 @@ function App() {
     );
   }
   return (
-    <ChakraProvider>
+    <>
       {isLoggedIn && <MainHeader />}
       <main>
         {error && (
@@ -66,7 +65,7 @@ function App() {
         <Routes>{routes}</Routes>
       </main>
       <Footer />
-    </ChakraProvider>
+    </>
   );
 }
 
