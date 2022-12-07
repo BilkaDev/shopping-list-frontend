@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { NAV_LINK } from '../common/components/Navigation/Navigation.types';
-import { RecoverPassword } from '../auth/pages/RecoverPassword';
-import { NavLinks } from '../common/components/Navigation/NavLinks';
-import { Products } from '../products/pages/Products';
-import { Lists } from '../lists/pages/Lists';
-import { ItemsInList } from '../lists/pages/ItemsInList';
-import { Recipes } from '../recipes/pages/Recipes';
-import { ItemsInRecipe } from '../recipes/pages/ItemsInRecipe';
+import { NAV_LINK } from '../components/Navigation/Navigation.types';
+import { RecoverPassword } from '../../auth/pages/RecoverPassword';
+import { NavLinks } from '../components/Navigation/NavLinks';
+import { Products } from '../../products/pages/Products';
+import { Lists } from '../../lists/pages/Lists';
+import { ItemsInList } from '../../lists/pages/ItemsInList';
+import { Recipes } from '../../recipes/pages/Recipes';
+import { ItemsInRecipe } from '../../recipes/pages/ItemsInRecipe';
 import { ProtectedRoutes } from './ProtectedRoutes';
 
 function Views() {

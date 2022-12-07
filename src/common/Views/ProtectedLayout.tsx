@@ -1,5 +1,5 @@
-import { Auth } from '../auth/pages/Auth';
-import { Footer } from '../common/components/Footer/Footer';
+import { Auth } from '../../auth/pages/Auth';
+import { Footer } from '../components/Footer/Footer';
 
 export function ProtectedLayout() {
   return (

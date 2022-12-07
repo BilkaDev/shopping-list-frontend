@@ -1,4 +1,4 @@
-import { useAuthSelector } from '../common/hooks/auth-hook';
+import { useAuthSelector } from '../hooks/auth-hook';
 import { Layout } from './Layout';
 import { ProtectedLayout } from './ProtectedLayout';
 

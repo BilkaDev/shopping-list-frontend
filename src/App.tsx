@@ -1,5 +1,5 @@
 import { InfoModal } from './common/components/UiElements/modals/InfoModal';
-import Views from './Views/Views';
+import Views from './common/Views/Views';
 import { useInitialData } from './common/hooks/initial-data-hook';
 
 function App() {
