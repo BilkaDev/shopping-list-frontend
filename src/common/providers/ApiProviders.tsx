@@ -1,14 +1,52 @@
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '../Redux/store';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { ApiProviderProps } from './ApiProviders.types';
 
+const theme = {
+  styles: {
+    global: {
+      '*': { margin: 0, padding: 0, boxSizing: 0 },
+      html: { fontSize: '62.5%' },
+      body: {
+        fontFamily: 'Open Sans, sans-serif',
+        fontSize: '1.6rem',
+        color: '#423e3a',
+      },
+      ':root': {
+        '--dark': '#1e1e1f',
+        '--light-dark': '#222224',
+        '--light-grey': '#dadada',
+        '--grey': '#292a2b',
+        '--white': '#f7f7f7',
+      },
+      'div#root': {
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        background: 'var(--light-dark)',
+        color: 'var(--white)',
+      },
+      'header,footer': {
+        flex: '0',
+      },
+      main: {
+        marginTop: '13rem',
+        flex: 1,
+        display: 'flex',
+        justifyContent: 'center',
+      },
+    },
+  },
+};
+
+const customTheme = extendTheme(theme);
 export function ApiProviders({ children }: ApiProviderProps) {
   return (
     <BrowserRouter>
       <Provider store={store}>
-        <ChakraProvider>{children}</ChakraProvider>
+        <ChakraProvider theme={customTheme}>{children}</ChakraProvider>
       </Provider>
     </BrowserRouter>
   );
