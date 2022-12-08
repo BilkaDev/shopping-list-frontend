@@ -1,5 +1,4 @@
 import { Button, Link, Stack, Text, VStack } from '@chakra-ui/react';
-import { useHttpClient } from '../../common/hooks/http-hook';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
 import { Link as ReachLink } from 'react-router-dom';
 import { InfoModal } from '../../common/components/UiElements/modals/InfoModal';
@@ -7,7 +6,6 @@ import { useAuthSelector } from '../../common/hooks/auth-hook';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { AuthLogin } from 'interfaces';
 import { InputForm } from '../../common/components/UiElements/InputForm';
 import { LoginFormInputs } from '../auth.types';
 
@@ -22,10 +20,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 export const LoginForm = () => {
-  const { sendRequest, error, clearError, isLoading } = useHttpClient({
-    '400': 'Incorrect login credentials!',
-  });
-  const auth = useAuthSelector();
+  const { clearError, error, isLoading, login } = useAuthSelector();
   const {
     register,
     handleSubmit,
@@ -33,14 +28,8 @@ export const LoginForm = () => {
   } = useForm<LoginFormInputs>({
     resolver: yupResolver(LoginSchema),
   });
-  async function onSubmit(values: LoginFormInputs) {
-    const data = await sendRequest<AuthLogin>('/auth/login', 'POST', {
-      email: values.email,
-      pwd: values.password,
-    });
-    if (data) {
-      auth.login(data.user.userId, data.user.email);
-    }
+  function onSubmit(values: LoginFormInputs) {
+    login(values.password, values.email);
   }
 
   return (

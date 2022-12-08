@@ -1,7 +1,11 @@
 import { SendRequestType } from '../../hooks/http-hook';
 import { FetchTypes } from './fetch.types';
-import { AddAvatarResponse } from 'interfaces';
-import { changeAvatar } from '../actions/auth';
+import { AddAvatarResponse, AuthLogin } from 'interfaces';
+import {
+  changeAvatar,
+  login as loginAction,
+  logout as logoutAction,
+} from '../actions/auth';
 
 export const changeAvatarFetch =
   (
@@ -18,5 +22,26 @@ export const changeAvatarFetch =
     if (data) {
       dispatch(changeAvatar());
       return data;
+    }
+  };
+
+export const loginFetch =
+  (email: string, pwd: string, sendRequest: SendRequestType): FetchTypes =>
+  async dispatch => {
+    const data = await sendRequest<AuthLogin>('/auth/login', 'POST', {
+      email,
+      pwd,
+    });
+    if (data) {
+      dispatch(loginAction(data.user.userId, data.user.email));
+    }
+  };
+
+export const logoutFetch =
+  (sendRequest: SendRequestType): FetchTypes =>
+  async dispatch => {
+    const data = await sendRequest('/auth/logout', 'POST');
+    if (data) {
+      dispatch(logoutAction());
     }
   };

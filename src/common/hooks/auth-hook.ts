@@ -1,26 +1,27 @@
 import { useHttpClient } from './http-hook';
 import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../Redux/store';
-import {
-  login as loginAction,
-  logout as logoutAction,
-} from '../Redux/actions/auth';
+import { useSelector } from 'react-redux';
+import { RootState, useAppDispatch } from '../Redux/store';
+import { login as loginAction } from '../Redux/actions/auth';
 import { AuthLogin } from 'interfaces';
+import { loginFetch, logoutFetch } from '../Redux/fetch-services/auth';
 
 let autoLogin = true;
 export const useAuthSelector = () => {
   const { userId, avatarImg, email, isLoggedIn } = useSelector(
     (store: RootState) => store.auth
   );
-  const { isLoading, sendRequest, error, clearError } = useHttpClient();
-  const dispatch = useDispatch();
+  const { sendRequest, isLoading, isSuccess, error, clearError } =
+    useHttpClient({
+      '400': 'Incorrect login credentials!',
+    });
+  const dispatch = useAppDispatch();
 
   const login = useCallback(
-    (userId: string, email: string) => {
-      dispatch(loginAction(userId, email));
+    (pwd: string, email: string) => {
+      dispatch(loginFetch(email, pwd, sendRequest));
     },
-    [dispatch]
+    [sendRequest, dispatch]
   );
 
   useEffect(() => {
@@ -29,15 +30,15 @@ export const useAuthSelector = () => {
         autoLogin = !autoLogin;
         const data = await sendRequest<AuthLogin>('/auth/auto-login');
         if (data) {
-          return login(data.user.userId, data.user.email);
+          dispatch(loginAction(data.user.userId, data.user.email));
         } else clearError();
       }
     })();
-  }, [clearError, login, sendRequest]);
+  }, [clearError, dispatch, sendRequest]);
 
   const logout = useCallback(() => {
-    dispatch(logoutAction());
-  }, [dispatch]);
+    dispatch(logoutFetch(sendRequest));
+  }, [dispatch, sendRequest]);
 
   return {
     userId,
@@ -46,8 +47,9 @@ export const useAuthSelector = () => {
     login,
     isLoggedIn,
     logout,
-    error,
-    clearError,
+    isSuccess,
     isLoading,
+    clearError,
+    error,
   };
 };

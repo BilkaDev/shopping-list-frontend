@@ -11,7 +11,6 @@ import {
   Text,
 } from '@chakra-ui/react';
 import defaultIcon from '../../../assets/default-icon-profil.jpg';
-import { useHttpClient } from '../../hooks/http-hook';
 import { LoadingSpinner } from '../UiElements/LoadingSpinner';
 import { InfoModal } from '../UiElements/modals/InfoModal';
 import { ModalChakra } from '../UiElements/modals/ModalChakra';
@@ -23,17 +22,14 @@ import { useAuthSelector } from '../../hooks/auth-hook';
 export function MenuHeader() {
   const [isEditPassword, setIsEditPassword] = useState(false);
   const [isChangeAvatar, setIsChangeAvatar] = useState(false);
-  const { isLoading, sendRequest, error, clearError } = useHttpClient();
   const nav = useNavigate();
 
-  const { logout, email, avatarImg } = useAuthSelector();
+  const { logout, email, avatarImg, isLoading, isSuccess, error, clearError } =
+    useAuthSelector();
 
-  const logoutClick = async () => {
-    const data = await sendRequest('/auth/logout', 'POST');
-    if (data) {
-      logout();
-      nav('/');
-    }
+  const logoutClick = () => {
+    logout();
+    if (isSuccess) nav('/');
   };
 
   return (
