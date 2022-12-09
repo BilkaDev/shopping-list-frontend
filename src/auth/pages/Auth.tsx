@@ -1,8 +1,11 @@
-import { Box, Center, Flex, Image } from '@chakra-ui/react';
+import { Box, Button, Center, Flex, Image } from '@chakra-ui/react';
 import logo from '../../assets/logo.png';
-import { LoginForm } from '../components/LoginForm';
+import { useState } from 'react';
+import { SingUp } from '../components/SingUp';
+import { Login } from '../components/Login';
 
 export const Auth = () => {
+  const [isLogin, setIsLogin] = useState(true);
   return (
     <Flex
       position="absolute"
@@ -23,7 +26,12 @@ export const Auth = () => {
             alt="Shopping-list logo"
           />
         </Center>
-        <LoginForm />
+        {isLogin ? <Login /> : <SingUp />}
+        <Center marginTop={2}>
+          <Button onClick={() => setIsLogin(prev => !prev)} colorScheme="red">
+            {isLogin ? 'Switch to sing up' : 'Switch to  login'}
+          </Button>
+        </Center>
       </Box>
     </Flex>
   );
