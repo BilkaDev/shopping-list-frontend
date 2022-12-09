@@ -1,4 +1,5 @@
 import { AuthAction } from '../action-types/auth';
+import { apiUrl } from '../../../config/api';
 
 interface AuthState {
   userId: string;
@@ -22,7 +23,7 @@ interface ChangeAvatar {
 const initialState: AuthState = {
   userId: '',
   email: '',
-  avatarImg: 'http://localhost:3002/user/avatar',
+  avatarImg: `${apiUrl}/user/avatar`,
   isLoggedIn: false,
 };
 
