@@ -224,16 +224,26 @@ export const listReducer = (
         },
       };
     case ListAction.CLEAR_BASKET:
-      const clearBasket = [...state.list.items].map(item => {
+      const clearBasketList = [...state.list.items].map(item => {
         const newItem = { ...item };
         newItem.itemInBasket = false;
         return newItem;
       });
+      const clearBasketRecipes = state.list.recipes.map(recipe => {
+        const items = recipe.items.map(item => ({
+          ...item,
+          itemInBasket: false,
+        }));
+
+        return { ...recipe, items };
+      });
+
       return {
         ...state,
         list: {
           ...state.list,
-          items: clearBasket,
+          items: clearBasketList,
+          recipes: clearBasketRecipes,
         },
       };
     case ListAction.ADD_RECIPE_TO_LIST:
