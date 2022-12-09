@@ -57,3 +57,12 @@ export const logoutFetch =
       dispatch(logoutAction());
     }
   };
+
+export const testLoginFetch =
+  (sendRequest: SendRequestType): FetchTypes =>
+  async dispatch => {
+    const data = await sendRequest<AuthLogin>('/auth/test-login', 'GET');
+    if (data) {
+      dispatch(loginAction(data.user.userId, data.user.email));
+    }
+  };
