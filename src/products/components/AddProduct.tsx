@@ -40,7 +40,7 @@ export const AddProduct = () => {
       addProductFetch(
         {
           name: values.name,
-          category: values.category,
+          category: Number(values.category),
         },
         sendRequest
       )

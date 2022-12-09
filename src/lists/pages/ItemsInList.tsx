@@ -25,6 +25,7 @@ export const ItemsInList = () => {
   const entries = Object.entries(ProductCategory);
   const category: string[] = [];
   const { list } = useSelector((store: RootState) => store.lists);
+  const listCopy = JSON.parse(JSON.stringify(list));
   useEffect(() => {
     if (!id) return;
     dispatch(loadItemsInListFetch(id, sendRequest));
@@ -77,7 +78,7 @@ export const ItemsInList = () => {
               <ItemsList
                 key={id}
                 categoryId={id}
-                list={list}
+                list={listCopy}
                 categoryName={category}
               />
             ))}
@@ -85,7 +86,7 @@ export const ItemsInList = () => {
         </div>
         <ItemsInRecipesList
           listId={id as string}
-          recipes={list.recipes}
+          recipes={listCopy.recipes}
           category={category}
         />
       </Section>
