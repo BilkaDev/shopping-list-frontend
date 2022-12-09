@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-export interface LoginFormInputs {
+export interface AuthFormInputs {
   email: string;
   password: string;
   passwordRepeat: string;

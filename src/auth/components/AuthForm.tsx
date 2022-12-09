@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { InputForm } from '../../common/components/UiElements/InputForm';
-import { AuthFormProps, LoginFormInputs } from '../auth.types';
+import { AuthFormProps, AuthFormInputs } from '../auth.types';
 
 const LoginSchema = Yup.object().shape({
   password: Yup.string()
@@ -23,19 +23,20 @@ const LoginSchema = Yup.object().shape({
     .required('Required!'),
 });
 export const AuthForm = ({ isLogin, children }: AuthFormProps) => {
-  const { clearError, error, isLoading, login } = useAuthSelector();
+  const { clearError, isLoading, login, singUp, error } = useAuthSelector();
   const {
     register,
     handleSubmit,
     setValue,
     watch,
     formState: { errors },
-  } = useForm<LoginFormInputs>({
+  } = useForm<AuthFormInputs>({
     resolver: yupResolver(LoginSchema),
   });
   if (isLogin) setValue('passwordRepeat', watch('password'));
-  function onSubmit(values: LoginFormInputs) {
+  function onSubmit(values: AuthFormInputs) {
     if (isLogin) login(values.password, values.email);
+    else singUp(values.password, values.email);
   }
 
   return (

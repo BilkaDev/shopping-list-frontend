@@ -4,7 +4,11 @@ import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../Redux/store';
 import { login as loginAction } from '../Redux/actions/auth';
 import { AuthLogin } from 'interfaces';
-import { loginFetch, logoutFetch } from '../Redux/fetch-services/auth';
+import {
+  loginFetch,
+  logoutFetch,
+  singUpFetch,
+} from '../Redux/fetch-services/auth';
 
 let autoLogin = true;
 export const useAuthSelector = () => {
@@ -20,6 +24,13 @@ export const useAuthSelector = () => {
   const login = useCallback(
     (pwd: string, email: string) => {
       dispatch(loginFetch(email, pwd, sendRequest));
+    },
+    [sendRequest, dispatch]
+  );
+
+  const singUp = useCallback(
+    (pwd: string, email: string) => {
+      dispatch(singUpFetch(email, pwd, sendRequest));
     },
     [sendRequest, dispatch]
   );
@@ -45,6 +56,7 @@ export const useAuthSelector = () => {
     avatarImg,
     email,
     login,
+    singUp,
     isLoggedIn,
     logout,
     isSuccess,

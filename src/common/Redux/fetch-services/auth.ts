@@ -1,6 +1,6 @@
 import { SendRequestType } from '../../hooks/http-hook';
 import { FetchTypes } from './fetch.types';
-import { AddAvatarResponse, AuthLogin } from 'interfaces';
+import { AddAvatarResponse, AuthLogin, RegisterUserResponse } from 'interfaces';
 import {
   changeAvatar,
   login as loginAction,
@@ -34,6 +34,18 @@ export const loginFetch =
     });
     if (data) {
       dispatch(loginAction(data.user.userId, data.user.email));
+    }
+  };
+
+export const singUpFetch =
+  (email: string, pwd: string, sendRequest: SendRequestType): FetchTypes =>
+  async dispatch => {
+    const data = await sendRequest<RegisterUserResponse>('/user', 'POST', {
+      email,
+      pwd,
+    });
+    if (data) {
+      dispatch(loginFetch(email, pwd, sendRequest));
     }
   };
 
