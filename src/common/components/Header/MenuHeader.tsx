@@ -63,8 +63,8 @@ export function MenuHeader() {
             <Box>
               <Flex align="center">
                 <Image
-                  width="45"
-                  height="45"
+                  width="45px"
+                  height="45px"
                   borderRadius="full"
                   objectFit="cover"
                   src={avatarImg}
@@ -72,11 +72,11 @@ export function MenuHeader() {
                     currentTarget.onerror = null;
                     currentTarget.src = defaultIcon;
                   }}
-                  alt="user profil icon"
+                  alt="user profile icon"
                   alignItems="center"
                   mr="10px"
                 />
-                <Text fontSize="18px">{email}</Text>
+                <Text fontSize="1.8rem">{email}</Text>
               </Flex>
             </Box>
             <Box

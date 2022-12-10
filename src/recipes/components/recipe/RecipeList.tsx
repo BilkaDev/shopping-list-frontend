@@ -6,7 +6,7 @@ import { RecipeItem } from './RecipeItem';
 export const RecipeList = () => {
   const { recipes } = useSelector((store: RootState) => store.recipes);
   return (
-    <TableContainer>
+    <TableContainer width={{ base: '90%', md: '60%' }}>
       <Table>
         <Thead>
           <Tr>

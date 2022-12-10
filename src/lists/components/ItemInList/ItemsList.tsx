@@ -31,7 +31,7 @@ export const ItemsList = ({
       <Center>
         <Text fontSize="3xl">{categoryName}</Text>
       </Center>
-      <TableContainer>
+      <TableContainer width={{ base: '90%', md: '60%' }}>
         <Table>
           <Thead>
             <Tr>

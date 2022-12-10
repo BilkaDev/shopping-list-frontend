@@ -7,7 +7,7 @@ export const ListsList = () => {
   const { listOfLists } = useSelector((store: RootState) => store.lists);
 
   return (
-    <TableContainer>
+    <TableContainer width={{ base: '90%', md: '60%' }}>
       <Table>
         <Thead>
           <Tr>

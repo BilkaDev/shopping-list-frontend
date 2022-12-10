@@ -5,10 +5,11 @@ import { useForm } from 'react-hook-form';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
 import { InfoModal } from '../../common/components/UiElements/modals/InfoModal';
 import { useHttpClient } from '../../common/hooks/http-hook';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RecoverPasswordResponse } from 'interfaces';
 import { RecoverFormInputs } from '../auth.types';
 import { InputForm } from '../../common/components/UiElements/InputForm';
+import { NAV_LINK } from '../../common/components/Navigation/Navigation.types';
 
 const RecoverSchema = Yup.object().shape({
   email: Yup.string()
@@ -72,6 +73,9 @@ export function RecoverForm() {
               <Button type="submit" colorScheme="blue">
                 Recover password
               </Button>
+              <Link to={NAV_LINK.home}>
+                <Button colorScheme="whiteAlpha">Back</Button>
+              </Link>
             </Stack>
           </Stack>
         </VStack>

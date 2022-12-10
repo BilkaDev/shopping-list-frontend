@@ -20,6 +20,7 @@ const theme = {
         '--light-grey': '#dadada',
         '--grey': '#292a2b',
         '--white': '#f7f7f7',
+        '--chakra-fontSizes-md': '1.2rem',
       },
       'div#root': {
         minHeight: '100vh',
