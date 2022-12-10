@@ -1,10 +1,11 @@
 import { NavLink } from 'react-router-dom';
-import { Center, ListItem, UnorderedList } from '@chakra-ui/react';
+import { ListItem, UnorderedList } from '@chakra-ui/react';
 import { NAV_LINK } from './Navigation.types';
+import { Section } from '../UiElements/Section';
 
 export const NavLinks = () => {
   return (
-    <Center>
+    <Section>
       <UnorderedList
         styleType={'none'}
         style={{
@@ -22,6 +23,6 @@ export const NavLinks = () => {
           <NavLink to={NAV_LINK.product}>Products</NavLink>
         </ListItem>
       </UnorderedList>
-    </Center>
+    </Section>
   );
 };
