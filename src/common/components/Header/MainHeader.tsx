@@ -27,8 +27,8 @@ export const MainHeader = () => {
             <Box>
               <Link to="/">
                 <Image
-                  htmlWidth="200px"
-                  height="102"
+                  width={{ base: '125px', md: '200px' }}
+                  maxHeight="102px"
                   src={logo}
                   alt="Shopping-list logo"
                 />

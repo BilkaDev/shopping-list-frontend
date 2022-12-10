@@ -59,7 +59,7 @@ export function MenuHeader() {
       </ModalChakra>
       <Menu autoSelect={false}>
         <MenuButton>
-          <Flex align="center" justify="space-between" w="260px">
+          <Flex align="center" justify="space-between" width={{ md: '230px' }}>
             <Box>
               <Flex align="center">
                 <Image
@@ -76,12 +76,13 @@ export function MenuHeader() {
                   alignItems="center"
                   mr="10px"
                 />
-                <Text fontSize="1.8rem">{email}</Text>
+                <Text fontSize="1.6rem">{email}</Text>
               </Flex>
             </Box>
             <Box
               w={0}
               h={0}
+              ml="5px"
               borderTop="5px solid #9e9e9e"
               borderLeft="5px solid transparent"
               borderRight="5px solid transparent"
