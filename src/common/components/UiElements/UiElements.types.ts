@@ -51,3 +51,13 @@ export interface InputFormProps {
   autoCompleteOff?: boolean;
   errors: FieldErrors<{ [key: string]: string }>;
 }
+
+export enum PORTAL_IDS {
+  modalHook = 'modal-hook',
+  backdropHook = 'backdrop-hook',
+  loadingSpinnerHook = 'loading-spinner-hook',
+}
+export interface PortalProps {
+  children: ReactNode;
+  portalId: string;
+}

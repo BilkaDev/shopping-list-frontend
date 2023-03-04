@@ -4,7 +4,7 @@ import { RootState, useAppDispatch } from '../../../common/Redux/store';
 import { Select } from '../../../common/components/UiElements/Select';
 import { useHttpClient } from '../../../common/hooks/http-hook';
 import { useParams } from 'react-router-dom';
-import { InfoModal } from '../../../common/components/UiElements/InfoModal';
+import { InfoModal } from '../../../common/components/UiElements/modals/InfoModal';
 import { SuccessfullyBox } from '../../../common/components/UiElements/SuccessfullyBox';
 import { useForm } from 'react-hook-form';
 import { addRecipeToListFetch } from '../../../common/Redux/fetch-services/list';

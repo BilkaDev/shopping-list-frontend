@@ -6,6 +6,7 @@ import {
   addRecipeToList,
   clearBasket,
   deleteList,
+  deleteRecipeFromList,
   removeItemFromBasket,
   removeItemFromList,
   setItemsInList,
@@ -16,6 +17,7 @@ import {
   CreateListRequest,
   CreateListResponse,
   DeleteItemInListResponse,
+  DeleteRecipeFromListResponse,
   GetListResponse,
   GetListsResponse,
   GetRecipeResponse,
@@ -76,24 +78,32 @@ export const removeItemFromListFetch =
   };
 
 export const addToBasketFetch =
-  (itemId: string, sendRequest: SendRequestType): FetchTypes =>
+  (
+    itemId: string,
+    listId: string | undefined,
+    sendRequest: SendRequestType
+  ): FetchTypes =>
   async dispatch => {
     dispatch(addItemToBasket(itemId));
-    await sendRequest(`/list/item/ad-to-basket/${itemId}`, 'PATCH');
+    await sendRequest(`/basket/${itemId}/${listId}`, 'POST');
   };
 
 export const removeFromBasketFetch =
-  (itemId: string, sendRequest: SendRequestType): FetchTypes =>
+  (
+    itemId: string,
+    listId: string | undefined,
+    sendRequest: SendRequestType
+  ): FetchTypes =>
   async dispatch => {
     dispatch(removeItemFromBasket(itemId));
-    await sendRequest(`/list/item/remove-from-basket/${itemId}`, 'PATCH');
+    await sendRequest(`/basket/${itemId}/${listId}`, 'DELETE');
   };
 
 export const clearBasketFetch =
-  (itemId: string, sendRequest: SendRequestType): FetchTypes =>
+  (listId: string, sendRequest: SendRequestType): FetchTypes =>
   async dispatch => {
-    await sendRequest(`/list/clear-basket/${itemId}`, 'PATCH');
-    dispatch(clearBasket(itemId));
+    await sendRequest(`/basket/clear-basket/${listId}`, 'DELETE');
+    dispatch(clearBasket(listId));
   };
 
 export const addRecipeToListFetch =
@@ -114,5 +124,21 @@ export const addRecipeToListFetch =
       if (data) {
         dispatch(addRecipeToList(recipeData.recipe));
       }
+    }
+  };
+
+export const removeRecipeForListFetch =
+  (
+    listId: string,
+    recipeId: string,
+    sendRequest: SendRequestType
+  ): FetchTypes =>
+  async dispatch => {
+    const data = await sendRequest<DeleteRecipeFromListResponse>(
+      `/list/delete-recipe/${listId}/${recipeId}`,
+      'DELETE'
+    );
+    if (data) {
+      dispatch(deleteRecipeFromList(recipeId));
     }
   };

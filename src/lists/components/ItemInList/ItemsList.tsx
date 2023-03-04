@@ -18,8 +18,16 @@ export const ItemsList = ({
   list,
   isRecipe,
 }: ItemsListProps) => {
+  const items = list.items.map(item => (
+    <ItemInList
+      key={item.id}
+      isRecipe={isRecipe}
+      category={categoryId}
+      item={item}
+    />
+  ));
   return (
-    <ListItem>
+    <ListItem width={{ base: '360px', sm: '450', md: '600px' }}>
       <Center>
         <Text fontSize="3xl">{categoryName}</Text>
       </Center>
@@ -39,16 +47,7 @@ export const ItemsList = ({
               )}
             </Tr>
           </Thead>
-          <Tbody>
-            {list.items.map(item => (
-              <ItemInList
-                key={item.id}
-                isRecipe={isRecipe}
-                category={categoryId}
-                item={item}
-              />
-            ))}
-          </Tbody>
+          <Tbody>{items}</Tbody>
         </Table>
       </TableContainer>
     </ListItem>

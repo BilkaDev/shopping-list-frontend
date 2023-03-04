@@ -1,4 +1,4 @@
-import { InfoModal } from '../../../common/components/UiElements/InfoModal';
+import { InfoModal } from '../../../common/components/UiElements/modals/InfoModal';
 import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
 import { useHttpClient } from '../../../common/hooks/http-hook';
 import { Button, VStack } from '@chakra-ui/react';

@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Td, Tr } from '@chakra-ui/react';
 import { useHttpClient } from '../../../common/hooks/http-hook';
-import { InfoModal } from '../../../common/components/UiElements/InfoModal';
-import { ModalChakra } from '../../../common/components/UiElements/ModalChakra';
+import { InfoModal } from '../../../common/components/UiElements/modals/InfoModal';
+import { ModalChakra } from '../../../common/components/UiElements/modals/ModalChakra';
 import { EditItemForm } from '../../../common/components/FormElements/EditItemForm';
 import { ItemInRecipeProps } from '../../recipes.types';
 import { removeItemFromRecipeFetch } from '../../../common/Redux/fetch-services/recipes';
@@ -24,7 +24,7 @@ export const ItemInRecipe = ({
   }
 
   const deleteItemHandler = async () => {
-    dispatch(removeItemFromRecipeFetch(item.id, recipeId, sendRequest));
+    dispatch(removeItemFromRecipeFetch(recipeId, item.id, sendRequest));
   };
 
   return (

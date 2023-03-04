@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { InfoModal } from '../../../common/components/UiElements/InfoModal';
-import { ModalChakra } from '../../../common/components/UiElements/ModalChakra';
+import { InfoModal } from '../../../common/components/UiElements/modals/InfoModal';
+import { ModalChakra } from '../../../common/components/UiElements/modals/ModalChakra';
 import { Td, Tr } from '@chakra-ui/react';
 import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';

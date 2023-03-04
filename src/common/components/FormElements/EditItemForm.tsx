@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useHttpClient } from '../../hooks/http-hook';
 import { ManageProductForm } from '../../../products/components/ManageProductForm';
 import { Button } from '@chakra-ui/react';
-import { InfoModal } from '../UiElements/InfoModal';
+import { InfoModal } from '../UiElements/modals/InfoModal';
 import { ManageItemInList } from '../../../lists/components/ItemInList/ManageItemInList';
 import * as Yup from 'yup';
 import { AddProductFormInputs } from '../../../products/products.types';

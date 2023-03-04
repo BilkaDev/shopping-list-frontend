@@ -1,8 +1,21 @@
-import { Box, Center, Flex, Image } from '@chakra-ui/react';
+import { Box, Button, Center, Flex, Image } from '@chakra-ui/react';
 import logo from '../../assets/logo.png';
-import { LoginForm } from '../components/LoginForm';
+import { useState } from 'react';
+import { SingUp } from '../components/SingUp';
+import { Login } from '../components/Login';
+import { useAppDispatch } from '../../common/Redux/store';
+import { testLoginFetch } from '../../common/Redux/fetch-services/auth';
+import { useHttpClient } from '../../common/hooks/http-hook';
 
 export const Auth = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const { sendRequest } = useHttpClient();
+  const dispatch = useAppDispatch();
+
+  function testAccLogin() {
+    dispatch(testLoginFetch(sendRequest));
+  }
+
   return (
     <Flex
       position="absolute"
@@ -23,7 +36,19 @@ export const Auth = () => {
             alt="Shopping-list logo"
           />
         </Center>
-        <LoginForm />
+        {isLogin ? <Login /> : <SingUp />}
+        <Center marginTop={2}>
+          <Button
+            marginRight={2}
+            onClick={() => setIsLogin(prev => !prev)}
+            colorScheme="red"
+          >
+            {isLogin ? 'Switch to sing up' : 'Switch to  login'}
+          </Button>
+          <Button colorScheme="whiteAlpha" onClick={testAccLogin}>
+            Tray acc
+          </Button>
+        </Center>
       </Box>
     </Flex>
   );

@@ -11,10 +11,9 @@ import {
   Text,
 } from '@chakra-ui/react';
 import defaultIcon from '../../../assets/default-icon-profil.jpg';
-import { useHttpClient } from '../../hooks/http-hook';
 import { LoadingSpinner } from '../UiElements/LoadingSpinner';
-import { InfoModal } from '../UiElements/InfoModal';
-import { ModalChakra } from '../UiElements/ModalChakra';
+import { InfoModal } from '../UiElements/modals/InfoModal';
+import { ModalChakra } from '../UiElements/modals/ModalChakra';
 import { EditPasswordForm } from './EditPasswordForm';
 import { useNavigate } from 'react-router-dom';
 import { ChangeAvatar } from './ChangeAvatar';
@@ -23,17 +22,14 @@ import { useAuthSelector } from '../../hooks/auth-hook';
 export function MenuHeader() {
   const [isEditPassword, setIsEditPassword] = useState(false);
   const [isChangeAvatar, setIsChangeAvatar] = useState(false);
-  const { isLoading, sendRequest, error, clearError } = useHttpClient();
   const nav = useNavigate();
 
-  const { logout, email, avatarImg } = useAuthSelector();
+  const { logout, email, avatarImg, isLoading, isSuccess, error, clearError } =
+    useAuthSelector();
 
-  const logoutClick = async () => {
-    const data = await sendRequest('/auth/logout', 'POST');
-    if (data) {
-      logout();
-      nav('/');
-    }
+  const logoutClick = () => {
+    logout();
+    if (isSuccess) nav('/');
   };
 
   return (
@@ -63,12 +59,12 @@ export function MenuHeader() {
       </ModalChakra>
       <Menu autoSelect={false}>
         <MenuButton>
-          <Flex align="center" justify="space-between" w="260px">
+          <Flex align="center" justify="space-between" width={{ md: '230px' }}>
             <Box>
               <Flex align="center">
                 <Image
-                  width="45"
-                  height="45"
+                  width="45px"
+                  height="45px"
                   borderRadius="full"
                   objectFit="cover"
                   src={avatarImg}
@@ -76,16 +72,17 @@ export function MenuHeader() {
                     currentTarget.onerror = null;
                     currentTarget.src = defaultIcon;
                   }}
-                  alt="user profil icon"
+                  alt="user profile icon"
                   alignItems="center"
                   mr="10px"
                 />
-                <Text fontSize="18px">{email}</Text>
+                <Text fontSize="1.6rem">{email}</Text>
               </Flex>
             </Box>
             <Box
               w={0}
               h={0}
+              ml="5px"
               borderTop="5px solid #9e9e9e"
               borderLeft="5px solid transparent"
               borderRight="5px solid transparent"

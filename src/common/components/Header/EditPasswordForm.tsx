@@ -3,7 +3,7 @@ import { Button, Stack, useToast, VStack } from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { useHttpClient } from '../../hooks/http-hook';
 import { LoadingSpinner } from '../UiElements/LoadingSpinner';
-import { InfoModal } from '../UiElements/InfoModal';
+import { InfoModal } from '../UiElements/modals/InfoModal';
 import { ChangePasswordResponse } from 'interfaces';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';

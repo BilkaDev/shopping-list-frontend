@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useHttpClient } from '../../common/hooks/http-hook';
 import { ProductCategory } from 'interfaces';
 import { Td, Tr } from '@chakra-ui/react';
-import { ModalChakra } from '../../common/components/UiElements/ModalChakra';
-import { InfoModal } from '../../common/components/UiElements/InfoModal';
+import { ModalChakra } from '../../common/components/UiElements/modals/ModalChakra';
+import { InfoModal } from '../../common/components/UiElements/modals/InfoModal';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { EditItemForm } from '../../common/components/FormElements/EditItemForm';
@@ -52,7 +52,7 @@ export const ProductsItem = ({ category, id, name }: ProductsItemsProps) => {
         />
       </ModalChakra>
       <Tr>
-        <Td>{name}</Td>
+        <Td width={{ base: '200px' }}>{name}</Td>
         <Td>{ProductCategory[category]}</Td>
         <Td>
           <button onClick={() => editProduct()}>

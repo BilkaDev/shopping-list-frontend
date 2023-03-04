@@ -8,9 +8,9 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import ReactDOM from 'react-dom';
-import { ModalChakraProps } from './UiElements.types';
+import { ModalChakraProps, PORTAL_IDS } from '../UiElements.types';
 import { useMemo } from 'react';
+import { Portal } from './Portal';
 
 export function ModalChakra({
   children,
@@ -37,8 +37,5 @@ export function ModalChakra({
     [children, isOpen, onClose, title]
   );
 
-  return ReactDOM.createPortal(
-    content,
-    document.getElementById('modal-hook') as HTMLElement
-  );
+  return <Portal portalId={PORTAL_IDS.modalHook}>{content}</Portal>;
 }

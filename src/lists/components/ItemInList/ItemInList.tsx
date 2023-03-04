@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { DeleteIcon, EditIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import { Td, Tr, Center } from '@chakra-ui/react';
 import { useHttpClient } from '../../../common/hooks/http-hook';
-import { InfoModal } from '../../../common/components/UiElements/InfoModal';
-import { ModalChakra } from '../../../common/components/UiElements/ModalChakra';
+import { InfoModal } from '../../../common/components/UiElements/modals/InfoModal';
+import { ModalChakra } from '../../../common/components/UiElements/modals/ModalChakra';
 import { EditItemForm } from '../../../common/components/FormElements/EditItemForm';
 import { ItemInListProps } from 'src/lists/lists.types';
 import { useAppDispatch } from '../../../common/Redux/store';
@@ -12,7 +12,7 @@ import {
   removeFromBasketFetch,
   removeItemFromListFetch,
 } from '../../../common/Redux/fetch-services/list';
-
+import { useParams } from 'react-router-dom';
 export const ItemInList = ({ category, item, isRecipe }: ItemInListProps) => {
   const [inBasket, setInBasket] = useState(item.itemInBasket);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -20,6 +20,7 @@ export const ItemInList = ({ category, item, isRecipe }: ItemInListProps) => {
   const { sendRequest, error, clearError } = useHttpClient({
     all: 'Something went wrong when deleting the item. Please try again later.',
   });
+  const { id: listId } = useParams();
   useEffect(() => {
     setInBasket(item.itemInBasket);
   }, [item]);
@@ -30,12 +31,12 @@ export const ItemInList = ({ category, item, isRecipe }: ItemInListProps) => {
 
   const addToBasket = async () => {
     setInBasket(true);
-    dispatch(addToBasketFetch(item.id, sendRequest));
+    dispatch(addToBasketFetch(item.id, listId, sendRequest));
   };
 
   const removeFromBasket = async () => {
     setInBasket(false);
-    dispatch(removeFromBasketFetch(item.id, sendRequest));
+    dispatch(removeFromBasketFetch(item.id, listId, sendRequest));
   };
 
   const deleteItemHandler = async () => {

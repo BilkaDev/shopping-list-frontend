@@ -1,7 +1,11 @@
 import { SendRequestType } from '../../hooks/http-hook';
 import { FetchTypes } from './fetch.types';
-import { AddAvatarResponse } from 'interfaces';
-import { changeAvatar } from '../actions/auth';
+import { AddAvatarResponse, AuthLogin, RegisterUserResponse } from 'interfaces';
+import {
+  changeAvatar,
+  login as loginAction,
+  logout as logoutAction,
+} from '../actions/auth';
 
 export const changeAvatarFetch =
   (
@@ -18,5 +22,47 @@ export const changeAvatarFetch =
     if (data) {
       dispatch(changeAvatar());
       return data;
+    }
+  };
+
+export const loginFetch =
+  (email: string, pwd: string, sendRequest: SendRequestType): FetchTypes =>
+  async dispatch => {
+    const data = await sendRequest<AuthLogin>('/auth/login', 'POST', {
+      email,
+      pwd,
+    });
+    if (data) {
+      dispatch(loginAction(data.user.userId, data.user.email));
+    }
+  };
+
+export const singUpFetch =
+  (email: string, pwd: string, sendRequest: SendRequestType): FetchTypes =>
+  async dispatch => {
+    const data = await sendRequest<RegisterUserResponse>('/user', 'POST', {
+      email,
+      pwd,
+    });
+    if (data) {
+      dispatch(loginFetch(email, pwd, sendRequest));
+    }
+  };
+
+export const logoutFetch =
+  (sendRequest: SendRequestType): FetchTypes =>
+  async dispatch => {
+    const data = await sendRequest('/auth/logout', 'POST');
+    if (data) {
+      dispatch(logoutAction());
+    }
+  };
+
+export const testLoginFetch =
+  (sendRequest: SendRequestType): FetchTypes =>
+  async dispatch => {
+    const data = await sendRequest<AuthLogin>('/auth/test-login', 'GET');
+    if (data) {
+      dispatch(loginAction(data.user.userId, data.user.email));
     }
   };

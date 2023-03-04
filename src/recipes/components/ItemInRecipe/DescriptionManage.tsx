@@ -1,7 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { Button, Textarea, VStack } from '@chakra-ui/react';
 import { useHttpClient } from '../../../common/hooks/http-hook';
-import { InfoModal } from '../../../common/components/UiElements/InfoModal';
+import { InfoModal } from '../../../common/components/UiElements/modals/InfoModal';
 import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
 import { DescriptionManageProps } from 'src/recipes/recipes.types';
 import { changeDescriptionRecipeFetch } from '../../../common/Redux/fetch-services/recipes';

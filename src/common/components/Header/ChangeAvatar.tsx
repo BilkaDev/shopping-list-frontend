@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { useHttpClient } from '../../hooks/http-hook';
 import { LoadingSpinner } from '../UiElements/LoadingSpinner';
-import { InfoModal } from '../UiElements/InfoModal';
+import { InfoModal } from '../UiElements/modals/InfoModal';
 import { ImageUpload } from '../FormElements/ImageUpload';
 import defaultIcon from '../../../assets/default-icon-profil.jpg';
 import { useAuthSelector } from '../../hooks/auth-hook';

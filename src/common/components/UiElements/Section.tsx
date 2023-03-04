@@ -3,7 +3,7 @@ import { SectionProps } from './UiElements.types';
 
 export function Section({ children }: SectionProps) {
   return (
-    <Box>
+    <Box w={'100%'}>
       <Center>
         <VStack flex={1} align={'center'} maxWidth="1430px">
           {children}

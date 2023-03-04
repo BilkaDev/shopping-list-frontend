@@ -3,7 +3,7 @@ import { ListsList } from '../components/List/ListsList';
 import { useHttpClient } from '../../common/hooks/http-hook';
 import { AddList } from '../components/List/AddList';
 import { Section } from '../../common/components/UiElements/Section';
-import { InfoModal } from '../../common/components/UiElements/InfoModal';
+import { InfoModal } from '../../common/components/UiElements/modals/InfoModal';
 import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
 import { useAuthSelector } from '../../common/hooks/auth-hook';
 import { loadListFetch } from '../../common/Redux/fetch-services/list';
