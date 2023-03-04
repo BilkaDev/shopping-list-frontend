@@ -24,7 +24,7 @@ export const ItemInRecipe = ({
   }
 
   const deleteItemHandler = async () => {
-    dispatch(removeItemFromRecipeFetch(item.id, recipeId, sendRequest));
+    dispatch(removeItemFromRecipeFetch(recipeId, item.id, sendRequest));
   };
 
   return (
