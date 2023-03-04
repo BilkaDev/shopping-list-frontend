@@ -22,7 +22,7 @@ export const ItemsListRecipe = ({
       <Center>
         <Text fontSize="3xl">{categoryName}</Text>
       </Center>
-      <TableContainer width={{ base: '90%', md: '60%' }}>
+      <TableContainer minWidth={{ base: '360px' }} width={{ md: '600px' }}>
         <Table>
           <Thead>
             <Tr>

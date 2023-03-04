@@ -27,11 +27,11 @@ export const ItemsList = ({
     />
   ));
   return (
-    <ListItem>
+    <ListItem width={{ base: '360px', sm: '450', md: '600px' }}>
       <Center>
         <Text fontSize="3xl">{categoryName}</Text>
       </Center>
-      <TableContainer width={{ base: '90%', md: '60%' }}>
+      <TableContainer>
         <Table>
           <Thead>
             <Tr>
