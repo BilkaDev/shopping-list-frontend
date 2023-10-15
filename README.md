@@ -1,18 +1,22 @@
+# Shopping-list
 
-# Shopping-list 
 ## Application Description
+
 Used to add shopping list and recipes.
 
 view online: https://shopping-list.bilka.networkmanager.pl/ \
 server source code: https://github.com/BilkaDev/shopping-list-backend
 
 ## Technology:
+
 React - v18.1.0 \
-typescript - v4.x.x  \
+typescript - v4.x.x \
 NestJs - v8.0.0
 
-
 # Getting Started with Create React App
+
+if you dont use docker/ docker-compose create .env file and add 
+    REACT_APP_API_URL=http://localhost:3002/api
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

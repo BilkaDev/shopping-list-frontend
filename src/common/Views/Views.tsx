@@ -13,7 +13,6 @@ import { ProtectedRoutes } from './ProtectedRoutes';
 function Views() {
   return (
     <Routes>
-      {' '}
       <Route path={NAV_LINK.recoverPassword} element={<RecoverPassword />} />
       <Route element={<ProtectedRoutes />}>
         <Route path={NAV_LINK.home} element={<NavLinks />} />
