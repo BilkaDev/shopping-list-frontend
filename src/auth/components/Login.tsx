@@ -8,7 +8,6 @@ export function Login() {
     <>
       <AuthForm isLogin={true}>
         <Text>
-          {' '}
           <Link as={ReachLink} to="/recover-password" color="var(--light-gray)">
             Forgot your password?
           </Link>
