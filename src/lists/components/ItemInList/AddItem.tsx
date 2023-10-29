@@ -1,32 +1,32 @@
-import { useState } from 'react';
-import { useHttpClient } from '../../../common/hooks/http-hook';
-import { SearchProduct } from './SearchProduct';
-import { useParams } from 'react-router-dom';
+import { useState } from "react";
+import { useHttpClient } from "../../../common/hooks/http-hook";
+import { SearchProduct } from "./SearchProduct";
+import { useParams } from "react-router-dom";
 import {
   CreateProductRequest,
   CreateItemInListRequest,
-  ProductInterface,
-} from '../../../types';
-import { Button, VStack } from '@chakra-ui/react';
-import { InfoModal } from '../../../common/components/UiElements/modals/InfoModal';
-import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
-import { SuccessfullyBox } from '../../../common/components/UiElements/SuccessfullyBox';
-import * as Yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
-import { InputForm } from '../../../common/components/UiElements/InputForm';
-import { AddItemFormInputs, AddItemProps } from '../../lists.types';
-import { useAppDispatch } from '../../../common/Redux/store';
-import { addProductFetch } from '../../../common/Redux/fetch-services/products';
-import { addItemToStoreFetch } from '../../../common/Redux/fetch-services/common';
+  ProductInterface
+} from "../../../types";
+import { Button, VStack } from "@chakra-ui/react";
+import { InfoModal } from "../../../common/components/UiElements/modals/InfoModal";
+import { LoadingSpinner } from "../../../common/components/UiElements/LoadingSpinner";
+import { SuccessfullyBox } from "../../../common/components/UiElements/SuccessfullyBox";
+import * as Yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
+import { InputForm } from "../../../common/components/UiElements/InputForm";
+import { AddItemFormInputs, AddItemProps } from "../../lists.types";
+import { useAppDispatch } from "../../../common/Redux/store";
+import { addProductFetch } from "../../../common/Redux/fetch-services/products";
+import { addItemToStoreFetch } from "../../../common/Redux/fetch-services/common";
 
 const AddItemSchema = Yup.object().shape({
   name: Yup.string()
-    .required('Product name is required!')
-    .min(2, 'Product name is too short! minimum length is 2 characters!')
-    .max(100, 'Product is too long! Maximum length is 100 characters!'),
-  count: Yup.number().min(0).max(1000, 'Maximum quantity 1000'),
-  weight: Yup.number().min(0).max(1000000, 'Maximum weight 1000000'),
+    .required("Product name is required!")
+    .min(2, "Product name is too short! minimum length is 2 characters!")
+    .max(100, "Product is too long! Maximum length is 100 characters!"),
+  count: Yup.number().min(0).max(1000, "Maximum quantity 1000").transform((currentValue) => isNaN(currentValue) ? 0 : currentValue),
+  weight: Yup.number().min(0).max(1000000, "Maximum weight 1000000").transform((currentValue) => isNaN(currentValue) ? 0 : currentValue)
 });
 
 export const AddItem = ({ isRecipe }: AddItemProps) => {
@@ -35,13 +35,13 @@ export const AddItem = ({ isRecipe }: AddItemProps) => {
     handleSubmit,
     watch,
     reset,
-    formState: { errors, isValid },
+    formState: { errors }
   } = useForm<AddItemFormInputs>({
     defaultValues: {
       count: 0,
-      weight: 0,
+      weight: 0
     },
-    resolver: yupResolver(AddItemSchema),
+    resolver: yupResolver(AddItemSchema)
   });
   const [product, setProduct] = useState<ProductInterface>();
   const { isLoading, isSuccess, setIsSuccess, sendRequest, error, clearError } =
@@ -52,16 +52,16 @@ export const AddItem = ({ isRecipe }: AddItemProps) => {
   const addItemToListRequest = async (values: AddItemFormInputs) => {
     let newProduct: ProductInterface | undefined = product;
     const newItem: CreateItemInListRequest = {
-      itemId: product?.id ?? '',
+      itemId: product?.id ?? "",
       count: Number(values.count),
       weight: Number(values.weight),
       listId: isRecipe ? undefined : listId,
-      recipeId: isRecipe ? listId : undefined,
+      recipeId: isRecipe ? listId : undefined
     };
     if (!newProduct) {
       const newProductReq: CreateProductRequest = {
         name: values.name,
-        category: Number(values.category),
+        category: Number(values.category)
       };
       const dataProduct = await dispatch(
         addProductFetch(newProductReq, sendRequest)
@@ -94,7 +94,7 @@ export const AddItem = ({ isRecipe }: AddItemProps) => {
         <InfoModal
           message={error}
           onClose={exitErrorHandler}
-          title={'Failed!'}
+          title={"Failed!"}
           isError
         />
       )}
@@ -103,29 +103,29 @@ export const AddItem = ({ isRecipe }: AddItemProps) => {
         <form onSubmit={handleSubmit(addItemToListRequest)}>
           <VStack spacing={4} align="flex-start">
             <InputForm
-              register={register('name')}
+              register={register("name")}
               label="Name:"
               autoCompleteOff
               placeholder="Product name"
               errors={errors}
             />
-            {watch('name')?.length > 1 && (
+            {watch("name")?.length > 1 && (
               <SearchProduct
                 product={product}
                 setProduct={setProduct}
-                register={register('category')}
-                name={watch('name')}
+                register={register("category")}
+                name={watch("name")}
               />
             )}
             <InputForm
-              register={register('count')}
+              register={register("count")}
               label="Count:"
               placeholder="Count"
               type="number"
               errors={errors}
             />
             <InputForm
-              register={register('weight')}
+              register={register("weight")}
               label="Weight:"
               placeholder="Weight"
               type="number"
@@ -133,7 +133,7 @@ export const AddItem = ({ isRecipe }: AddItemProps) => {
             />
             <Button
               type="submit"
-              disabled={!isValid}
+              disabled={isLoading}
               colorScheme="gray"
               color="var(--dark)"
             >

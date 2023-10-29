@@ -1,5 +1,5 @@
-import { CSSProperties, ReactNode } from 'react';
-import { FieldErrors, UseFormRegisterReturn } from 'react-hook-form';
+import { ChangeEvent, CSSProperties, ReactNode } from "react";
+import { FieldErrors, UseFormRegisterReturn } from "react-hook-form";
 
 export interface SelectProps {
   children: ReactNode;
@@ -17,15 +17,18 @@ export interface SuccessfullyBoxProps {
   setIsSuccess: (v: boolean) => void;
   text: string;
 }
+
 export interface SectionProps {
   children: ReactNode;
 }
+
 export interface ModalChakraProps {
   onClose: () => void;
   isOpen: boolean;
   children: ReactNode;
   title: string;
 }
+
 export interface ModalOverlayProps {
   className?: string;
   headerClass?: string;
@@ -46,6 +49,7 @@ export interface BackdropProps {
 export interface InputFormProps {
   register: UseFormRegisterReturn<string>;
   label?: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   type?: string;
   autoCompleteOff?: boolean;
@@ -53,10 +57,11 @@ export interface InputFormProps {
 }
 
 export enum PORTAL_IDS {
-  modalHook = 'modal-hook',
-  backdropHook = 'backdrop-hook',
-  loadingSpinnerHook = 'loading-spinner-hook',
+  modalHook = "modal-hook",
+  backdropHook = "backdrop-hook",
+  loadingSpinnerHook = "loading-spinner-hook",
 }
+
 export interface PortalProps {
   children: ReactNode;
   portalId: string;

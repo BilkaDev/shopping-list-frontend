@@ -1,37 +1,37 @@
-import { InfoModal } from '../../../common/components/UiElements/modals/InfoModal';
-import { LoadingSpinner } from '../../../common/components/UiElements/LoadingSpinner';
-import { useHttpClient } from '../../../common/hooks/http-hook';
-import { Button, VStack } from '@chakra-ui/react';
-import { SuccessfullyBox } from '../../../common/components/UiElements/SuccessfullyBox';
-import { useAuthSelector } from '../../../common/hooks/auth-hook';
-import * as Yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
-import { InputForm } from '../../../common/components/UiElements/InputForm';
-import { useAppDispatch } from '../../../common/Redux/store';
-import { addRecipeFetch } from '../../../common/Redux/fetch-services/recipes';
-import {AddRecipeFormInputs} from "../../recipes.types";
-import {AddRecipeRequest} from "../../../types";
+import { InfoModal } from "../../../common/components/UiElements/modals/InfoModal";
+import { LoadingSpinner } from "../../../common/components/UiElements/LoadingSpinner";
+import { useHttpClient } from "../../../common/hooks/http-hook";
+import { Button, VStack } from "@chakra-ui/react";
+import { SuccessfullyBox } from "../../../common/components/UiElements/SuccessfullyBox";
+import { useAuthSelector } from "../../../common/hooks/auth-hook";
+import * as Yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
+import { InputForm } from "../../../common/components/UiElements/InputForm";
+import { useAppDispatch } from "../../../common/Redux/store";
+import { addRecipeFetch } from "../../../common/Redux/fetch-services/recipes";
+import { AddRecipeFormInputs } from "../../recipes.types";
+import { AddRecipeRequest } from "../../../types";
 
 const AddRecipeSchema = Yup.object().shape({
   name: Yup.string()
-    .required('Recipe name is required!')
-    .min(2, 'Recipe name is too short! minimum length is 2 characters!')
-    .max(100, 'Recipe is too long! Maximum length is 100 characters!'),
+    .required("Recipe name is required!")
+    .min(2, "Recipe name is too short! minimum length is 2 characters!")
+    .max(100, "Recipe is too long! Maximum length is 100 characters!")
 });
 
 export const AddRecipe = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors }
   } = useForm<AddRecipeFormInputs>({
-    resolver: yupResolver(AddRecipeSchema),
+    resolver: yupResolver(AddRecipeSchema)
   });
 
   const { isLoading, isSuccess, setIsSuccess, sendRequest, error, clearError } =
     useHttpClient({
-      400: 'Adding the recipe failed, check the recipe name (the name must not repeat)',
+      400: "Adding the recipe failed, check the recipe name (the name must not repeat)"
     });
   const dispatch = useAppDispatch();
   const { userId } = useAuthSelector();
@@ -40,8 +40,8 @@ export const AddRecipe = () => {
     const recipe: AddRecipeRequest = {
       name: values.name,
       userId,
-      description: '',
-      items: [],
+      description: "",
+      items: []
     };
     dispatch(addRecipeFetch(recipe, sendRequest));
   };
@@ -61,7 +61,7 @@ export const AddRecipe = () => {
         <InfoModal
           message={error}
           onClose={clearError}
-          title={'Failed!'}
+          title={"Failed!"}
           isError
         />
       )}
@@ -70,14 +70,14 @@ export const AddRecipe = () => {
         <form onSubmit={handleSubmit(addRecipe)}>
           <VStack spacing={4} align="flex-start">
             <InputForm
-              register={register('name')}
+              register={register("name")}
               label="Name:"
               placeholder="Recipe name"
               errors={errors}
             />
             <Button
               type="submit"
-              disabled={!isValid}
+              disabled={isLoading}
               colorScheme="gray"
               color="var(--dark)"
             >

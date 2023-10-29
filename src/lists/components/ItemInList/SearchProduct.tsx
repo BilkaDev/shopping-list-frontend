@@ -1,25 +1,25 @@
-import { ProductInterface } from '../../../types';
-import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../common/Redux/store';
-import { SelectProductCategory } from '../../../common/components/FormElements/SelectProductCategory';
-import { Box, List, ListIcon, ListItem, Stack, Text } from '@chakra-ui/layout';
-import { CheckCircleIcon } from '@chakra-ui/icons';
-import { SearchProductProps } from '../../../common/components/FormElements/FormElements.types';
+import { ProductInterface } from "../../../types";
+import { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../common/Redux/store";
+import { SelectProductCategory } from "../../../common/components/FormElements/SelectProductCategory";
+import { Box, List, ListIcon, ListItem, Stack, Text } from "@chakra-ui/layout";
+import { CheckCircleIcon } from "@chakra-ui/icons";
+import { SearchProductProps } from "../../../common/components/FormElements/FormElements.types";
 
 export const SearchProduct = ({
-  name,
-  register,
-  product,
-  setProduct,
-}: SearchProductProps) => {
+                                name,
+                                register,
+                                product,
+                                setProduct
+                              }: SearchProductProps) => {
   const [suggestions, setSuggestions] = useState<ProductInterface[]>([]);
   const { listProducts } = useSelector((store: RootState) => store.products);
 
   const handleClick = useCallback(
     (event: KeyboardEvent) => {
       let index = suggestions.findIndex(item => item.id === product?.id);
-      if (event.key === 'ArrowUp') {
+      if (event.key === "ArrowUp") {
         event.preventDefault();
         if (suggestions[index]?.name.toLowerCase() === name.toLowerCase()) {
           return;
@@ -27,7 +27,7 @@ export const SearchProduct = ({
           setProduct(suggestions[index - 1]);
         }
       }
-      if (event.key === 'ArrowDown') {
+      if (event.key === "ArrowDown") {
         event.preventDefault();
         if (index === suggestions.length - 1) {
           setProduct(suggestions[index]);
@@ -41,7 +41,7 @@ export const SearchProduct = ({
 
   useEffect(() => {
     if (name.length > 1) {
-      const regex = new RegExp(`${name}`, 'gi');
+      const regex = new RegExp(`${name}`, "gi");
       const suggestions = listProducts
         .filter(product => {
           setProduct(undefined);
@@ -56,15 +56,15 @@ export const SearchProduct = ({
   }, [listProducts, name, setProduct]);
 
   useEffect(() => {
-    document.body.addEventListener('keydown', handleClick);
+    document.body.addEventListener("keydown", handleClick);
     return () => {
-      document.body.removeEventListener('keydown', handleClick);
+      document.body.removeEventListener("keydown", handleClick);
     };
   }, [handleClick, name, product]);
 
   const setProductHandler = (product: ProductInterface) => {
     setProduct(product);
-    document.body.removeEventListener('keydown', handleClick);
+    document.body.removeEventListener("keydown", handleClick);
   };
   return (
     <Stack>
@@ -74,7 +74,7 @@ export const SearchProduct = ({
             width="250px"
             bg="white"
             borderRadius="4px"
-            border={'1px solid rgba(0,0,0,0.1)'}
+            border={"1px solid rgba(0,0,0,0.1)"}
             boxShadow="6px 5px 8px rgba(0,50,30,0.02)"
             color="var(--dark)"
           >
@@ -84,7 +84,7 @@ export const SearchProduct = ({
                 px={2}
                 py={1}
                 borderBottom="1px solid rgba(0,0,0,0.01)"
-                bg={suggest.id === product?.id ? '#b9b9b9' : 'inherit'}
+                bg={suggest.id === product?.id ? "#b9b9b9" : "inherit"}
                 key={id}
               >
                 <Box display="inline-flex" alignItems="center">
