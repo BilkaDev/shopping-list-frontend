@@ -13,11 +13,12 @@ import {
 let autoLogin = true;
 export const useAuthSelector = () => {
   const { userId, avatarImg, email, isLoggedIn } = useSelector(
-    (store: RootState) => store.auth
+    (store: RootState) => store.auth,
   );
   const { sendRequest, isLoading, isSuccess, error, clearError } =
     useHttpClient({
       '400': 'Incorrect login credentials!',
+      '409': 'Email is exist',
     });
   const dispatch = useAppDispatch();
 
@@ -25,14 +26,14 @@ export const useAuthSelector = () => {
     (pwd: string, email: string) => {
       dispatch(loginFetch(email, pwd, sendRequest));
     },
-    [sendRequest, dispatch]
+    [sendRequest, dispatch],
   );
 
   const singUp = useCallback(
     (pwd: string, email: string) => {
       dispatch(singUpFetch(email, pwd, sendRequest));
     },
-    [sendRequest, dispatch]
+    [sendRequest, dispatch],
   );
 
   useEffect(() => {

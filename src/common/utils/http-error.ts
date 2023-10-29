@@ -9,7 +9,7 @@ export class HttpError extends Error {
 }
 
 export type HttpErrorMap = Partial<
-  Record<KnownHttpErrorStatus | 'all', string>
+  Record<string | 'all', string>
 >;
 
 export const defaultHttpErrorMap: Record<KnownHttpErrorStatus, string> = {
