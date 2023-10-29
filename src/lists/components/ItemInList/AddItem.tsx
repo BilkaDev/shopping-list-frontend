@@ -34,6 +34,7 @@ export const AddItem = ({ isRecipe }: AddItemProps) => {
     register,
     handleSubmit,
     watch,
+    trigger,
     reset,
     formState: { errors }
   } = useForm<AddItemFormInputs>({
@@ -87,7 +88,6 @@ export const AddItem = ({ isRecipe }: AddItemProps) => {
       />
     );
   }
-
   return (
     <>
       {error && (
@@ -107,6 +107,9 @@ export const AddItem = ({ isRecipe }: AddItemProps) => {
               label="Name:"
               autoCompleteOff
               placeholder="Product name"
+              onChange={(e) => {
+                register("name").onChange(e).then(() => trigger());
+              }}
               errors={errors}
             />
             {watch("name")?.length > 1 && (

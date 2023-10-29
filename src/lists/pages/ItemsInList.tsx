@@ -1,22 +1,22 @@
-import { ProductCategory } from '../../types';
-import { useEffect } from 'react';
-import { ItemsList } from '../components/ItemInList/ItemsList';
-import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useHttpClient } from '../../common/hooks/http-hook';
-import { AddItem } from '../components/ItemInList/AddItem';
-import { RootState, useAppDispatch } from '../../common/Redux/store';
-import { InfoModal } from '../../common/components/UiElements/modals/InfoModal';
-import { LoadingSpinner } from '../../common/components/UiElements/LoadingSpinner';
-import { Section } from '../../common/components/UiElements/Section';
-import { Center, Stack, Text, UnorderedList } from '@chakra-ui/react';
-import { CloseIcon } from '@chakra-ui/icons';
-import { AddRecipeToList } from '../components/ItemsInRecipesList/AddRecipeToList';
-import { ItemsInRecipesList } from '../components/ItemsInRecipesList/ItemsInRecipesList';
+import { ProductCategory } from "../../types";
+import { useEffect } from "react";
+import { ItemsList } from "../components/ItemInList/ItemsList";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useHttpClient } from "../../common/hooks/http-hook";
+import { AddItem } from "../components/ItemInList/AddItem";
+import { RootState, useAppDispatch } from "../../common/Redux/store";
+import { InfoModal } from "../../common/components/UiElements/modals/InfoModal";
+import { LoadingSpinner } from "../../common/components/UiElements/LoadingSpinner";
+import { Section } from "../../common/components/UiElements/Section";
+import { Center, Stack, Text, UnorderedList } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
+import { AddRecipeToList } from "../components/ItemsInRecipesList/AddRecipeToList";
+import { ItemsInRecipesList } from "../components/ItemsInRecipesList/ItemsInRecipesList";
 import {
   clearBasketFetch,
-  loadItemsInListFetch,
-} from '../../common/Redux/fetch-services/list';
+  loadItemsInListFetch
+} from "../../common/Redux/fetch-services/list";
 
 export const ItemsInList = () => {
   const { isLoading, sendRequest, error, clearError } = useHttpClient();
@@ -31,7 +31,7 @@ export const ItemsInList = () => {
   }, [dispatch, id, sendRequest]);
 
   for (const key of entries) {
-    if (typeof key[1] === 'number') {
+    if (typeof key[1] === "number") {
       category.push(key[0]);
     }
   }
@@ -41,13 +41,15 @@ export const ItemsInList = () => {
     dispatch(clearBasketFetch(id, sendRequest));
   }
 
+  const recipesIdInList = list.recipes.map(recipe => recipe.id);
+
   return (
     <>
       {error && (
         <InfoModal
           message={error}
           onClose={clearError}
-          title={'Failed!'}
+          title={"Failed!"}
           isError
         />
       )}
@@ -57,7 +59,7 @@ export const ItemsInList = () => {
           <Text fontSize="4xl">Add product to list</Text>
         </Center>
         <AddItem />
-        <AddRecipeToList />
+        <AddRecipeToList recipesIdInList={recipesIdInList} />
         <Stack paddingTop="1.5rem" direction="row" spacing={20}>
           <Text fontSize="4xl">List {name}</Text>
           <Text
@@ -65,7 +67,7 @@ export const ItemsInList = () => {
             alignSelf="center"
             onClick={clearBasketHandler}
           >
-            Clear basket{' '}
+            Clear basket{" "}
             <button>
               <CloseIcon />
             </button>

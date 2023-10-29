@@ -15,7 +15,6 @@ export const SearchProduct = ({
                               }: SearchProductProps) => {
   const [suggestions, setSuggestions] = useState<ProductInterface[]>([]);
   const { listProducts } = useSelector((store: RootState) => store.products);
-
   const handleClick = useCallback(
     (event: KeyboardEvent) => {
       let index = suggestions.findIndex(item => item.id === product?.id);
@@ -42,7 +41,7 @@ export const SearchProduct = ({
   useEffect(() => {
     if (name.length > 1) {
       const regex = new RegExp(`${name}`, "gi");
-      const suggestions = listProducts
+      const suggestions = [...listProducts]
         .filter(product => {
           setProduct(undefined);
           return product.name.match(regex);
@@ -104,7 +103,7 @@ export const SearchProduct = ({
           </List>
         </Box>
       )}
-      <SelectProductCategory register={register} />
+      {!product ? <SelectProductCategory register={register} /> : null}
     </Stack>
   );
 };
