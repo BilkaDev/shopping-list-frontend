@@ -7,9 +7,10 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react';
+
+import { LoadingSpinner, InfoModal } from '@/shared/ui/Page';
+
 import { useHttpClient } from '../../hooks/http-hook';
-import { LoadingSpinner } from '../UiElements/LoadingSpinner';
-import { InfoModal } from '../UiElements/modals/InfoModal';
 import { ImageUpload } from '../FormElements/ImageUpload';
 import defaultIcon from '../../../assets/default-icon-profil.jpg';
 import { useAuthSelector } from '../../hooks/auth-hook';
@@ -80,7 +81,7 @@ export const ChangeAvatar = ({ onClose }: ChangeAvatarProps) => {
         />
       )}
       <form onSubmit={submitHandler}>
-        <VStack spacing={4} align="flex-start">
+        <VStack spacing={4} align='flex-start'>
           <FormControl isInvalid={!isValid}>
             <ImageUpload
               setImage={setImage}
@@ -92,9 +93,9 @@ export const ChangeAvatar = ({ onClose }: ChangeAvatarProps) => {
               Please add image format png/jpg/jpeg and max size 512kb
             </FormErrorMessage>
           </FormControl>
-          <Stack spacing={10} width="100%" pt="10px">
+          <Stack spacing={10} width='100%' pt='10px'>
             <Stack direction={{ base: 'column', sm: 'row' }} align={'center'}>
-              <Button disabled={!image} type="submit" colorScheme="blue">
+              <Button disabled={!image} type='submit' colorScheme='blue'>
                 Change Avatar
               </Button>
             </Stack>

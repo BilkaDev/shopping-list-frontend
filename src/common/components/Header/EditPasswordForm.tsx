@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Button, Stack, useToast, VStack } from '@chakra-ui/react';
 import * as Yup from 'yup';
-import { useHttpClient } from '../../hooks/http-hook';
-import { LoadingSpinner } from '../UiElements/LoadingSpinner';
-import { InfoModal } from '../UiElements/modals/InfoModal';
-import { ChangePasswordResponse } from '../../../types';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
+
+import { ChangePasswordResponse } from '@/types';
+import { InputForm } from '@/shared/ui/Input';
+import { InfoModal, LoadingSpinner } from '@/shared/ui/Page';
+
+import { useHttpClient } from '../../hooks/http-hook';
 import { EditPasswordFormInputs } from './Header.types';
-import { InputForm } from '../UiElements/InputForm';
 
 const ChangePasswordSchema = Yup.object().shape({
   password: Yup.string()
@@ -54,7 +55,7 @@ export const EditPasswordForm = () => {
       {
         newPwd: values.newPasswordRepeat,
         pwd: values.password,
-      }
+      },
     );
     if (data) {
       setToastMessage({
@@ -91,28 +92,28 @@ export const EditPasswordForm = () => {
         />
       )}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <VStack spacing={4} align="flex-start">
+        <VStack spacing={4} align='flex-start'>
           <InputForm
             register={register('password')}
-            type="password"
-            placeholder="Password"
+            type='password'
+            placeholder='Password'
             errors={errors}
           />
           <InputForm
             register={register('newPassword')}
-            type="password"
-            placeholder="New password"
+            type='password'
+            placeholder='New password'
             errors={errors}
           />
           <InputForm
             register={register('newPasswordRepeat')}
-            type="password"
-            placeholder="Repeat new password"
+            type='password'
+            placeholder='Repeat new password'
             errors={errors}
           />
-          <Stack spacing={10} width="100%" pt="10px">
+          <Stack spacing={10} width='100%' pt='10px'>
             <Stack direction={{ base: 'column', sm: 'row' }} align={'center'}>
-              <Button type="submit" colorScheme="blue">
+              <Button type='submit' colorScheme='blue'>
                 Change password
               </Button>
             </Stack>

@@ -10,14 +10,14 @@ import {
   MenuList,
   Text,
 } from '@chakra-ui/react';
-import defaultIcon from '../../../assets/default-icon-profil.jpg';
-import { LoadingSpinner } from '../UiElements/LoadingSpinner';
-import { InfoModal } from '../UiElements/modals/InfoModal';
-import { ModalChakra } from '../UiElements/modals/ModalChakra';
-import { EditPasswordForm } from './EditPasswordForm';
 import { useNavigate } from 'react-router-dom';
-import { ChangeAvatar } from './ChangeAvatar';
+
+import defaultIcon from '@/assets/default-icon-profil.jpg';
+import { InfoModal, LoadingSpinner, ModalChakra } from '@/shared/ui/Page';
+
 import { useAuthSelector } from '../../hooks/auth-hook';
+import { EditPasswordForm } from './EditPasswordForm';
+import { ChangeAvatar } from './ChangeAvatar';
 
 export function MenuHeader() {
   const [isEditPassword, setIsEditPassword] = useState(false);
@@ -44,14 +44,14 @@ export function MenuHeader() {
         />
       )}
       <ModalChakra
-        title="Change password"
+        title='Change password'
         isOpen={isEditPassword}
         onClose={() => setIsEditPassword(false)}
       >
         <EditPasswordForm />
       </ModalChakra>
       <ModalChakra
-        title="Change avatar image"
+        title='Change avatar image'
         isOpen={isChangeAvatar}
         onClose={() => setIsChangeAvatar(false)}
       >
@@ -59,42 +59,42 @@ export function MenuHeader() {
       </ModalChakra>
       <Menu autoSelect={false}>
         <MenuButton>
-          <Flex align="center" justify="space-between" width={{ md: '230px' }}>
+          <Flex align='center' justify='space-between' width={{ md: '230px' }}>
             <Box>
-              <Flex align="center">
+              <Flex align='center'>
                 <Image
-                  width="45px"
-                  height="45px"
-                  borderRadius="full"
-                  objectFit="cover"
+                  width='45px'
+                  height='45px'
+                  borderRadius='full'
+                  objectFit='cover'
                   src={avatarImg}
                   onError={({ currentTarget }) => {
                     currentTarget.onerror = null;
                     currentTarget.src = defaultIcon;
                   }}
-                  alt="user profile icon"
-                  alignItems="center"
-                  mr="10px"
+                  alt='user profile icon'
+                  alignItems='center'
+                  mr='10px'
                 />
-                <Text fontSize="1.6rem">{email}</Text>
+                <Text fontSize='1.6rem'>{email}</Text>
               </Flex>
             </Box>
             <Box
               w={0}
               h={0}
-              ml="5px"
-              borderTop="5px solid #9e9e9e"
-              borderLeft="5px solid transparent"
-              borderRight="5px solid transparent"
+              ml='5px'
+              borderTop='5px solid #9e9e9e'
+              borderLeft='5px solid transparent'
+              borderRight='5px solid transparent'
             ></Box>
           </Flex>
         </MenuButton>
         <MenuList
           borderRadius={0}
-          bgColor="var(--dark)"
-          borderColor="var(--dark)"
+          bgColor='var(--dark)'
+          borderColor='var(--dark)'
         >
-          <MenuGroup title="Profile">
+          <MenuGroup title='Profile'>
             <MenuItem
               onClick={() => setIsEditPassword(true)}
               _hover={{ backgroundColor: '#292A2B' }}

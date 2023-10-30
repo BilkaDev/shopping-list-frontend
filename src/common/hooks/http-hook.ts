@@ -1,25 +1,21 @@
 import { useCallback, useState } from 'react';
+
 import {
+  AddRecipeRequest,
+  ApiResponse,
+  ChangePasswordRequest,
   CreateItemInListRequest,
   CreateListRequest,
   CreateProductRequest,
-  UpdateProductRequest,
-  LoginRequest,
-  UpdateItemInListRequest,
-  AddRecipeRequest,
-  EditRecipeRequest,
   EditDescriptionRecipeRequest,
+  EditRecipeRequest,
+  LoginRequest,
   RecoverPasswordRequest,
-  ApiResponse,
-  ChangePasswordRequest,
-} from '../../types';
-import { apiUrl } from '../../config/api';
-import {
-  defaultHttpErrorMap,
-  HttpError,
-  HttpErrorMap,
-  KnownHttpErrorStatus,
-} from '../utils/http-error';
+  UpdateItemInListRequest,
+  UpdateProductRequest,
+} from '@/types';
+import { apiUrl } from '@/config/api';
+import { defaultHttpErrorMap, HttpError, HttpErrorMap, KnownHttpErrorStatus } from '@/shared/utils/http-error';
 
 type HeaderType = {
   [key: string]: string;
@@ -44,7 +40,7 @@ export type SendRequestType = <Type>(
   url: string,
   method?: string,
   body?: ReqBody,
-  headers?: HeaderType
+  headers?: HeaderType,
 ) => Promise<Type | undefined>;
 
 export const useHttpClient = (httpErrorMap?: HttpErrorMap) => {
@@ -61,7 +57,7 @@ export const useHttpClient = (httpErrorMap?: HttpErrorMap) => {
       url: string,
       method = 'GET',
       body: ReqBody = null,
-      headers: HeaderType = { 'Content-Type': 'application/json' }
+      headers: HeaderType = { 'Content-Type': 'application/json' },
     ): Promise<Type | undefined> => {
       clearError();
       try {
@@ -79,7 +75,7 @@ export const useHttpClient = (httpErrorMap?: HttpErrorMap) => {
         const responseData: ApiResponse<Type> = await response.json();
         if (responseData.status !== 200 && responseData.status !== 201) {
           throw new HttpError(
-            (responseData.status + '') as KnownHttpErrorStatus
+            (responseData.status + '') as KnownHttpErrorStatus,
           );
         }
         setIsSuccess(true);
@@ -101,7 +97,7 @@ export const useHttpClient = (httpErrorMap?: HttpErrorMap) => {
         setIsLoading(false);
       }
     },
-    [clearError, httpErrorMap]
+    [clearError, httpErrorMap],
   );
   return {
     isLoading,

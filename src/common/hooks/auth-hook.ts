@@ -1,9 +1,11 @@
-import { useHttpClient } from './http-hook';
 import { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+
+import { AuthLogin } from '@/types';
+
 import { RootState, useAppDispatch } from '../Redux/store';
 import { login as loginAction } from '../Redux/actions/auth';
-import { AuthLogin } from '../../types';
+import { useHttpClient } from './http-hook';
 import {
   loginFetch,
   logoutFetch,

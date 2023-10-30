@@ -1,5 +1,5 @@
-import { InfoModal } from './common/components/UiElements/modals/InfoModal';
-import Views from './common/Views/Views';
+import { InfoModal } from '@/shared/ui/Page/Modal/InfoModal';
+import Router from '@/Router';
 import { useInitialData } from './common/hooks/initial-data-hook';
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
           isError
         />
       )}
-      <Views />
+      <Router />
     </>
   );
 }

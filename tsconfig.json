@@ -16,7 +16,11 @@
 		"noEmit": true,
 		"jsx": "react-jsx",
 		"experimentalDecorators": true,
-		"strictPropertyInitialization": false
+		"strictPropertyInitialization": false,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*", "./dist/*", ""]
+		}
 	},
 	"include": ["src"]
 }
