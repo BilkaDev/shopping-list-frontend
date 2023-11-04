@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "set REACT_APP_API_URL=/api&& vite build",
+    "build": "set VITE_REACT_APP_API_URL=/api&& vite build",
     "test": "vitest",
     "lint:eslint": "eslint src --ext=.tsx,.ts  .",
     "fix:prettier": "prettier --write \"**/*.*\"",
