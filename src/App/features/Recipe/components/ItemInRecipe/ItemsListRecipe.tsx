@@ -17,6 +17,10 @@ export const ItemsListRecipe = ({
   categoryId,
   recipe,
 }: ItemsListRecipeProps) => {
+  const itemsInCategory = recipe?.items?.filter(items => items.product.category === categoryId) ??[]
+  if (itemsInCategory.length === 0) {
+    return null
+  }
   return (
     <ListItem>
       <Center>
@@ -34,7 +38,7 @@ export const ItemsListRecipe = ({
             </Tr>
           </Thead>
           <Tbody>
-            {recipe?.items?.map(item => (
+            {itemsInCategory.map(item => (
               <ItemInRecipe
                 key={item.id}
                 category={categoryId}
