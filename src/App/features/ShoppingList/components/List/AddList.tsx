@@ -66,7 +66,7 @@ export const AddList = () => {
       {isLoading && <LoadingSpinner />}
       {!isLoading && !error && (
         <form onSubmit={handleSubmit(addListToLists)}>
-          <VStack spacing={4} align='flex-start'>
+          <VStack  width={300} spacing={4} align='flex-start'>
             <InputForm
               register={register('name')}
               label='Name:'

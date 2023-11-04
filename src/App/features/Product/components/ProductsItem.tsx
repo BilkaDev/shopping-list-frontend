@@ -52,7 +52,7 @@ export const ProductsItem = ({ category, id, name }: ProductsItemsProps) => {
         />
       </ModalChakra>
       <Tr>
-        <Td width={{ base: '200px' }}>{name}</Td>
+        <Td width={{ base: '100px' }}>{name}</Td>
         <Td>{ProductCategory[category]}</Td>
         <Td>
           <button onClick={() => editProduct()}>

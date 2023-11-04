@@ -71,7 +71,7 @@ export const AddProduct = () => {
       {isLoading && <LoadingSpinner />}
       {!isLoading && !error && (
         <form onSubmit={handleSubmit(createProduct)}>
-          <VStack spacing={4} align='flex-start'>
+          <VStack spacing={4} width={300} align='flex-start'>
             <ManageProductForm register={register} errors={errors} />
             <Button
               type='submit'

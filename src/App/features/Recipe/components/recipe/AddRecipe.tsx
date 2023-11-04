@@ -68,7 +68,7 @@ export const AddRecipe = () => {
       {isLoading && <LoadingSpinner />}
       {!isLoading && !error && (
         <form onSubmit={handleSubmit(addRecipe)}>
-          <VStack spacing={4} align='flex-start'>
+          <VStack  width={300} spacing={4} align='flex-start'>
             <InputForm
               register={register('name')}
               label='Name:'
