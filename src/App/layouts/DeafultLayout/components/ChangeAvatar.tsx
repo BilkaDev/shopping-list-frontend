@@ -11,7 +11,7 @@ import {
 import { LoadingSpinner, InfoModal } from '@/App/shared/ui/Page';
 import { useHttpClient } from '@/App/shared/utils/http-hook';
 import { ImageUpload } from '@/App/shared/ui/ImageUpload';
-import defaultIcon from '@/App/shared/assets/icon/defaul t-icon-profil.jpg';
+import defaultIcon from '@/App/shared/assets/icon/default-icon-profil.jpg';
 import { useAuthSelector } from '@/Redux/hooks/auth-hook';
 import { ChangeAvatarProps } from './Header.types';
 import { changeAvatarFetch } from '@/Redux/fetch-services/auth';
