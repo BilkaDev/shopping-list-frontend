@@ -14,8 +14,7 @@ export const ProductsList = () => {
           <Tr>
             <Th>Name</Th>
             <Th>Category</Th>
-            <Th>Edit</Th>
-            <Th>Delete</Th>
+            <Th>Actions</Th>
           </Tr>
         </Thead>
         <Tbody>

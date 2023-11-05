@@ -13,12 +13,12 @@ import { ItemInRecipeProps } from '../../containers/recipes.types';
 export const ItemInRecipe = ({
                                category,
                                item,
-                               recipeId,
+                               recipeId
                              }: ItemInRecipeProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const dispatch = useAppDispatch();
   const { error, sendRequest, clearError } = useHttpClient({
-    all: 'Something went wrong when deleting the Recipe. Please try again later.',
+    all: 'Something went wrong when deleting the Recipe. Please try again later.'
   });
   if (category !== item.product.category) {
     return null;
@@ -51,20 +51,25 @@ export const ItemInRecipe = ({
             name: item.product.name,
             category: item.product.category,
             weight: item.weight,
-            count: item.count,
+            count: item.count
           }}
         />
       </ModalChakra>
       <Tr>
-        <Td>{item.product.name}</Td>
-        <Td>{item.count}</Td>
-        <Td>{item.weight}</Td>
-        <Td>
-          <button onClick={() => setShowEditModal(true)}>
+        <Td padding='5px'>{item.product.name}</Td>
+        <Td
+          padding='5px'
+          width='60px'>{item.count}</Td>
+        <Td
+          padding='5px'
+          width='75px'>{item.weight}</Td>
+        <Td
+          textAlign='center'
+          padding='5px'
+          width='65px'>
+          <button style={{ marginRight: '5px' }} onClick={() => setShowEditModal(true)}>
             <EditIcon />
           </button>
-        </Td>
-        <Td>
           <button onClick={deleteItemHandler}>
             <DeleteIcon />
           </button>

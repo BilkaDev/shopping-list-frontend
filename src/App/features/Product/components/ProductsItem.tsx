@@ -14,7 +14,7 @@ import { ProductsItemsProps } from '../containers/products.types';
 export const ProductsItem = ({ category, id, name }: ProductsItemsProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const { isLoading, sendRequest, error, clearError } = useHttpClient({
-    all: 'Something went wrong when deleting the Product. Please try again later.',
+    all: 'Something went wrong when deleting the Product. Please try again later.'
   });
   const dispatch = useAppDispatch();
 
@@ -47,19 +47,21 @@ export const ProductsItem = ({ category, id, name }: ProductsItemsProps) => {
           itemId={id}
           initialInputs={{
             name,
-            category,
+            category
           }}
         />
       </ModalChakra>
       <Tr>
-        <Td width={{ base: '100px' }}>{name}</Td>
-        <Td>{ProductCategory[category]}</Td>
-        <Td>
-          <button onClick={() => editProduct()}>
+        <Td padding="5px">{name}</Td>
+        <Td
+          padding='5px'
+          width='110px'>{ProductCategory[category]}</Td>
+        <Td textAlign='center'
+            padding='5px'
+            width='65px'>
+          <button style={{ marginRight: '5px' }} onClick={() => editProduct()}>
             <EditIcon />
           </button>
-        </Td>
-        <Td>
           <button onClick={() => deleteProduct(id)}>
             <DeleteIcon />
           </button>

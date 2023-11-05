@@ -41,15 +41,16 @@ export const RecipeItem = ({ id, name }: RecipeItemProps) => {
       )}
       {isLoading && <LoadingSpinner />}
       <Tr>
-        <Td>
+        <Td padding="5px">
           <Link to={`/recipe/${id}/${name}`}>{name}</Link>
         </Td>
-        <Td>
-          <button onClick={() => setShowEditModal(true)}>
+        <Td
+          textAlign='center'
+          padding='5px'
+          width='65px'>
+          <button  style={{ marginRight: '5px' }} onClick={() => setShowEditModal(true)}>
             <EditIcon />
           </button>
-        </Td>
-        <Td>
           <button onClick={() => deleteHandler(id)}>
             <DeleteIcon />
           </button>

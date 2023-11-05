@@ -10,7 +10,7 @@ import { useAppDispatch } from '@/Redux/store';
 import {
   addToBasketFetch,
   removeFromBasketFetch,
-  removeItemFromListFetch,
+  removeItemFromListFetch
 } from '@/Redux/fetch-services/list';
 
 import { ItemInListProps } from '../../containers/lists.types';
@@ -20,7 +20,7 @@ export const ItemInList = ({ category, item, isRecipe }: ItemInListProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const dispatch = useAppDispatch();
   const { sendRequest, error, clearError } = useHttpClient({
-    all: 'Something went wrong when deleting the item. Please try again later.',
+    all: 'Something went wrong when deleting the item. Please try again later.'
   });
   const { id: listId } = useParams();
   useEffect(() => {
@@ -67,12 +67,13 @@ export const ItemInList = ({ category, item, isRecipe }: ItemInListProps) => {
             name: item.product.name,
             category: item.product.category,
             weight: item.weight,
-            count: item.count,
+            count: item.count
           }}
         />
       </ModalChakra>
       <Tr>
         <Td
+          padding="5px"
           textDecorationLine={!inBasket ? 'none' : 'line-through'}
           cursor='pointer'
           onClick={!inBasket ? addToBasket : removeFromBasket}
@@ -80,14 +81,16 @@ export const ItemInList = ({ category, item, isRecipe }: ItemInListProps) => {
           &nbsp;{item.product.name}&nbsp;
         </Td>
         <Td
+          padding='5px'
+          width='30px'
           style={{
             textDecoration: 'line-through',
             textDecorationThickness: '2px',
             textDecorationColor: 'blue',
-            textDecorationWidth: '200px',
+            textDecorationWidth: '200px'
           }}
         >
-          <Center>
+          <Center padding={0}>
             <button>
               {inBasket ? (
                 <CheckIcon onClick={removeFromBasket} />
@@ -97,21 +100,24 @@ export const ItemInList = ({ category, item, isRecipe }: ItemInListProps) => {
             </button>
           </Center>{' '}
         </Td>
-        <Td>{item.count}</Td>
-        <Td>{item.weight}</Td>
+        <Td
+          padding='5px'
+          width='60px'>{item.count}</Td>
+        <Td
+          padding='5px'
+          width='60px'>{item.weight}</Td>
         {!isRecipe && (
-          <>
-            <Td>
-              <button onClick={() => setShowEditModal(true)}>
-                <EditIcon />
-              </button>
-            </Td>
-            <Td>
-              <button onClick={deleteItemHandler}>
-                <DeleteIcon />
-              </button>
-            </Td>
-          </>
+          <Td
+            textAlign='center'
+            padding='5px'
+            width='65px'>
+            <button style={{ marginRight: '5px' }} onClick={() => setShowEditModal(true)}>
+              <EditIcon />
+            </button>
+            <button onClick={deleteItemHandler}>
+              <DeleteIcon />
+            </button>
+          </Td>
         )}
       </Tr>
     </>

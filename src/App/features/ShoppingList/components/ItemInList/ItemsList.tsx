@@ -8,7 +8,7 @@ import {
   Text,
   Th,
   Thead,
-  Tr,
+  Tr
 } from '@chakra-ui/react';
 import { ItemsListProps } from '../../containers/lists.types';
 
@@ -16,7 +16,7 @@ export const ItemsList = ({
                             categoryName,
                             categoryId,
                             list,
-                            isRecipe,
+                            isRecipe
                           }: ItemsListProps) => {
   const itemsInCategory = list.items.filter(item => item.product.category === categoryId);
 
@@ -45,10 +45,7 @@ export const ItemsList = ({
               <Th>Count</Th>
               <Th>Weight</Th>
               {!isRecipe && (
-                <>
-                  <Th>Edit</Th>
-                  <Th>Delete</Th>
-                </>
+                <Th>Actions</Th>
               )}
             </Tr>
           </Thead>

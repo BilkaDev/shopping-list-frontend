@@ -33,8 +33,7 @@ export const ItemsListRecipe = ({
               <Th>Name</Th>
               <Th>Count</Th>
               <Th>Weight</Th>
-              <Th>Edit</Th>
-              <Th>Delete</Th>
+              <Th>Actions</Th>
             </Tr>
           </Thead>
           <Tbody>

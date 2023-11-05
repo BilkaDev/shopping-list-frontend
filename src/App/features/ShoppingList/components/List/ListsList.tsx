@@ -12,8 +12,7 @@ export const ListsList = () => {
         <Thead>
           <Tr>
             <Th>Name</Th>
-            <Th>Edit name</Th>
-            <Th>Delete</Th>
+            <Th>Actions</Th>
           </Tr>
         </Thead>
         <Tbody>
