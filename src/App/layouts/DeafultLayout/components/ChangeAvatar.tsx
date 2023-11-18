@@ -19,7 +19,7 @@ import { useAppDispatch } from '@/Redux/store';
 
 export const ChangeAvatar = ({ onClose }: ChangeAvatarProps) => {
   const { isLoading, sendRequest, error, clearError } = useHttpClient({
-    all: 'Something went wrong when changing avatar. Please try again later.',
+    all: 'Something went wrong when changing avatar. Maximus size is 512KB.',
   });
   const [image, setImage] = useState<File>();
   const [isValid, setIsValid] = useState(true);
